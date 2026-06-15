@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Robots.txt Generator — Free SEO Tool | ToolBox</title>
+<meta name="description" content="Free robots.txt generator. Create a robots.txt file for your website with custom rules for all or specific crawlers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Robots.txt Generator</div>
+        <h1>🤖 Robots.txt Generator</h1>
+        <p>Create a valid robots.txt file for your website. Control which pages search engine crawlers can access.</p>
+        <a href="../../blog/robots-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Global Settings (All Bots)</div>
+          <div class="form-group">
+            <label class="form-label">Default Rule for All Crawlers</label>
+            <select id="global-rule" onchange="update()">
+              <option value="allow">Allow all crawlers (recommended)</option>
+              <option value="disallow-all">Block all crawlers</option>
+              <option value="custom">Custom rules only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Disallowed Paths <span style="color:var(--text3);font-weight:400">(one per line, e.g. /admin/)</span></label>
+            <textarea id="disallow-paths" rows="4" placeholder="/admin/&#10;/private/&#10;/wp-admin/&#10;/tmp/" oninput="update()"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Allowed Paths <span style="color:var(--text3);font-weight:400">(override disallowed, one per line)</span></label>
+            <textarea id="allow-paths" rows="3" placeholder="/public/&#10;/blog/" oninput="update()"></textarea>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Specific Bot Rules</div>
+          <div id="bot-rules">
+            <div class="bot-rule" style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;">
+              <select class="bot-name" onchange="update()">
+                <option value="Googlebot">Googlebot</option>
+                <option value="Bingbot">Bingbot</option>
+                <option value="GPTBot">GPTBot (ChatGPT)</option>
+                <option value="CCBot">CCBot</option>
+                <option value="anthropic-ai">Anthropic AI</option>
+                <option value="PerplexityBot">PerplexityBot</option>
+              </select>
+              <input type="text" class="bot-path" placeholder="/private/" oninput="update()">
+              <select class="bot-action" onchange="update()">
+                <option value="Disallow">Disallow</option>
+                <option value="Allow">Allow</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm mt-1" onclick="addBotRule()">+ Add Bot Rule</button>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Sitemap</div>
+          <div class="form-group">
+            <label class="form-label">Sitemap URL</label>
+            <input type="url" id="sitemap-url" placeholder="https://yoursite.com/sitemap.xml" oninput="update()">
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">Generated robots.txt</div>
+            <div style="display:flex;gap:8px;">
+              <button class="copy-btn" onclick="copyText(document.getElementById('output').textContent,this)">📋 Copy</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadText(document.getElementById('output').textContent,'robots.txt')">⬇ Download</button>
+            </div>
+          </div>
+          <pre class="output-box" id="output" style="font-size:13px;line-height:1.8;"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function addBotRule(){
+  const row=document.createElement('div');
+  row.className='bot-rule';
+  row.style.cssText='display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;';
+  row.innerHTML=`<select class="bot-name" onchange="update()"><option>Googlebot</option><option>Bingbot</option><option>GPTBot (ChatGPT)</option><option>CCBot</option><option>anthropic-ai</option></select>
+    <input type="text" class="bot-path" placeholder="/private/" oninput="update()">
+    <select class="bot-action" onchange="update()"><option value="Disallow">Disallow</option><option value="Allow">Allow</option></select>`;
+  document.getElementById('bot-rules').appendChild(row);
+}
+function update(){
+  const globalRule=document.getElementById('global-rule').value;
+  const disallowPaths=document.getElementById('disallow-paths').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const allowPaths=document.getElementById('allow-paths').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const sitemapUrl=document.getElementById('sitemap-url').value.trim();
+  const lines=[];
+  // Global section
+  lines.push('User-agent: *');
+  if(globalRule==='disallow-all'){
+    lines.push('Disallow: /');
+  } else if(globalRule==='allow'){
+    lines.push('Allow: /');
+  }
+  allowPaths.forEach(p=>lines.push(`Allow: ${p}`));
+  disallowPaths.forEach(p=>lines.push(`Disallow: ${p}`));
+  if(globalRule==='allow'&&!disallowPaths.length)lines.push('Disallow:');
+  lines.push('');
+  // Bot-specific
+  document.querySelectorAll('.bot-rule').forEach(row=>{
+    const name=row.querySelector('.bot-name').value;
+    const path=row.querySelector('.bot-path').value.trim();
+    const action=row.querySelector('.bot-action').value;
+    if(path){lines.push(`User-agent: ${name}`);lines.push(`${action}: ${path}`);lines.push('');}
+  });
+  if(sitemapUrl)lines.push(`Sitemap: ${sitemapUrl}`);
+  document.getElementById('output').textContent=lines.join('\n').trim();
+}
+document.addEventListener('DOMContentLoaded',()=>{update();initToolPage('robots-generator');});
+</script>
+</body></html>

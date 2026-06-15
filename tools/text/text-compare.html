@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Text Compare — Free Online Diff Tool | ToolBox</title>
+<meta name="description" content="Free online text compare tool. Find differences between two texts with color-coded highlighting. No login required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:640px){.compare-grid{grid-template-columns:1fr;}}
+.diff-add{background:#c8f7c5;color:#1a5e1a;border-radius:2px;}
+.diff-del{background:#ffc8c8;color:#7a1a1a;text-decoration:line-through;border-radius:2px;}
+[data-theme="dark"] .diff-add{background:#1a4a1a;color:#86efac;}
+[data-theme="dark"] .diff-del{background:#4a1a1a;color:#fca5a5;}
+.diff-output{font-family:var(--font-mono);font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-word;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;min-height:120px;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#text-tools">Text Tools</a> › Text Compare</div>
+        <h1>⚖️ Text Compare</h1>
+        <p>Paste two texts and instantly see what's different. Additions are highlighted in green, removals in red.</p>
+        <a href="../../blog/text-compare.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="compare-grid">
+          <div class="tool-panel">
+            <div class="panel-title">Original Text</div>
+            <textarea id="text1" class="w-full" style="min-height:200px;" placeholder="Paste original text here…"></textarea>
+          </div>
+          <div class="tool-panel">
+            <div class="panel-title">Modified Text</div>
+            <textarea id="text2" class="w-full" style="min-height:200px;" placeholder="Paste modified text here…"></textarea>
+          </div>
+        </div>
+
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="compare()">⚖️ Compare Texts</button>
+          <button class="btn btn-secondary" onclick="clearAll()">🗑 Clear All</button>
+          <label class="toggle" style="margin-left:auto;">
+            <input type="checkbox" id="ignore-case">
+            <div class="toggle-track"></div>
+            Ignore Case
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="ignore-whitespace">
+            <div class="toggle-track"></div>
+            Ignore Whitespace
+          </label>
+        </div>
+
+        <div id="results-panel" style="display:none;">
+          <div class="tool-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+              <div class="panel-title" style="margin:0;">Comparison Result</div>
+              <div style="display:flex;gap:10px;font-size:13px;">
+                <span style="background:#c8f7c5;color:#1a5e1a;padding:2px 10px;border-radius:99px;">+ Added</span>
+                <span style="background:#ffc8c8;color:#7a1a1a;padding:2px 10px;border-radius:99px;">− Removed</span>
+                <span id="stat-diff" style="color:var(--text3);"></span>
+              </div>
+            </div>
+            <div class="diff-output" id="diff-output"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+// Simple word-level diff
+function diffWords(a, b) {
+  const wa = a.split(/(\s+)/), wb = b.split(/(\s+)/);
+  const dp = Array.from({length:wa.length+1},(_,i)=>Array.from({length:wb.length+1},(_,j)=>i===0?j:j===0?i:0));
+  for(let i=1;i<=wa.length;i++) for(let j=1;j<=wb.length;j++) {
+    if(wa[i-1]===wb[j-1]) dp[i][j]=dp[i-1][j-1];
+    else dp[i][j]=1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  }
+  // Backtrack
+  const ops=[]; let i=wa.length,j=wb.length;
+  while(i>0||j>0){
+    if(i>0&&j>0&&wa[i-1]===wb[j-1]){ops.unshift({type:'eq',val:wa[i-1]});i--;j--;}
+    else if(j>0&&(i===0||dp[i][j-1]<=dp[i-1][j])){ops.unshift({type:'ins',val:wb[j-1]});j--;}
+    else{ops.unshift({type:'del',val:wa[i-1]});i--;}
+  }
+  return ops;
+}
+
+function compare() {
+  let t1 = document.getElementById('text1').value;
+  let t2 = document.getElementById('text2').value;
+  if(!t1 && !t2){toast('Please enter text in both boxes','danger');return;}
+  const ignCase = document.getElementById('ignore-case').checked;
+  const ignWS = document.getElementById('ignore-whitespace').checked;
+  let a=t1, b=t2;
+  if(ignCase){a=a.toLowerCase();b=b.toLowerCase();}
+  if(ignWS){a=a.replace(/\s+/g,' ').trim();b=b.replace(/\s+/g,' ').trim();}
+
+  if(a===b){
+    document.getElementById('diff-output').innerHTML='<span style="color:var(--success)">✅ Texts are identical!</span>';
+    document.getElementById('stat-diff').textContent='No differences';
+    document.getElementById('results-panel').style.display='block';
+    return;
+  }
+
+  const ops = diffWords(a, b);
+  let adds=0, dels=0;
+  const html = ops.map(op=>{
+    if(op.type==='eq') return escapeHtml(op.val);
+    if(op.type==='ins'){adds++;return`<mark class="diff-add">${escapeHtml(op.val)}</mark>`;}
+    dels++;return`<mark class="diff-del">${escapeHtml(op.val)}</mark>`;
+  }).join('');
+  document.getElementById('diff-output').innerHTML=html;
+  document.getElementById('stat-diff').textContent=`+${adds} added, −${dels} removed`;
+  document.getElementById('results-panel').style.display='block';
+  document.getElementById('results-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function clearAll(){document.getElementById('text1').value='';document.getElementById('text2').value='';document.getElementById('results-panel').style.display='none';}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('text-compare'));
+</script>
+</body></html>

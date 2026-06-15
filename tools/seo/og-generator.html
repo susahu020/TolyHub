@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Graph Generator — Free SEO Tool | ToolBox</title>
+<meta name="description" content="Free Open Graph meta tag generator. Generate OG tags for Facebook, Twitter, LinkedIn sharing. Preview how links look when shared.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.og-preview{border:1px solid #e0e0e0;border-radius:0 0 4px 4px;overflow:hidden;max-width:500px;font-family:Helvetica,Arial,sans-serif;}
+.og-img-placeholder{background:var(--bg3);height:260px;display:flex;align-items:center;justify-content:center;font-size:3rem;}
+.og-img-placeholder img{width:100%;height:260px;object-fit:cover;}
+.og-meta{padding:12px;background:#f0f2f5;border-top:1px solid #ddd;}
+[data-theme="dark"] .og-meta{background:#2d3748;border-color:#444;}
+[data-theme="dark"] .og-preview{border-color:#444;}
+.og-domain{font-size:12px;color:#606770;text-transform:uppercase;letter-spacing:.05em;}
+[data-theme="dark"] .og-domain{color:#9ca3af;}
+.og-title{font-size:16px;font-weight:700;color:#1c1e21;margin:4px 0;}
+[data-theme="dark"] .og-title{color:#e2e8f0;}
+.og-desc{font-size:14px;color:#606770;line-height:1.4;}
+[data-theme="dark"] .og-desc{color:#9ca3af;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Open Graph Generator</div>
+        <h1>📤 Open Graph Generator</h1>
+        <p>Generate Open Graph meta tags and preview how your page will look when shared on Facebook, Twitter, and LinkedIn.</p>
+        <a href="../../blog/og-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Open Graph Details</div>
+          <div class="form-group"><label class="form-label">Title *</label><input type="text" id="og-title" placeholder="My Awesome Page" oninput="update()"></div>
+          <div class="form-group"><label class="form-label">Description</label><textarea id="og-desc" rows="3" placeholder="A description for social sharing (200 chars max recommended)" oninput="update()"></textarea></div>
+          <div class="form-group"><label class="form-label">Page URL</label><input type="url" id="og-url" placeholder="https://yoursite.com/page" oninput="update()"></div>
+          <div class="form-group"><label class="form-label">Image URL <span style="color:var(--text3);font-weight:400">(1200×630px for best results)</span></label><input type="url" id="og-image" placeholder="https://yoursite.com/og-image.jpg" oninput="update()"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="form-group"><label class="form-label">Type</label><select id="og-type" onchange="update()"><option value="website">website</option><option value="article">article</option><option value="product">product</option></select></div>
+            <div class="form-group"><label class="form-label">Site Name</label><input type="text" id="og-sitename" placeholder="My Website" oninput="update()"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Twitter Card Type</label><select id="tw-card" onchange="update()"><option value="summary_large_image">Summary with Large Image (recommended)</option><option value="summary">Summary</option><option value="app">App</option></select></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="form-group"><label class="form-label">Twitter @username</label><input type="text" id="tw-site" placeholder="@yourhandle" oninput="update()"></div>
+            <div class="form-group"><label class="form-label">Twitter Author</label><input type="text" id="tw-creator" placeholder="@authorhandle" oninput="update()"></div>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Facebook / LinkedIn Preview</div>
+          <div class="og-preview">
+            <div id="og-preview-img" class="og-img-placeholder">🖼️</div>
+            <div class="og-meta">
+              <div class="og-domain" id="prev-domain">yoursite.com</div>
+              <div class="og-title" id="prev-title">Your Page Title</div>
+              <div class="og-desc" id="prev-desc">Your description will appear here.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">Generated Tags</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('og-output').textContent,this)">📋 Copy All</button>
+          </div>
+          <pre class="output-box" id="og-output" style="font-size:12px;line-height:1.7;"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function esc(s){return s.replace(/"/g,'&quot;');}
+function getDomain(url){try{return new URL(url).hostname;}catch{return url;}}
+function update(){
+  const title=document.getElementById('og-title').value;
+  const desc=document.getElementById('og-desc').value;
+  const url=document.getElementById('og-url').value;
+  const image=document.getElementById('og-image').value;
+  const type=document.getElementById('og-type').value;
+  const siteName=document.getElementById('og-sitename').value;
+  const twCard=document.getElementById('tw-card').value;
+  const twSite=document.getElementById('tw-site').value;
+  const twCreator=document.getElementById('tw-creator').value;
+
+  // Preview
+  document.getElementById('prev-title').textContent=title||'Your Page Title';
+  document.getElementById('prev-desc').textContent=desc||'Your description will appear here.';
+  document.getElementById('prev-domain').textContent=url?getDomain(url):'yoursite.com';
+  const imgEl=document.getElementById('og-preview-img');
+  if(image){imgEl.innerHTML=`<img src="${image}" alt="OG Image" onerror="this.parentElement.innerHTML='🖼️ Image not found'">`;imgEl.style.height='auto';}
+  else{imgEl.innerHTML='🖼️';imgEl.style.height='260px';}
+
+  // Code
+  const lines=[];
+  lines.push('<!-- Open Graph Tags -->');
+  if(title)lines.push(`<meta property="og:title" content="${esc(title)}">`);
+  if(desc)lines.push(`<meta property="og:description" content="${esc(desc)}">`);
+  lines.push(`<meta property="og:type" content="${type}">`);
+  if(url)lines.push(`<meta property="og:url" content="${esc(url)}">`);
+  if(image)lines.push(`<meta property="og:image" content="${esc(image)}">`);
+  if(image)lines.push(`<meta property="og:image:width" content="1200">`);
+  if(image)lines.push(`<meta property="og:image:height" content="630">`);
+  if(siteName)lines.push(`<meta property="og:site_name" content="${esc(siteName)}">`);
+  lines.push('');
+  lines.push('<!-- Twitter Card Tags -->');
+  lines.push(`<meta name="twitter:card" content="${twCard}">`);
+  if(title)lines.push(`<meta name="twitter:title" content="${esc(title)}">`);
+  if(desc)lines.push(`<meta name="twitter:description" content="${esc(desc)}">`);
+  if(image)lines.push(`<meta name="twitter:image" content="${esc(image)}">`);
+  if(twSite)lines.push(`<meta name="twitter:site" content="${esc(twSite)}">`);
+  if(twCreator)lines.push(`<meta name="twitter:creator" content="${esc(twCreator)}">`);
+  document.getElementById('og-output').textContent=lines.join('\n');
+}
+document.addEventListener('DOMContentLoaded',()=>{update();initToolPage('og-generator');});
+</script>
+</body></html>

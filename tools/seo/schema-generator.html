@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schema Markup Generator — Free SEO Tool | ToolBox</title>
+<meta name="description" content="Free JSON-LD schema markup generator. Generate structured data for Article, FAQ, Product, LocalBusiness, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Schema Generator</div>
+        <h1>📋 Schema Markup Generator</h1>
+        <p>Generate JSON-LD structured data markup to help search engines understand your content and show rich results.</p>
+        <a href="../../blog/schema-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Schema Type</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" onclick="setType('Article')">📰 Article</button>
+            <button class="btn btn-secondary btn-sm" onclick="setType('FAQ')">❓ FAQ</button>
+            <button class="btn btn-secondary btn-sm" onclick="setType('Product')">🛍️ Product</button>
+            <button class="btn btn-secondary btn-sm" onclick="setType('LocalBusiness')">🏢 Local Business</button>
+            <button class="btn btn-secondary btn-sm" onclick="setType('BreadcrumbList')">🔗 Breadcrumb</button>
+            <button class="btn btn-secondary btn-sm" onclick="setType('WebSite')">🌐 Website</button>
+          </div>
+        </div>
+
+        <div id="form-container" class="tool-panel"></div>
+
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="generate()">✨ Generate Schema</button>
+        </div>
+
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">JSON-LD Schema Code</div>
+            <div style="display:flex;gap:8px;">
+              <button class="copy-btn" onclick="copyText(document.getElementById('output').textContent,this)">📋 Copy</button>
+            </div>
+          </div>
+          <pre class="output-box" id="output" style="font-size:12px;line-height:1.7;"></pre>
+          <div class="alert alert-info mt-2">Paste this code inside your page's <code>&lt;head&gt;</code> tag for best results.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let currentType='Article';
+const forms={
+  Article:`
+    <div class="panel-title">Article Details</div>
+    <div class="form-group"><label class="form-label">Headline *</label><input type="text" id="s-headline" placeholder="My Amazing Article Title"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="Brief description of the article"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="form-group"><label class="form-label">Author Name</label><input type="text" id="s-author" placeholder="John Doe"></div>
+      <div class="form-group"><label class="form-label">Publisher Name</label><input type="text" id="s-publisher" placeholder="My Website"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="form-group"><label class="form-label">Date Published</label><input type="date" id="s-date-pub"></div>
+      <div class="form-group"><label class="form-label">Date Modified</label><input type="date" id="s-date-mod"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Article URL</label><input type="url" id="s-url" placeholder="https://example.com/article"></div>`,
+  FAQ:`
+    <div class="panel-title">FAQ Items</div>
+    <div id="faq-items">
+      <div class="faq-item-form" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;">
+        <div class="form-group" style="margin-bottom:8px;"><label class="form-label">Question 1</label><input type="text" class="faq-q" placeholder="What is your product?"></div>
+        <div class="form-group" style="margin:0;"><label class="form-label">Answer</label><textarea class="faq-a" rows="2" placeholder="Our product is…"></textarea></div>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-sm mt-1" onclick="addFAQ()">+ Add Question</button>`,
+  Product:`
+    <div class="panel-title">Product Details</div>
+    <div class="form-group"><label class="form-label">Product Name *</label><input type="text" id="s-name" placeholder="Amazing Widget Pro"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="Product description"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+      <div class="form-group"><label class="form-label">Price</label><input type="number" id="s-price" placeholder="29.99"></div>
+      <div class="form-group"><label class="form-label">Currency</label><select id="s-currency"><option value="INR">INR ₹</option><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option></select></div>
+      <div class="form-group"><label class="form-label">Availability</label><select id="s-avail"><option value="InStock">In Stock</option><option value="OutOfStock">Out of Stock</option><option value="PreOrder">Pre-Order</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="form-group"><label class="form-label">Brand</label><input type="text" id="s-brand" placeholder="My Brand"></div>
+      <div class="form-group"><label class="form-label">SKU</label><input type="text" id="s-sku" placeholder="WIDGET-001"></div>
+    </div>`,
+  LocalBusiness:`
+    <div class="panel-title">Local Business Details</div>
+    <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="s-name" placeholder="My Awesome Shop"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="What your business does"></textarea></div>
+    <div class="form-group"><label class="form-label">Street Address</label><input type="text" id="s-street" placeholder="123 Main Street"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+      <div class="form-group"><label class="form-label">City</label><input type="text" id="s-city" placeholder="Mumbai"></div>
+      <div class="form-group"><label class="form-label">State</label><input type="text" id="s-state" placeholder="Maharashtra"></div>
+      <div class="form-group"><label class="form-label">Postal Code</label><input type="text" id="s-zip" placeholder="400001"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="form-group"><label class="form-label">Phone</label><input type="tel" id="s-phone" placeholder="+91-22-1234-5678"></div>
+      <div class="form-group"><label class="form-label">Website</label><input type="url" id="s-url" placeholder="https://myshop.com"></div>
+    </div>`,
+  BreadcrumbList:`
+    <div class="panel-title">Breadcrumb Items</div>
+    <div id="breadcrumb-items">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <input type="text" class="bc-name" placeholder="Home">
+        <input type="url" class="bc-url" placeholder="https://example.com/">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <input type="text" class="bc-name" placeholder="Blog">
+        <input type="url" class="bc-url" placeholder="https://example.com/blog/">
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-sm mt-1" onclick="addBreadcrumb()">+ Add Item</button>`,
+  WebSite:`
+    <div class="panel-title">Website Details</div>
+    <div class="form-group"><label class="form-label">Website Name *</label><input type="text" id="s-name" placeholder="My Website"></div>
+    <div class="form-group"><label class="form-label">Website URL *</label><input type="url" id="s-url" placeholder="https://mywebsite.com"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="Brief description of your website"></textarea></div>
+    <div class="form-group"><label class="form-label">Search URL (for sitelinks searchbox)</label><input type="url" id="s-search" placeholder="https://mywebsite.com/search?q={search_term_string}"></div>`,
+};
+
+function setType(type){
+  currentType=type;
+  document.querySelectorAll('#form-container button, .tool-panel .btn').forEach(b=>{});
+  document.querySelectorAll('[onclick*="setType"]').forEach(b=>b.className='btn btn-secondary btn-sm');
+  event.target.className='btn btn-primary btn-sm';
+  document.getElementById('form-container').innerHTML=forms[type]||'';
+  document.getElementById('output-panel').style.display='none';
+  // set today dates
+  const today=new Date().toISOString().split('T')[0];
+  ['s-date-pub','s-date-mod'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=today;});
+}
+
+function addFAQ(){
+  const n=document.querySelectorAll('.faq-item-form').length+1;
+  const div=document.createElement('div');
+  div.className='faq-item-form';
+  div.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;';
+  div.innerHTML=`<div class="form-group" style="margin-bottom:8px;"><label class="form-label">Question ${n}</label><input type="text" class="faq-q" placeholder="Your question here?"></div><div class="form-group" style="margin:0;"><label class="form-label">Answer</label><textarea class="faq-a" rows="2" placeholder="The answer…"></textarea></div>`;
+  document.getElementById('faq-items').appendChild(div);
+}
+function addBreadcrumb(){
+  const div=document.createElement('div');
+  div.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;';
+  div.innerHTML=`<input type="text" class="bc-name" placeholder="Page Name"><input type="url" class="bc-url" placeholder="https://example.com/page/">`;
+  document.getElementById('breadcrumb-items').appendChild(div);
+}
+
+function generate(){
+  let schema={};
+  const g=id=>document.getElementById(id)?.value||'';
+  if(currentType==='Article'){
+    schema={"@context":"https://schema.org","@type":"Article","headline":g('s-headline'),"description":g('s-desc'),"url":g('s-url'),"datePublished":g('s-date-pub'),"dateModified":g('s-date-mod')||g('s-date-pub'),"author":{"@type":"Person","name":g('s-author')||'Unknown'},"publisher":{"@type":"Organization","name":g('s-publisher')||''}};
+  } else if(currentType==='FAQ'){
+    const items=[...document.querySelectorAll('.faq-item-form')].map(el=>({
+      "@type":"Question","name":el.querySelector('.faq-q').value,"acceptedAnswer":{"@type":"Answer","text":el.querySelector('.faq-a').value}
+    })).filter(i=>i.name&&i.acceptedAnswer.text);
+    if(!items.length){toast('Add at least one FAQ question and answer','danger');return;}
+    schema={"@context":"https://schema.org","@type":"FAQPage","mainEntity":items};
+  } else if(currentType==='Product'){
+    schema={"@context":"https://schema.org","@type":"Product","name":g('s-name'),"description":g('s-desc'),"brand":{"@type":"Brand","name":g('s-brand')},"sku":g('s-sku'),"offers":{"@type":"Offer","price":g('s-price'),"priceCurrency":g('s-currency'),"availability":`https://schema.org/${g('s-avail')}`}};
+  } else if(currentType==='LocalBusiness'){
+    schema={"@context":"https://schema.org","@type":"LocalBusiness","name":g('s-name'),"description":g('s-desc'),"telephone":g('s-phone'),"url":g('s-url'),"address":{"@type":"PostalAddress","streetAddress":g('s-street'),"addressLocality":g('s-city'),"addressRegion":g('s-state'),"postalCode":g('s-zip'),"addressCountry":"IN"}};
+  } else if(currentType==='BreadcrumbList'){
+    const names=[...document.querySelectorAll('.bc-name')].map(el=>el.value);
+    const urls=[...document.querySelectorAll('.bc-url')].map(el=>el.value);
+    const items=names.map((n,i)=>({"@type":"ListItem","position":i+1,"name":n,"item":urls[i]})).filter(i=>i.name);
+    schema={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":items};
+  } else if(currentType==='WebSite'){
+    schema={"@context":"https://schema.org","@type":"WebSite","name":g('s-name'),"url":g('s-url'),"description":g('s-desc')};
+    if(g('s-search'))schema.potentialAction={"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":g('s-search')},"query-input":"required name=search_term_string"};
+  }
+  // Remove empty values
+  const clean=JSON.parse(JSON.stringify(schema,(_,v)=>v===''||v===undefined?undefined:v));
+  const output=`<script type="application/ld+json">\n${JSON.stringify(clean,null,2)}\n<\/script>`;
+  document.getElementById('output').textContent=output;
+  document.getElementById('output-panel').style.display='block';
+  document.getElementById('output-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+document.addEventListener('DOMContentLoaded',()=>{setType('Article');initToolPage('schema-generator');});
+</script>
+</body></html>

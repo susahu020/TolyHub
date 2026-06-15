@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHA-256 Generator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free SHA-256 hash generator. Generate SHA256 hash from any text using the Web Crypto API. 100% browser-based, no data sent to server.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#security-tools">Security</a> › SHA256 Generator</div>
+        <h1># SHA-256 Generator</h1>
+        <p>Generate SHA-256 cryptographic hash from any text. Uses the browser's built-in Web Crypto API — nothing leaves your device.</p>
+        <a href="../../blog/sha256-gen.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Input Text</div>
+          <textarea id="input" class="w-full mono" style="min-height:160px;" placeholder="Enter text to hash…" oninput="liveHash()"></textarea>
+          <div style="display:flex;gap:1rem;margin-top:0.75rem;">
+            <label class="toggle"><input type="checkbox" id="uppercase" onchange="liveHash()"><div class="toggle-track"></div>Uppercase Output</label>
+          </div>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-primary" onclick="generateHash()">🔐 Generate SHA-256</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';hideOutput()">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">SHA-256 Hash</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('hash-out').textContent,this)">📋 Copy</button>
+          </div>
+          <div class="output-box" id="hash-out" style="font-size:15px;letter-spacing:0.04em;word-break:break-all;"></div>
+          <div style="font-size:12px;color:var(--text3);margin-top:8px;">SHA-256 produces a 256-bit (64-character hex) hash. It is cryptographically secure and suitable for data integrity verification.</div>
+        </div>
+        <div class="card mt-2">
+          <h3 style="margin-bottom:0.5rem;font-size:15px;">SHA-256 vs MD5</h3>
+          <p style="font-size:13px;">SHA-256 is far more secure than MD5. It's collision-resistant and is used in SSL certificates, blockchain, and password hashing. Always prefer SHA-256 for security applications.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let timer;
+function liveHash(){clearTimeout(timer);timer=setTimeout(generateHash,400);}
+async function generateHash(){
+  const input=document.getElementById('input').value;
+  if(!input){hideOutput();return;}
+  const msgBuffer=new TextEncoder().encode(input);
+  const hashBuffer=await crypto.subtle.digest('SHA-256',msgBuffer);
+  const hashArray=Array.from(new Uint8Array(hashBuffer));
+  let hash=hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');
+  if(document.getElementById('uppercase').checked)hash=hash.toUpperCase();
+  document.getElementById('hash-out').textContent=hash;
+  document.getElementById('output-panel').style.display='block';
+}
+function hideOutput(){document.getElementById('output-panel').style.display='none';}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();generateHash();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('sha256-gen'));
+</script>
+</body></html>

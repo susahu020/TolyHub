@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SERP Preview Tool — Free SEO Tool | ToolBox</title>
+<meta name="description" content="Free SERP preview tool. See exactly how your page will appear in Google search results before publishing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.serp-box{background:#fff;border:1px solid #dfe1e5;border-radius:8px;padding:1.5rem;max-width:600px;font-family:Arial,sans-serif;}
+[data-theme="dark"] .serp-box{background:#202124;border-color:#3c4043;}
+.serp-url{font-size:14px;color:#202124;margin-bottom:1px;}
+[data-theme="dark"] .serp-url{color:#bdc1c6;}
+.serp-breadcrumb{font-size:12px;color:#4d5156;display:flex;align-items:center;gap:4px;}
+[data-theme="dark"] .serp-breadcrumb{color:#9aa0a6;}
+.serp-title{font-size:20px;color:#1a0dab;margin:2px 0 4px;cursor:pointer;line-height:1.3;}
+[data-theme="dark"] .serp-title{color:#8ab4f8;}
+.serp-title:hover{text-decoration:underline;}
+.serp-desc{font-size:14px;color:#4d5156;line-height:1.58;}
+[data-theme="dark"] .serp-desc{color:#bdc1c6;}
+.serp-date{color:#70757a;font-size:14px;}
+.char-ok{color:var(--success);}
+.char-warn{color:var(--warning);}
+.char-over{color:var(--danger);}
+.mobile-serp{max-width:360px;}
+.mobile-serp .serp-title{font-size:16px;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › SERP Preview</div>
+        <h1>🔍 SERP Preview</h1>
+        <p>See exactly how your page will appear in Google search results. Check title and description lengths in real-time.</p>
+        <a href="../../blog/serp-preview.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Page Details</div>
+          <div class="form-group">
+            <label class="form-label">Page Title</label>
+            <input type="text" id="f-title" placeholder="Your Page Title Here" oninput="update()" maxlength="100">
+            <div style="display:flex;justify-content:space-between;margin-top:4px;">
+              <span style="font-size:12px;color:var(--text3);">Recommended: 50–60 characters</span>
+              <span id="title-count" style="font-size:12px;font-weight:600;">0 chars</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Meta Description</label>
+            <textarea id="f-desc" rows="3" placeholder="Your meta description — this is what appears under your title in Google results." oninput="update()" maxlength="300"></textarea>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;">
+              <span style="font-size:12px;color:var(--text3);">Recommended: 150–160 characters</span>
+              <span id="desc-count" style="font-size:12px;font-weight:600;">0 chars</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Page URL</label>
+            <input type="url" id="f-url" placeholder="https://yoursite.com/page-name" oninput="update()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date (optional)</label>
+            <input type="date" id="f-date" oninput="update()">
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Preview</div>
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('desktop',this)">🖥 Desktop</button>
+            <button class="tab-btn" onclick="switchTab('mobile',this)">📱 Mobile</button>
+          </div>
+          <div id="preview-desktop">
+            <div class="serp-box" id="desktop-preview">
+              <div class="serp-breadcrumb" id="d-breadcrumb">yoursite.com › page</div>
+              <div class="serp-title" id="d-title">Your Page Title Here</div>
+              <div class="serp-desc"><span class="serp-date" id="d-date" style="display:none;"></span> <span id="d-desc">Your meta description will appear here. Make it compelling and between 150–160 characters for best results.</span></div>
+            </div>
+          </div>
+          <div id="preview-mobile" style="display:none;">
+            <div class="serp-box mobile-serp" id="mobile-preview">
+              <div class="serp-breadcrumb" id="m-breadcrumb">yoursite.com › page</div>
+              <div class="serp-title" id="m-title">Your Page Title Here</div>
+              <div class="serp-desc"><span class="serp-date" id="m-date" style="display:none;"></span> <span id="m-desc">Your meta description will appear here.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-val" id="s-title">0</div><div class="stat-lbl">Title Chars (max 60)</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-desc">0</div><div class="stat-lbl">Desc Chars (max 160)</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function truncate(s,max){return s.length>max?s.slice(0,max)+'…':s;}
+function formatUrl(url){
+  try{const u=new URL(url);return{host:u.hostname,path:u.pathname.replace(/\//g,' › ').replace(/^›\s/,'').replace(/-/g,' ')||''};}
+  catch{return{host:url,path:''};}
+}
+function update(){
+  const title=document.getElementById('f-title').value||'Your Page Title Here';
+  const desc=document.getElementById('f-desc').value||'Your meta description will appear here. Make it compelling and between 150–160 characters for best results.';
+  const url=document.getElementById('f-url').value;
+  const date=document.getElementById('f-date').value;
+  const tlen=document.getElementById('f-title').value.length;
+  const dlen=document.getElementById('f-desc').value.length;
+
+  // Title count color
+  const tc=document.getElementById('title-count');
+  tc.textContent=tlen+' chars';
+  tc.className='char-'+(tlen>60?'over':tlen>45?'ok':'warn');
+  const dc=document.getElementById('desc-count');
+  dc.textContent=dlen+' chars';
+  dc.className='char-'+(dlen>160?'over':dlen>120?'ok':'warn');
+
+  document.getElementById('s-title').textContent=tlen;
+  document.getElementById('s-title').style.color=tlen>60?'var(--danger)':tlen>45?'var(--success)':'var(--warning)';
+  document.getElementById('s-desc').textContent=dlen;
+  document.getElementById('s-desc').style.color=dlen>160?'var(--danger)':dlen>120?'var(--success)':'var(--warning)';
+
+  const {host,path}=url?formatUrl(url):{host:'yoursite.com',path:'page'};
+  const breadcrumb=host+(path?' › '+path:'');
+  ['d','m'].forEach(p=>{
+    document.getElementById(p+'-title').textContent=truncate(title,p==='d'?60:50);
+    document.getElementById(p+'-desc').textContent=truncate(desc,p==='d'?160:130);
+    document.getElementById(p+'-breadcrumb').textContent=breadcrumb;
+    const dateEl=document.getElementById(p+'-date');
+    if(date){const d=new Date(date);dateEl.textContent=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})+' — ';dateEl.style.display='inline';}
+    else dateEl.style.display='none';
+  });
+}
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('preview-desktop').style.display=tab==='desktop'?'block':'none';
+  document.getElementById('preview-mobile').style.display=tab==='mobile'?'block':'none';
+}
+document.addEventListener('DOMContentLoaded',()=>{update();initToolPage('serp-preview');});
+</script>
+</body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>URL Encoder — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online URL encoder. Encode special characters in URLs for safe transmission. Works in your browser instantly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › URL Encoder</div>
+        <h1>🔗 URL Encoder</h1>
+        <p>Encode special characters in text or URLs for safe use in web addresses and HTTP requests.</p>
+        <a href="../../blog/url-encoder.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Text / URL to Encode</div>
+          <textarea id="input" class="w-full mono" style="min-height:140px;" placeholder="Paste URL or text to encode…&#10;Example: Hello World & more!" oninput="liveEncode()"></textarea>
+          <div style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="mode" value="component" checked onchange="liveEncode()"> Encode Component <span style="color:var(--text3)">(encodeURIComponent)</span></label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="mode" value="full" onchange="liveEncode()"> Encode Full URI <span style="color:var(--text3)">(encodeURI)</span></label>
+          </div>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-primary" onclick="encode()">🔗 Encode URL</button>
+            <button class="btn btn-secondary btn-sm" onclick="clearAll()">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <div class="panel-title" style="margin:0;">Encoded Output</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('output').value,this)">📋 Copy</button>
+          </div>
+          <textarea id="output" class="w-full mono" style="min-height:80px;" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let timer;
+function liveEncode(){clearTimeout(timer);timer=setTimeout(encode,300);}
+function encode(){
+  const input=document.getElementById('input').value;
+  if(!input){document.getElementById('output-panel').style.display='none';return;}
+  const mode=document.querySelector('input[name="mode"]:checked').value;
+  const encoded=mode==='component'?encodeURIComponent(input):encodeURI(input);
+  document.getElementById('output').value=encoded;
+  document.getElementById('output-panel').style.display='block';
+}
+function clearAll(){document.getElementById('input').value='';document.getElementById('output-panel').style.display='none';}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();encode();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('url-encoder'));
+</script>
+</body></html>

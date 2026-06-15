@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JSON Minifier — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online JSON minifier. Compress and minify JSON to reduce file size. See exactly how many bytes you save.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › JSON Minifier</div>
+        <h1>📦 JSON Minifier</h1>
+        <p>Remove all unnecessary whitespace from JSON to reduce file size for production use.</p>
+        <a href="../../blog/json-minifier.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Input JSON</div>
+          <textarea id="input" class="w-full mono" style="min-height:180px;" placeholder="Paste formatted JSON here…"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-primary" onclick="minify()">📦 Minify JSON</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadSample()">📄 Sample</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';document.getElementById('output-panel').style.display='none'">🗑 Clear</button>
+          </div>
+        </div>
+        <div id="error-box" class="alert alert-danger" style="display:none;"></div>
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <div class="panel-title" style="margin:0;">Minified JSON</div>
+            <div style="display:flex;gap:8px;">
+              <button class="copy-btn" onclick="copyText(document.getElementById('output').value,this)">📋 Copy</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadText(document.getElementById('output').value,'minified.json')">⬇ Download</button>
+            </div>
+          </div>
+          <textarea id="output" class="w-full mono" style="min-height:80px;" readonly></textarea>
+          <div class="stat-row mt-2">
+            <div class="stat-box"><div class="stat-val" id="s-orig">0</div><div class="stat-lbl">Original (chars)</div></div>
+            <div class="stat-box"><div class="stat-val" id="s-min">0</div><div class="stat-lbl">Minified (chars)</div></div>
+            <div class="stat-box"><div class="stat-val" id="s-saved">0%</div><div class="stat-lbl">Size Reduction</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function minify(){
+  document.getElementById('error-box').style.display='none';
+  const input=document.getElementById('input').value.trim();
+  if(!input){toast('Please enter some JSON','danger');return;}
+  try{
+    const m=JSON.stringify(JSON.parse(input));
+    const orig=input.length,min=m.length;
+    const saved=((orig-min)/orig*100).toFixed(1);
+    document.getElementById('output').value=m;
+    document.getElementById('s-orig').textContent=orig.toLocaleString();
+    document.getElementById('s-min').textContent=min.toLocaleString();
+    document.getElementById('s-saved').textContent=saved+'%';
+    document.getElementById('output-panel').style.display='block';
+  }catch(e){document.getElementById('error-box').innerHTML='❌ '+e.message;document.getElementById('error-box').style.display='flex';}
+}
+function loadSample(){document.getElementById('input').value=`{\n  "name": "ToolBox",\n  "version": "1.0.0",\n  "free": true,\n  "tools": [\n    "JSON Formatter",\n    "Base64 Encoder",\n    "Word Counter"\n  ]\n}`;}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('json-minifier'));
+</script>
+</body></html>

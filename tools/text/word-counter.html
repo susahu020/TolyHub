@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Word Counter — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online word counter. Count words, characters, sentences, paragraphs and reading time instantly. No login required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#text-tools">Text Tools</a> › Word Counter</div>
+        <h1>📝 Word Counter</h1>
+        <p>Count words, characters, sentences, paragraphs, and estimate reading time. Paste or type your text below.</p>
+        <a href="../../blog/word-counter.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Your Text</div>
+          <textarea id="input" class="w-full" style="min-height:200px;" placeholder="Type or paste your text here…" oninput="analyze()"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';analyze()">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-val" id="s-words">0</div><div class="stat-lbl">Words</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-chars">0</div><div class="stat-lbl">Characters</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-nospace">0</div><div class="stat-lbl">No Spaces</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-sents">0</div><div class="stat-lbl">Sentences</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-paras">0</div><div class="stat-lbl">Paragraphs</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-read">0 min</div><div class="stat-lbl">Reading Time</div></div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Keyword Frequency (Top 10)</div>
+          <div id="keyword-list" style="color:var(--text3);font-size:14px;">Type some text to see keyword frequency.</div>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <h3 style="margin-bottom:0.75rem;">How to use the Word Counter</h3>
+        <p style="font-size:14px;">Simply type or paste your text into the box above. The word counter updates in real time as you type. It counts words, characters (with and without spaces), sentences, paragraphs, and estimates reading time at 200 words per minute.</p>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function analyze() {
+  const text = document.getElementById('input').value;
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  const chars = text.length;
+  const noSpace = text.replace(/\s/g,'').length;
+  const sentences = text.trim() === '' ? 0 : (text.match(/[.!?]+/g)||[]).length;
+  const paras = text.trim() === '' ? 0 : text.split(/\n\s*\n/).filter(p=>p.trim()).length || (text.trim() ? 1 : 0);
+  const readMin = Math.ceil(words / 200);
+
+  document.getElementById('s-words').textContent = words.toLocaleString();
+  document.getElementById('s-chars').textContent = chars.toLocaleString();
+  document.getElementById('s-nospace').textContent = noSpace.toLocaleString();
+  document.getElementById('s-sents').textContent = sentences.toLocaleString();
+  document.getElementById('s-paras').textContent = paras.toLocaleString();
+  document.getElementById('s-read').textContent = readMin < 1 ? '< 1 min' : readMin + ' min';
+
+  // Keyword frequency
+  const kwDiv = document.getElementById('keyword-list');
+  if (words === 0) { kwDiv.innerHTML = '<span style="color:var(--text3)">Type some text to see keyword frequency.</span>'; return; }
+  const stopWords = new Set(['the','a','an','and','or','but','in','on','at','to','for','of','with','is','was','are','were','be','been','have','has','had','do','did','will','would','could','should','may','might','it','its','this','that','these','those','i','you','he','she','we','they','my','your','his','her','our','their','not','from','as','by','if','so','all','can','just','more','also','about','up','out','get','no','what','how','when','which','who','than','then','there']);
+  const freq = {};
+  text.toLowerCase().match(/\b[a-z]{3,}\b/g)?.forEach(w => {
+    if (!stopWords.has(w)) freq[w] = (freq[w]||0)+1;
+  });
+  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  if (!sorted.length) { kwDiv.innerHTML = '<span style="color:var(--text3)">No significant keywords found.</span>'; return; }
+  const max = sorted[0][1];
+  kwDiv.innerHTML = sorted.map(([w,c]) => `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+      <span style="width:120px;font-size:13px;font-weight:600;">${w}</span>
+      <div style="flex:1;background:var(--bg3);border-radius:99px;height:8px;">
+        <div style="width:${(c/max*100).toFixed(0)}%;background:var(--accent);height:8px;border-radius:99px;"></div>
+      </div>
+      <span style="font-size:12px;color:var(--text3);width:30px;text-align:right;">${c}</span>
+    </div>`).join('');
+}
+async function pasteText() {
+  try { document.getElementById('input').value = await navigator.clipboard.readText(); analyze(); } catch { toast('Paste permission denied','danger'); }
+}
+document.addEventListener('DOMContentLoaded', () => initToolPage('word-counter'));
+</script>
+</body></html>

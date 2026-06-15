@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Base64 Encoder — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online Base64 encoder. Encode text or strings to Base64 format instantly in your browser. No data sent to server.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › Base64 Encoder</div>
+        <h1>🔒 Base64 Encoder</h1>
+        <p>Encode any text or string to Base64 format. Processed entirely in your browser — nothing is sent to a server.</p>
+        <a href="../../blog/base64-encoder.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Text to Encode</div>
+          <textarea id="input" class="w-full mono" style="min-height:160px;" placeholder="Enter text to encode to Base64…" oninput="liveEncode()"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-primary" onclick="encode()">🔒 Encode to Base64</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';document.getElementById('output-panel').style.display='none'">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+            <label class="toggle" style="margin-left:auto;">
+              <input type="checkbox" id="url-safe"><div class="toggle-track"></div>URL-Safe
+            </label>
+          </div>
+        </div>
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <div class="panel-title" style="margin:0;">Base64 Output</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('output').value,this)">📋 Copy</button>
+          </div>
+          <textarea id="output" class="w-full mono" style="min-height:80px;" readonly></textarea>
+          <div style="font-size:12px;color:var(--text3);margin-top:8px;" id="size-info"></div>
+        </div>
+        <div class="card" style="margin-top:1rem;">
+          <h3 style="margin-bottom:0.5rem;font-size:15px;">What is Base64?</h3>
+          <p style="font-size:13px;">Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters. It's commonly used to encode data in email, embed images in CSS/HTML, and pass data in URLs.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let timer;
+function liveEncode(){clearTimeout(timer);timer=setTimeout(encode,300);}
+function encode(){
+  const input=document.getElementById('input').value;
+  if(!input){document.getElementById('output-panel').style.display='none';return;}
+  try{
+    let encoded=btoa(unescape(encodeURIComponent(input)));
+    if(document.getElementById('url-safe').checked) encoded=encoded.replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+    document.getElementById('output').value=encoded;
+    document.getElementById('size-info').textContent=`Input: ${input.length} chars → Output: ${encoded.length} chars (${Math.round(encoded.length/input.length*100)}% of original size)`;
+    document.getElementById('output-panel').style.display='block';
+  }catch(e){toast('Encoding error: '+e.message,'danger');}
+}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();encode();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('base64-encoder'));
+</script>
+</body></html>

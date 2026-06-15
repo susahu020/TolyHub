@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolBox — Free SEO, PDF, Image & Developer Tools | No Login Required</title>
+<meta name="description" content="100% free online tools for SEO, developers, and everyone. Word counter, JSON formatter, Base64, password generator, QR code, calculators and more. No login, no limits.">
+<meta name="keywords" content="free online tools, JSON formatter, word counter, base64 encoder, password generator, QR code generator, SEO tools">
+<meta property="og:title" content="ToolBox — Free Online Tools">
+<meta property="og:description" content="30+ free tools. No login. No limits. Privacy-first.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>window.PAGE_DEPTH = 0;</script>
+<style>
+/* Homepage specific */
+.home-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+.cat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1rem; text-align: center; text-decoration: none; color: var(--text); transition: all 0.2s; }
+.cat-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+.cat-card .cat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.cat-card .cat-name { font-size: 14px; font-weight: 700; }
+.cat-card .cat-count { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.trust-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 2rem 0; }
+.trust-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text2); }
+.recently-used-section { display: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<div class="home-wrapper">
+  <div class="hero">
+    <div class="hero-badge">✨ 100% Free · No Account Required</div>
+    <h1>Free SEO, Dev & Utility<br>Tools — No Login Needed</h1>
+    <p>Fast, privacy-first tools that work directly in your browser. No signup, no limits, no watermarks.</p>
+    <div class="hero-btns">
+      <a href="#all-tools" class="btn btn-primary btn-lg">🛠 Explore All Tools</a>
+      <a href="#popular" class="btn btn-secondary btn-lg">⭐ Popular Tools</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">30+</div><div class="lbl">Free Tools</div></div>
+      <div class="hero-stat"><div class="num">100%</div><div class="lbl">Browser-Based</div></div>
+      <div class="hero-stat"><div class="num">0</div><div class="lbl">Accounts Needed</div></div>
+      <div class="hero-stat"><div class="num">∞</div><div class="lbl">Usage Limit</div></div>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item">🔒 Privacy First — Files stay in your browser</div>
+    <div class="trust-item">⚡ Fast — Results in under 5 seconds</div>
+    <div class="trust-item">📱 Mobile Friendly</div>
+    <div class="trust-item">♾️ Unlimited Usage</div>
+    <div class="trust-item">🚫 No Watermarks</div>
+    <div class="trust-item">🆓 Free Forever</div>
+  </div>
+
+  <!-- RECENTLY USED -->
+  <div class="section recently-used-section" id="recent-section">
+    <div class="section-header">
+      <h2>🕐 Recently Used</h2>
+    </div>
+    <div class="tool-grid" id="recent-tools"></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section" id="categories">
+    <div class="section-header"><h2>📂 Browse by Category</h2></div>
+    <div class="cat-grid">
+      <a href="#text-tools" class="cat-card">
+        <div class="cat-icon">📝</div>
+        <div class="cat-name">Text Tools</div>
+        <div class="cat-count">6 tools</div>
+      </a>
+      <a href="#developer-tools" class="cat-card">
+        <div class="cat-icon">💻</div>
+        <div class="cat-name">Developer</div>
+        <div class="cat-count">8 tools</div>
+      </a>
+      <a href="#seo-tools" class="cat-card">
+        <div class="cat-icon">🔍</div>
+        <div class="cat-name">SEO Tools</div>
+        <div class="cat-count">6 tools</div>
+      </a>
+      <a href="#security-tools" class="cat-card">
+        <div class="cat-icon">🔒</div>
+        <div class="cat-name">Security</div>
+        <div class="cat-count">3 tools</div>
+      </a>
+      <a href="#productivity-tools" class="cat-card">
+        <div class="cat-icon">⚡</div>
+        <div class="cat-name">Productivity</div>
+        <div class="cat-count">2 tools</div>
+      </a>
+      <a href="#calculator-tools" class="cat-card">
+        <div class="cat-icon">🧮</div>
+        <div class="cat-name">Calculators</div>
+        <div class="cat-count">5 tools</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ALL TOOLS -->
+  <div class="section" id="all-tools">
+    <!-- Text Tools -->
+    <div id="text-tools" style="margin-bottom:2.5rem;">
+      <div class="section-header"><h2>📝 Text Tools</h2></div>
+      <div class="tool-grid">
+        <a href="tools/text/word-counter.html" class="tool-card">
+          <div class="tool-icon icon-blue">📝</div>
+          <div class="tool-name">Word Counter</div>
+          <div class="tool-desc">Count words, characters, sentences and more</div>
+        </a>
+        <a href="tools/text/char-counter.html" class="tool-card">
+          <div class="tool-icon icon-blue">🔤</div>
+          <div class="tool-name">Character Counter</div>
+          <div class="tool-desc">Count characters with and without spaces</div>
+        </a>
+        <a href="tools/text/case-converter.html" class="tool-card">
+          <div class="tool-icon icon-blue">🔡</div>
+          <div class="tool-name">Case Converter</div>
+          <div class="tool-desc">Convert UPPER, lower, Title, camelCase and more</div>
+        </a>
+        <a href="tools/text/text-compare.html" class="tool-card">
+          <div class="tool-icon icon-blue">⚖️</div>
+          <div class="tool-name">Text Compare</div>
+          <div class="tool-desc">Find differences between two blocks of text</div>
+        </a>
+        <a href="tools/text/sort-text.html" class="tool-card">
+          <div class="tool-icon icon-blue">↕️</div>
+          <div class="tool-name">Sort Text Lines</div>
+          <div class="tool-desc">Sort lines alphabetically, reverse, or by length</div>
+        </a>
+        <a href="tools/text/remove-duplicates.html" class="tool-card">
+          <div class="tool-icon icon-blue">🗑️</div>
+          <div class="tool-name">Remove Duplicates</div>
+          <div class="tool-desc">Remove duplicate lines from any text</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Developer Tools -->
+    <div id="developer-tools" style="margin-bottom:2.5rem;">
+      <div class="section-header"><h2>💻 Developer Tools</h2></div>
+      <div class="tool-grid">
+        <a href="tools/developer/json-formatter.html" class="tool-card">
+          <div class="tool-icon icon-green">{ }</div>
+          <div class="tool-name">JSON Formatter</div>
+          <div class="tool-desc">Format and beautify JSON with syntax highlighting</div>
+        </a>
+        <a href="tools/developer/json-validator.html" class="tool-card">
+          <div class="tool-icon icon-green">✅</div>
+          <div class="tool-name">JSON Validator</div>
+          <div class="tool-desc">Check if your JSON is valid with error details</div>
+        </a>
+        <a href="tools/developer/json-minifier.html" class="tool-card">
+          <div class="tool-icon icon-green">📦</div>
+          <div class="tool-name">JSON Minifier</div>
+          <div class="tool-desc">Compress and minify JSON to save bytes</div>
+        </a>
+        <a href="tools/developer/base64-encoder.html" class="tool-card">
+          <div class="tool-icon icon-green">🔒</div>
+          <div class="tool-name">Base64 Encoder</div>
+          <div class="tool-desc">Encode text or strings to Base64 format</div>
+        </a>
+        <a href="tools/developer/base64-decoder.html" class="tool-card">
+          <div class="tool-icon icon-green">🔓</div>
+          <div class="tool-name">Base64 Decoder</div>
+          <div class="tool-desc">Decode Base64 strings back to readable text</div>
+        </a>
+        <a href="tools/developer/url-encoder.html" class="tool-card">
+          <div class="tool-icon icon-green">🔗</div>
+          <div class="tool-name">URL Encoder</div>
+          <div class="tool-desc">Encode special characters for safe URL usage</div>
+        </a>
+        <a href="tools/developer/url-decoder.html" class="tool-card">
+          <div class="tool-icon icon-green">🔗</div>
+          <div class="tool-name">URL Decoder</div>
+          <div class="tool-desc">Decode URL-encoded strings to readable text</div>
+        </a>
+        <a href="tools/developer/md5-generator.html" class="tool-card">
+          <div class="tool-icon icon-green">#</div>
+          <div class="tool-name">MD5 Generator</div>
+          <div class="tool-desc">Generate MD5 hash from any text string</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- SEO Tools -->
+    <div id="seo-tools" style="margin-bottom:2.5rem;">
+      <div class="section-header"><h2>🔍 SEO Tools</h2></div>
+      <div class="tool-grid">
+        <a href="tools/seo/meta-generator.html" class="tool-card">
+          <div class="tool-icon icon-orange">🏷️</div>
+          <div class="tool-name">Meta Tag Generator</div>
+          <div class="tool-desc">Generate complete HTML meta tags for SEO</div>
+        </a>
+        <a href="tools/seo/robots-generator.html" class="tool-card">
+          <div class="tool-icon icon-orange">🤖</div>
+          <div class="tool-name">Robots.txt Generator</div>
+          <div class="tool-desc">Create a robots.txt file for your website</div>
+        </a>
+        <a href="tools/seo/sitemap-generator.html" class="tool-card">
+          <div class="tool-icon icon-orange">🗺️</div>
+          <div class="tool-name">Sitemap Generator</div>
+          <div class="tool-desc">Generate an XML sitemap from your URLs</div>
+        </a>
+        <a href="tools/seo/schema-generator.html" class="tool-card">
+          <div class="tool-icon icon-orange">📋</div>
+          <div class="tool-name">Schema Generator</div>
+          <div class="tool-desc">Generate JSON-LD structured data markup</div>
+        </a>
+        <a href="tools/seo/serp-preview.html" class="tool-card">
+          <div class="tool-icon icon-orange">🔍</div>
+          <div class="tool-name">SERP Preview</div>
+          <div class="tool-desc">Preview how your page appears in Google results</div>
+        </a>
+        <a href="tools/seo/og-generator.html" class="tool-card">
+          <div class="tool-icon icon-orange">📤</div>
+          <div class="tool-name">Open Graph Generator</div>
+          <div class="tool-desc">Generate Open Graph meta tags for social sharing</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div id="security-tools" style="margin-bottom:2.5rem;">
+      <div class="section-header"><h2>🔒 Security Tools</h2></div>
+      <div class="tool-grid">
+        <a href="tools/security/password-gen.html" class="tool-card">
+          <div class="tool-icon icon-red">🔑</div>
+          <div class="tool-name">Password Generator</div>
+          <div class="tool-desc">Generate strong, secure random passwords</div>
+        </a>
+        <a href="tools/security/password-strength.html" class="tool-card">
+          <div class="tool-icon icon-red">🛡️</div>
+          <div class="tool-name">Password Strength Checker</div>
+          <div class="tool-desc">Check how strong and secure your password is</div>
+        </a>
+        <a href="tools/security/sha256-gen.html" class="tool-card">
+          <div class="tool-icon icon-red">#</div>
+          <div class="tool-name">SHA256 Generator</div>
+          <div class="tool-desc">Generate SHA-256 hash from any text string</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Productivity -->
+    <div id="productivity-tools" style="margin-bottom:2.5rem;">
+      <div class="section-header"><h2>⚡ Productivity Tools</h2></div>
+      <div class="tool-grid">
+        <a href="tools/productivity/qr-generator.html" class="tool-card">
+          <div class="tool-icon icon-purple">📱</div>
+          <div class="tool-name">QR Code Generator</div>
+          <div class="tool-desc">Generate QR codes for URLs, text, and more</div>
+        </a>
+        <a href="tools/productivity/uuid-generator.html" class="tool-card">
+          <div class="tool-icon icon-purple">🆔</div>
+          <div class="tool-name">UUID Generator</div>
+          <div class="tool-desc">Generate unique UUIDs (v4) instantly</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Calculators -->
+    <div id="calculator-tools" style="margin-bottom:2.5rem;">
+      <div class="section-header"><h2>🧮 Calculators</h2></div>
+      <div class="tool-grid">
+        <a href="tools/calculators/percentage-calc.html" class="tool-card">
+          <div class="tool-icon icon-teal">%</div>
+          <div class="tool-name">Percentage Calculator</div>
+          <div class="tool-desc">Calculate percentages, increases, decreases</div>
+        </a>
+        <a href="tools/calculators/age-calculator.html" class="tool-card">
+          <div class="tool-icon icon-teal">🎂</div>
+          <div class="tool-name">Age Calculator</div>
+          <div class="tool-desc">Calculate exact age in years, months, and days</div>
+        </a>
+        <a href="tools/calculators/date-calculator.html" class="tool-card">
+          <div class="tool-icon icon-teal">📅</div>
+          <div class="tool-name">Date Calculator</div>
+          <div class="tool-desc">Add or subtract dates, find date differences</div>
+        </a>
+        <a href="tools/calculators/gst-calculator.html" class="tool-card">
+          <div class="tool-icon icon-teal">🧾</div>
+          <div class="tool-name">GST Calculator</div>
+          <div class="tool-desc">Calculate GST amounts for Indian tax rates</div>
+        </a>
+        <a href="tools/calculators/emi-calculator.html" class="tool-card">
+          <div class="tool-icon icon-teal">🏦</div>
+          <div class="tool-name">EMI Calculator</div>
+          <div class="tool-desc">Calculate monthly loan EMI payments</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section" id="features">
+    <div class="section-header"><h2>Why ToolBox?</h2></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h4>Privacy First</h4>
+        <p>All processing happens in your browser. Your data never leaves your device.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h4>Lightning Fast</h4>
+        <p>Most tools give results instantly. No waiting, no loading spinners.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🆓</div>
+        <h4>100% Free Forever</h4>
+        <p>No subscriptions, no credits, no hidden fees. Every tool is free.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h4>Works Everywhere</h4>
+        <p>Fully responsive — works great on phones, tablets, and desktops.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚫</div>
+        <h4>No Account Needed</h4>
+        <p>Jump straight to the tool. No signup, no login, no email required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">♾️</div>
+        <h4>Unlimited Usage</h4>
+        <p>No daily limits, no rate limits. Use tools as many times as you need.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section" id="faq">
+    <div class="section-header"><h2>Frequently Asked Questions</h2></div>
+    <div class="card">
+      <div class="faq-item">
+        <button class="faq-btn">Are all tools really free? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Yes! Every single tool on ToolBox is 100% free to use, forever. There are no subscriptions, no credits, no premium plans, and no hidden fees.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">Do I need to create an account? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">No account, no signup, no login required. Open any tool and start using it immediately.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">Is my data private and safe? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Absolutely. All tools process your data directly in your browser using JavaScript. Your text, files, and data never get sent to any server — it stays 100% on your device.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">Do tools work on mobile? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Yes! ToolBox is designed mobile-first and works perfectly on smartphones, tablets, and desktops of all screen sizes.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn">Are there usage limits? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">None at all. No daily limits, no rate limits, no usage caps. Use any tool as many times as you need.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+
+<script src="js/main.js"></script>
+<script src="js/layout.js"></script>
+<script>
+// Show recently used tools on homepage
+document.addEventListener('DOMContentLoaded', () => {
+  const recentIds = recent.get();
+  if (recentIds.length > 0) {
+    const recentSection = document.getElementById('recent-section');
+    const recentGrid = document.getElementById('recent-tools');
+    recentSection.style.display = 'block';
+    recentGrid.innerHTML = recentIds.slice(0, 4).map(id => {
+      const tool = TOOLS.find(t => t.id === id);
+      if (!tool) return '';
+      return `<a href="${tool.file}" class="tool-card">
+        <div class="tool-icon icon-${tool.color}">${tool.icon}</div>
+        <div class="tool-name">${tool.name}</div>
+        <div class="tool-desc">${tool.desc}</div>
+      </a>`;
+    }).join('');
+  }
+});
+</script>
+</body>
+</html>

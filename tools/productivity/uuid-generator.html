@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UUID Generator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free UUID v4 generator. Generate single or bulk UUIDs instantly in your browser. Copy and download as text file.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#productivity-tools">Productivity</a> › UUID Generator</div>
+        <h1>🆔 UUID Generator</h1>
+        <p>Generate UUID v4 (random) identifiers instantly. Perfect for databases, APIs, and unique IDs. 100% client-side.</p>
+        <a href="../../blog/uuid-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Settings</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">How many UUIDs</label>
+              <select id="uuid-count">
+                <option value="1">1 UUID</option>
+                <option value="5">5 UUIDs</option>
+                <option value="10" selected>10 UUIDs</option>
+                <option value="25">25 UUIDs</option>
+                <option value="50">50 UUIDs</option>
+                <option value="100">100 UUIDs</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Format</label>
+              <select id="uuid-format">
+                <option value="standard">Standard (with hyphens)</option>
+                <option value="no-hyphens">No hyphens</option>
+                <option value="upper">UPPERCASE</option>
+                <option value="braces">With braces {uuid}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="generate()">🆔 Generate UUIDs</button>
+        </div>
+
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;" id="out-label">Generated UUIDs</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-primary btn-sm" onclick="generate()">🔄 Regenerate</button>
+              <button class="copy-btn" onclick="copyText(document.getElementById('uuid-output').value,this)">📋 Copy All</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadText(document.getElementById('uuid-output').value,'uuids.txt')">⬇ Download</button>
+            </div>
+          </div>
+          <textarea id="uuid-output" class="w-full mono" style="min-height:200px;" readonly></textarea>
+        </div>
+
+        <div class="card mt-2">
+          <h3 style="margin-bottom:0.5rem;font-size:15px;">What is a UUID?</h3>
+          <p style="font-size:13px;">A UUID (Universally Unique Identifier) is a 128-bit label used to uniquely identify information in computer systems. UUID v4 is randomly generated, making collisions practically impossible. Format: <code style="font-family:var(--font-mono);background:var(--bg2);padding:2px 6px;border-radius:4px;">xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code></p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function uuidv4(){
+  return([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16));
+}
+function formatUUID(uuid,fmt){
+  switch(fmt){
+    case 'no-hyphens': return uuid.replace(/-/g,'');
+    case 'upper': return uuid.toUpperCase();
+    case 'braces': return '{'+uuid+'}';
+    default: return uuid;
+  }
+}
+function generate(){
+  const count=parseInt(document.getElementById('uuid-count').value);
+  const fmt=document.getElementById('uuid-format').value;
+  const uuids=Array.from({length:count},()=>formatUUID(uuidv4(),fmt));
+  document.getElementById('uuid-output').value=uuids.join('\n');
+  document.getElementById('out-label').textContent=`Generated ${count} UUID${count>1?'s':''}`;
+  document.getElementById('output-panel').style.display='block';
+}
+document.addEventListener('DOMContentLoaded',()=>{generate();initToolPage('uuid-generator');});
+</script>
+</body></html>

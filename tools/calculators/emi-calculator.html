@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EMI Calculator — Free Online Loan Calculator | ToolBox</title>
+<meta name="description" content="Free EMI calculator for home loan, car loan, personal loan. Calculate monthly EMI, total interest, and view full amortization schedule.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.amort-table{width:100%;border-collapse:collapse;font-size:13px;}
+.amort-table th{background:var(--bg3);padding:8px 10px;text-align:left;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);}
+.amort-table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+.amort-table tr:last-child td{border-bottom:none;}
+.amort-table tr:hover td{background:var(--bg2);}
+.pie-slice{transition:all 0.3s;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#calculator-tools">Calculators</a> › EMI Calculator</div>
+        <h1>🏦 EMI Calculator</h1>
+        <p>Calculate your monthly loan EMI (Equated Monthly Instalment), total interest payable, and view the full amortization schedule.</p>
+        <a href="../../blog/emi-calculator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Loan Details</div>
+          <div class="form-group">
+            <label class="form-label">Loan Amount (₹): <strong id="loan-display">₹5,00,000</strong></label>
+            <input type="range" id="loan-amt" min="10000" max="10000000" value="500000" step="10000" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>₹10,000</span><span>₹1 Cr</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Annual Interest Rate (%): <strong id="rate-display">8.5%</strong></label>
+            <input type="range" id="interest-rate" min="1" max="30" value="8.5" step="0.1" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>1%</span><span>30%</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Loan Tenure: <strong id="tenure-display">5 Years</strong></label>
+            <input type="range" id="tenure" min="1" max="30" value="5" step="1" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>1 Yr</span><span>30 Yrs</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.5rem;">
+            <div class="form-group" style="margin:0;"><label class="form-label">Loan Amount ₹</label><input type="number" id="loan-manual" placeholder="500000" oninput="syncManual('loan')"></div>
+            <div class="form-group" style="margin:0;"><label class="form-label">Rate %</label><input type="number" id="rate-manual" placeholder="8.5" step="0.1" oninput="syncManual('rate')"></div>
+            <div class="form-group" style="margin:0;"><label class="form-label">Tenure (Years)</label><input type="number" id="tenure-manual" placeholder="5" oninput="syncManual('tenure')"></div>
+          </div>
+        </div>
+
+        <div id="result-panel" style="display:none;">
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-val" id="r-emi" style="font-size:1.4rem;">—</div><div class="stat-lbl">Monthly EMI</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-principal" style="font-size:1.4rem;">—</div><div class="stat-lbl">Principal</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-interest" style="font-size:1.4rem;">—</div><div class="stat-lbl">Total Interest</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-total" style="font-size:1.4rem;">—</div><div class="stat-lbl">Total Payment</div></div>
+          </div>
+
+          <div class="tool-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+              <div class="panel-title" style="margin:0;">Amortization Schedule</div>
+              <button class="btn btn-secondary btn-sm" onclick="toggleTable()">📋 Show/Hide Table</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;font-size:13px;margin-bottom:1rem;">
+              <span>🔵 Principal: <strong id="pct-p">—</strong>%</span>
+              <span>🔴 Interest: <strong id="pct-i">—</strong>%</span>
+            </div>
+            <div id="progress-bars" style="margin-bottom:1rem;">
+              <div style="margin-bottom:6px;font-size:12px;color:var(--text3);">Principal</div>
+              <div class="progress" style="margin-bottom:10px;"><div class="progress-bar" id="bar-p" style="background:var(--accent);"></div></div>
+              <div style="margin-bottom:6px;font-size:12px;color:var(--text3);">Interest</div>
+              <div class="progress"><div class="progress-bar" id="bar-i" style="background:var(--danger);"></div></div>
+            </div>
+            <div id="amort-table-container" style="display:none;max-height:360px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);">
+              <table class="amort-table">
+                <thead><tr><th>#</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+                <tbody id="amort-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function inr(n){return'₹'+Math.round(n).toLocaleString('en-IN');}
+function updateDisplay(){
+  const loan=parseFloat(document.getElementById('loan-amt').value);
+  const rate=parseFloat(document.getElementById('interest-rate').value);
+  const tenure=parseInt(document.getElementById('tenure').value);
+  document.getElementById('loan-display').textContent=inr(loan);
+  document.getElementById('rate-display').textContent=rate+'%';
+  document.getElementById('tenure-display').textContent=tenure+(tenure===1?' Year':' Years');
+  document.getElementById('loan-manual').value=loan;
+  document.getElementById('rate-manual').value=rate;
+  document.getElementById('tenure-manual').value=tenure;
+}
+function syncManual(type){
+  if(type==='loan'){const v=document.getElementById('loan-manual').value;document.getElementById('loan-amt').value=v;}
+  if(type==='rate'){const v=document.getElementById('rate-manual').value;document.getElementById('interest-rate').value=v;}
+  if(type==='tenure'){const v=document.getElementById('tenure-manual').value;document.getElementById('tenure').value=v;}
+  updateDisplay();calculate();
+}
+function calculate(){
+  const P=parseFloat(document.getElementById('loan-amt').value);
+  const annualRate=parseFloat(document.getElementById('interest-rate').value);
+  const years=parseInt(document.getElementById('tenure').value);
+  if(!P||!annualRate||!years)return;
+  const r=annualRate/12/100;
+  const n=years*12;
+  const emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const totalPayment=emi*n;
+  const totalInterest=totalPayment-P;
+  const pPct=Math.round(P/totalPayment*100);
+  const iPct=100-pPct;
+
+  document.getElementById('r-emi').textContent=inr(emi);
+  document.getElementById('r-principal').textContent=inr(P);
+  document.getElementById('r-interest').textContent=inr(totalInterest);
+  document.getElementById('r-total').textContent=inr(totalPayment);
+  document.getElementById('pct-p').textContent=pPct;
+  document.getElementById('pct-i').textContent=iPct;
+  document.getElementById('bar-p').style.width=pPct+'%';
+  document.getElementById('bar-i').style.width=iPct+'%';
+
+  // Amortization table (yearly summary)
+  let balance=P;
+  const rows=[];
+  for(let m=1;m<=n;m++){
+    const interestPart=balance*r;
+    const principalPart=emi-interestPart;
+    balance-=principalPart;
+    if(m%12===0||m===n){
+      rows.push(`<tr>
+        <td>${Math.ceil(m/12)}</td>
+        <td>${inr(emi*Math.min(12,m))}</td>
+        <td>${inr(principalPart*(m%12||12))}</td>
+        <td>${inr(interestPart*(m%12||12))}</td>
+        <td>${inr(Math.max(0,balance))}</td>
+      </tr>`);
+    }
+  }
+  document.getElementById('amort-tbody').innerHTML=rows.join('');
+  document.getElementById('result-panel').style.display='block';
+}
+function toggleTable(){
+  const t=document.getElementById('amort-table-container');
+  t.style.display=t.style.display==='none'?'block':'none';
+}
+document.addEventListener('DOMContentLoaded',()=>{updateDisplay();calculate();initToolPage('emi-calculator');});
+</script>
+</body></html>

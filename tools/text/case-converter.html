@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Case Converter — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online case converter. Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case and more instantly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#text-tools">Text Tools</a> › Case Converter</div>
+        <h1>🔡 Case Converter</h1>
+        <p>Convert your text to any case format instantly. UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case and more.</p>
+        <a href="../../blog/case-converter.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Input Text</div>
+          <textarea id="input" class="w-full" style="min-height:140px;" placeholder="Type or paste your text here…"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value=''">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Choose Conversion</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;">
+            <button class="btn btn-secondary" onclick="convert('upper')">UPPERCASE</button>
+            <button class="btn btn-secondary" onclick="convert('lower')">lowercase</button>
+            <button class="btn btn-secondary" onclick="convert('title')">Title Case</button>
+            <button class="btn btn-secondary" onclick="convert('sentence')">Sentence case</button>
+            <button class="btn btn-secondary" onclick="convert('camel')">camelCase</button>
+            <button class="btn btn-secondary" onclick="convert('pascal')">PascalCase</button>
+            <button class="btn btn-secondary" onclick="convert('snake')">snake_case</button>
+            <button class="btn btn-secondary" onclick="convert('kebab')">kebab-case</button>
+            <button class="btn btn-secondary" onclick="convert('constant')">CONSTANT_CASE</button>
+            <button class="btn btn-secondary" onclick="convert('alternate')">aLtErNaTe CaSe</button>
+            <button class="btn btn-secondary" onclick="convert('inverse')">iNVERSE cASE</button>
+            <button class="btn btn-secondary" onclick="convert('reverse')">esreveR txeT</button>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="output-panel" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <div class="panel-title" style="margin:0;" id="output-label">Result</div>
+            <button class="copy-btn" onclick="copyResult(this)">📋 Copy</button>
+          </div>
+          <div class="output-box" id="output"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+const converters = {
+  upper: t => t.toUpperCase(),
+  lower: t => t.toLowerCase(),
+  title: t => t.toLowerCase().replace(/(?:^|\s)\S/g, c => c.toUpperCase()),
+  sentence: t => t.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()),
+  camel: t => t.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase()),
+  pascal: t => t.toLowerCase().replace(/(^|[^a-zA-Z0-9]+)(.)/g, (_, __, c) => c.toUpperCase()),
+  snake: t => t.trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,''),
+  kebab: t => t.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,''),
+  constant: t => t.trim().toUpperCase().replace(/\s+/g,'_').replace(/[^A-Z0-9_]/g,''),
+  alternate: t => t.split('').map((c,i)=>i%2===0?c.toLowerCase():c.toUpperCase()).join(''),
+  inverse: t => t.split('').map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join(''),
+  reverse: t => t.split('').reverse().join(''),
+};
+const labels = { upper:'UPPERCASE', lower:'lowercase', title:'Title Case', sentence:'Sentence case', camel:'camelCase', pascal:'PascalCase', snake:'snake_case', kebab:'kebab-case', constant:'CONSTANT_CASE', alternate:'aLtErNaTe CaSe', inverse:'iNVERSE cASE', reverse:'Reversed Text' };
+
+function convert(type) {
+  const text = document.getElementById('input').value;
+  if (!text.trim()) { toast('Please enter some text first','danger'); return; }
+  const result = converters[type](text);
+  document.getElementById('output').textContent = result;
+  document.getElementById('output-label').textContent = labels[type];
+  document.getElementById('output-panel').style.display = 'block';
+  document.getElementById('output-panel').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+function copyResult(btn) { copyText(document.getElementById('output').textContent, btn); }
+async function pasteText() {
+  try { document.getElementById('input').value = await navigator.clipboard.readText(); } catch { toast('Paste permission denied','danger'); }
+}
+document.addEventListener('DOMContentLoaded', () => initToolPage('case-converter'));
+</script>
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Percentage Calculator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free percentage calculator. Calculate percentage of a number, percentage change, increase, decrease and more. Instant results.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.calc-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;}
+.calc-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:1rem;}
+.calc-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.calc-row input{width:120px;flex-shrink:0;}
+.calc-row span{font-size:14px;color:var(--text2);}
+.calc-result{background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 14px;font-size:18px;font-weight:800;color:var(--accent);margin-top:8px;min-height:44px;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#calculator-tools">Calculators</a> › Percentage Calculator</div>
+        <h1>% Percentage Calculator</h1>
+        <p>Calculate percentages in multiple ways. All calculations update instantly as you type.</p>
+        <a href="../../blog/percentage-calc.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+
+        <!-- Type 1: X% of Y -->
+        <div class="calc-card">
+          <div class="calc-title">1. What is X% of Y?</div>
+          <div class="calc-row">
+            <span>What is</span>
+            <input type="number" id="c1-pct" placeholder="25" oninput="calc1()">
+            <span>% of</span>
+            <input type="number" id="c1-num" placeholder="200" oninput="calc1()">
+            <span>?</span>
+          </div>
+          <div class="calc-result" id="r1">Enter values above</div>
+        </div>
+
+        <!-- Type 2: X is what % of Y -->
+        <div class="calc-card">
+          <div class="calc-title">2. X is what percentage of Y?</div>
+          <div class="calc-row">
+            <input type="number" id="c2-x" placeholder="50" oninput="calc2()">
+            <span>is what % of</span>
+            <input type="number" id="c2-y" placeholder="200" oninput="calc2()">
+            <span>?</span>
+          </div>
+          <div class="calc-result" id="r2">Enter values above</div>
+        </div>
+
+        <!-- Type 3: % change -->
+        <div class="calc-card">
+          <div class="calc-title">3. Percentage Change (Increase / Decrease)</div>
+          <div class="calc-row">
+            <span>From</span>
+            <input type="number" id="c3-from" placeholder="100" oninput="calc3()">
+            <span>to</span>
+            <input type="number" id="c3-to" placeholder="150" oninput="calc3()">
+          </div>
+          <div class="calc-result" id="r3">Enter values above</div>
+        </div>
+
+        <!-- Type 4: Add % to number -->
+        <div class="calc-card">
+          <div class="calc-title">4. Add Percentage to Number</div>
+          <div class="calc-row">
+            <input type="number" id="c4-num" placeholder="500" oninput="calc4()">
+            <span>+</span>
+            <input type="number" id="c4-pct" placeholder="18" oninput="calc4()">
+            <span>% =</span>
+          </div>
+          <div class="calc-result" id="r4">Enter values above</div>
+        </div>
+
+        <!-- Type 5: Subtract % from number -->
+        <div class="calc-card">
+          <div class="calc-title">5. Subtract Percentage from Number (Discount)</div>
+          <div class="calc-row">
+            <input type="number" id="c5-num" placeholder="1000" oninput="calc5()">
+            <span>−</span>
+            <input type="number" id="c5-pct" placeholder="20" oninput="calc5()">
+            <span>% =</span>
+          </div>
+          <div class="calc-result" id="r5">Enter values above</div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function fmt(n){return isNaN(n)||!isFinite(n)?'—':parseFloat(n.toFixed(6)).toLocaleString();}
+function g(id){return parseFloat(document.getElementById(id).value);}
+function set(id,val,suffix=''){document.getElementById(id).textContent=val+(suffix?' '+suffix:'');}
+
+function calc1(){
+  const pct=g('c1-pct'),num=g('c1-num');
+  if(isNaN(pct)||isNaN(num)){set('r1','Enter values above');return;}
+  const res=(pct/100)*num;
+  set('r1',`${fmt(pct)}% of ${fmt(num)} = ${fmt(res)}`);
+}
+function calc2(){
+  const x=g('c2-x'),y=g('c2-y');
+  if(isNaN(x)||isNaN(y)||y===0){set('r2','Enter values above');return;}
+  const res=(x/y)*100;
+  set('r2',`${fmt(x)} is ${fmt(res)}% of ${fmt(y)}`);
+}
+function calc3(){
+  const from=g('c3-from'),to=g('c3-to');
+  if(isNaN(from)||isNaN(to)||from===0){set('r3','Enter values above');return;}
+  const change=((to-from)/Math.abs(from))*100;
+  const dir=change>=0?'📈 Increase':'📉 Decrease';
+  set('r3',`${dir} of ${fmt(Math.abs(change))}%  (${fmt(from)} → ${fmt(to)})`);
+}
+function calc4(){
+  const num=g('c4-num'),pct=g('c4-pct');
+  if(isNaN(num)||isNaN(pct)){set('r4','Enter values above');return;}
+  const res=num+(num*pct/100);
+  set('r4',`${fmt(num)} + ${fmt(pct)}% = ${fmt(res)}`);
+}
+function calc5(){
+  const num=g('c5-num'),pct=g('c5-pct');
+  if(isNaN(num)||isNaN(pct)){set('r5','Enter values above');return;}
+  const res=num-(num*pct/100);
+  const saved=num-res;
+  set('r5',`${fmt(num)} − ${fmt(pct)}% = ${fmt(res)}  (You save: ${fmt(saved)})`);
+}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('percentage-calc'));
+</script>
+</body></html>

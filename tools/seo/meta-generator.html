@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meta Tag Generator — Free SEO Tool | ToolBox</title>
+<meta name="description" content="Free meta tag generator. Generate complete HTML meta tags for SEO, Open Graph, and Twitter Cards. Copy-paste ready output.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>.char-count{font-size:11px;text-align:right;margin-top:3px;font-weight:600;}.over{color:var(--danger);}.ok{color:var(--success);}.warn{color:var(--warning);}</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Meta Tag Generator</div>
+        <h1>🏷️ Meta Tag Generator</h1>
+        <p>Fill in the fields below and get complete, copy-ready HTML meta tags for your webpage.</p>
+        <a href="../../blog/meta-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Basic SEO Tags</div>
+          <div class="form-group">
+            <label class="form-label">Page Title <span style="color:var(--danger)">*</span></label>
+            <input type="text" id="f-title" placeholder="My Awesome Page Title" oninput="update();countChars('f-title','cc-title',60)">
+            <div class="char-count ok" id="cc-title">0 / 60 chars</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Meta Description <span style="color:var(--danger)">*</span></label>
+            <textarea id="f-desc" rows="3" placeholder="A concise description (150–160 chars recommended)." oninput="update();countChars('f-desc','cc-desc',160)"></textarea>
+            <div class="char-count ok" id="cc-desc">0 / 160 chars</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Keywords <span style="color:var(--text3);font-weight:400">(comma-separated)</span></label>
+            <input type="text" id="f-keywords" placeholder="seo, tools, free, online" oninput="update()">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Author</label>
+              <input type="text" id="f-author" placeholder="John Doe" oninput="update()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Robots</label>
+              <select id="f-robots" onchange="update()">
+                <option value="index, follow">index, follow (default)</option>
+                <option value="noindex, follow">noindex, follow</option>
+                <option value="index, nofollow">index, nofollow</option>
+                <option value="noindex, nofollow">noindex, nofollow</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Open Graph (Social Sharing)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">OG Title <span style="color:var(--text3);font-weight:400">(defaults to title)</span></label>
+              <input type="text" id="f-og-title" placeholder="Leave blank to use page title" oninput="update()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">OG Type</label>
+              <select id="f-og-type" onchange="update()">
+                <option value="website">website</option>
+                <option value="article">article</option>
+                <option value="product">product</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Canonical URL</label>
+            <input type="url" id="f-url" placeholder="https://yoursite.com/page" oninput="update()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">OG Image URL <span style="color:var(--text3);font-weight:400">(1200×630px recommended)</span></label>
+            <input type="url" id="f-og-image" placeholder="https://yoursite.com/og-image.jpg" oninput="update()">
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">Generated Meta Tags</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('output').textContent,this)">📋 Copy All</button>
+          </div>
+          <pre class="output-box" id="output" style="font-size:12px;line-height:1.7;">Fill in the fields above to generate meta tags…</pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function countChars(inputId,countId,max){
+  const len=document.getElementById(inputId).value.length;
+  const el=document.getElementById(countId);
+  el.textContent=`${len} / ${max} chars`;
+  el.className='char-count '+(len>max?'over':len>max*0.85?'warn':'ok');
+}
+function esc(s){return s.replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function update(){
+  const title=document.getElementById('f-title').value;
+  const desc=document.getElementById('f-desc').value;
+  const keywords=document.getElementById('f-keywords').value;
+  const author=document.getElementById('f-author').value;
+  const robots=document.getElementById('f-robots').value;
+  const ogTitle=document.getElementById('f-og-title').value||title;
+  const ogType=document.getElementById('f-og-type').value;
+  const url=document.getElementById('f-url').value;
+  const ogImage=document.getElementById('f-og-image').value;
+  const lines=['<!-- ✅ Basic SEO Meta Tags -->'];
+  if(title)lines.push(`<title>${esc(title)}</title>`);
+  if(desc)lines.push(`<meta name="description" content="${esc(desc)}">`);
+  if(keywords)lines.push(`<meta name="keywords" content="${esc(keywords)}">`);
+  if(author)lines.push(`<meta name="author" content="${esc(author)}">`);
+  lines.push(`<meta name="robots" content="${robots}">`);
+  lines.push(`<meta name="viewport" content="width=device-width, initial-scale=1.0">`);
+  lines.push(`<meta charset="UTF-8">`);
+  if(url)lines.push(`<link rel="canonical" href="${esc(url)}">`);
+  if(ogTitle||url||ogImage){
+    lines.push('');
+    lines.push('<!-- 📱 Open Graph / Social Sharing -->');
+    if(ogTitle)lines.push(`<meta property="og:title" content="${esc(ogTitle)}">`);
+    if(desc)lines.push(`<meta property="og:description" content="${esc(desc)}">`);
+    lines.push(`<meta property="og:type" content="${ogType}">`);
+    if(url)lines.push(`<meta property="og:url" content="${esc(url)}">`);
+    if(ogImage)lines.push(`<meta property="og:image" content="${esc(ogImage)}">`);
+    lines.push('');
+    lines.push('<!-- 🐦 Twitter Card -->');
+    lines.push(`<meta name="twitter:card" content="summary_large_image">`);
+    if(ogTitle)lines.push(`<meta name="twitter:title" content="${esc(ogTitle)}">`);
+    if(desc)lines.push(`<meta name="twitter:description" content="${esc(desc)}">`);
+    if(ogImage)lines.push(`<meta name="twitter:image" content="${esc(ogImage)}">`);
+  }
+  document.getElementById('output').textContent=lines.join('\n');
+}
+document.addEventListener('DOMContentLoaded',()=>{update();initToolPage('meta-generator');});
+</script>
+</body></html>

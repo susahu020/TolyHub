@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Age Calculator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free age calculator. Calculate exact age in years, months, days, hours, and minutes from your date of birth. Find next birthday too.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#calculator-tools">Calculators</a> › Age Calculator</div>
+        <h1>🎂 Age Calculator</h1>
+        <p>Calculate your exact age in years, months, days, and more. Find out how many days until your next birthday.</p>
+        <a href="../../blog/age-calculator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Enter Dates</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Date of Birth</label>
+              <input type="date" id="dob" onchange="calculate()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Age at Date (defaults to today)</label>
+              <input type="date" id="ref-date" onchange="calculate()">
+            </div>
+          </div>
+          <div class="tool-actions mt-1">
+            <button class="btn btn-primary" onclick="calculate()">🎂 Calculate Age</button>
+            <button class="btn btn-secondary btn-sm" onclick="setToday()">📅 Use Today</button>
+          </div>
+        </div>
+
+        <div id="results" style="display:none;">
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-val" id="r-years">—</div><div class="stat-lbl">Years</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-months">—</div><div class="stat-lbl">Months</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-days">—</div><div class="stat-lbl">Days</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-weeks">—</div><div class="stat-lbl">Total Weeks</div></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-val" id="r-tdays">—</div><div class="stat-lbl">Total Days</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-hours">—</div><div class="stat-lbl">Total Hours</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-mins">—</div><div class="stat-lbl">Total Minutes</div></div>
+          </div>
+
+          <div class="tool-panel">
+            <div class="panel-title">Birthday Details</div>
+            <div id="bday-info" style="font-size:14px;line-height:2;color:var(--text2);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function setToday(){
+  document.getElementById('ref-date').value=new Date().toISOString().split('T')[0];
+  calculate();
+}
+function calculate(){
+  const dobVal=document.getElementById('dob').value;
+  if(!dobVal){toast('Please enter your date of birth','danger');return;}
+  const dob=new Date(dobVal);
+  const refVal=document.getElementById('ref-date').value;
+  const ref=refVal?new Date(refVal):new Date();
+  if(dob>ref){toast('Date of birth cannot be in the future','danger');return;}
+
+  // Years, months, days
+  let years=ref.getFullYear()-dob.getFullYear();
+  let months=ref.getMonth()-dob.getMonth();
+  let days=ref.getDate()-dob.getDate();
+  if(days<0){months--;const prevMonth=new Date(ref.getFullYear(),ref.getMonth(),0);days+=prevMonth.getDate();}
+  if(months<0){years--;months+=12;}
+
+  // Total
+  const msPerDay=86400000;
+  const totalDays=Math.floor((ref-dob)/msPerDay);
+  const totalWeeks=Math.floor(totalDays/7);
+  const totalHours=totalDays*24;
+  const totalMins=totalHours*60;
+
+  document.getElementById('r-years').textContent=years.toLocaleString();
+  document.getElementById('r-months').textContent=months;
+  document.getElementById('r-days').textContent=days;
+  document.getElementById('r-weeks').textContent=totalWeeks.toLocaleString();
+  document.getElementById('r-tdays').textContent=totalDays.toLocaleString();
+  document.getElementById('r-hours').textContent=totalHours.toLocaleString();
+  document.getElementById('r-mins').textContent=totalMins.toLocaleString();
+
+  // Birthday info
+  const today=new Date();
+  const thisYearBday=new Date(today.getFullYear(),dob.getMonth(),dob.getDate());
+  const nextBday=thisYearBday>today?thisYearBday:new Date(today.getFullYear()+1,dob.getMonth(),dob.getDate());
+  const daysToNext=Math.ceil((nextBday-today)/msPerDay);
+  const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dobDay=dayNames[dob.getDay()];
+  const zodiac=getZodiac(dob.getMonth()+1,dob.getDate());
+
+  document.getElementById('bday-info').innerHTML=`
+    <div>🗓️ Born on a <strong>${dobDay}</strong></div>
+    <div>♾️ Zodiac sign: <strong>${zodiac}</strong></div>
+    <div>🎂 Next birthday: <strong>${monthNames[nextBday.getMonth()]} ${nextBday.getDate()}, ${nextBday.getFullYear()}</strong></div>
+    <div>⏳ Days until next birthday: <strong>${daysToNext} day${daysToNext!==1?'s':''}</strong>${daysToNext===0?' 🎉 Happy Birthday!':''}</div>
+    <div>🌟 You will turn / turned <strong>${years+1} years old</strong> in ${nextBday.getFullYear()}</div>
+  `;
+  document.getElementById('results').style.display='block';
+}
+function getZodiac(m,d){
+  const signs=[['Capricorn',1,19],['Aquarius',2,18],['Pisces',3,20],['Aries',4,19],['Taurus',5,20],['Gemini',6,20],['Cancer',7,22],['Leo',8,22],['Virgo',9,22],['Libra',10,22],['Scorpio',11,21],['Sagittarius',12,21],['Capricorn',12,31]];
+  for(const [sign,em,ed] of signs){if(m<em||(m===em&&d<=ed))return sign;}
+  return'Capricorn';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('ref-date').value=today;
+  initToolPage('age-calculator');
+});
+</script>
+</body></html>

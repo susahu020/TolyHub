@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Code Generator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free QR code generator. Create QR codes for URLs, text, WiFi, email, phone numbers. Download as PNG instantly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#productivity-tools">Productivity</a> › QR Code Generator</div>
+        <h1>📱 QR Code Generator</h1>
+        <p>Generate QR codes for URLs, text, WiFi credentials, emails, and phone numbers. Download as PNG for free.</p>
+        <a href="../../blog/qr-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Content Type</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;">
+            <button class="btn btn-primary btn-sm" onclick="setMode('url',this)">🔗 URL</button>
+            <button class="btn btn-secondary btn-sm" onclick="setMode('text',this)">📝 Text</button>
+            <button class="btn btn-secondary btn-sm" onclick="setMode('wifi',this)">📶 WiFi</button>
+            <button class="btn btn-secondary btn-sm" onclick="setMode('email',this)">📧 Email</button>
+            <button class="btn btn-secondary btn-sm" onclick="setMode('phone',this)">📞 Phone</button>
+            <button class="btn btn-secondary btn-sm" onclick="setMode('sms',this)">💬 SMS</button>
+          </div>
+          <div id="input-url" class="mode-form">
+            <div class="form-group"><label class="form-label">URL</label><input type="url" id="url-input" placeholder="https://example.com" oninput="debouncedGenerate()"></div>
+          </div>
+          <div id="input-text" class="mode-form" style="display:none;">
+            <div class="form-group"><label class="form-label">Text</label><textarea id="text-input" rows="4" placeholder="Enter any text…" oninput="debouncedGenerate()"></textarea></div>
+          </div>
+          <div id="input-wifi" class="mode-form" style="display:none;">
+            <div class="form-group"><label class="form-label">Network Name (SSID)</label><input type="text" id="wifi-ssid" placeholder="MyWiFiNetwork" oninput="debouncedGenerate()"></div>
+            <div class="form-group"><label class="form-label">Password</label><input type="text" id="wifi-pass" placeholder="WiFiPassword123" oninput="debouncedGenerate()"></div>
+            <div class="form-group"><label class="form-label">Security</label><select id="wifi-sec" onchange="debouncedGenerate()"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="">None</option></select></div>
+          </div>
+          <div id="input-email" class="mode-form" style="display:none;">
+            <div class="form-group"><label class="form-label">Email Address</label><input type="email" id="email-addr" placeholder="hello@example.com" oninput="debouncedGenerate()"></div>
+            <div class="form-group"><label class="form-label">Subject (optional)</label><input type="text" id="email-subj" placeholder="Hello!" oninput="debouncedGenerate()"></div>
+            <div class="form-group"><label class="form-label">Body (optional)</label><textarea id="email-body" rows="2" placeholder="Email body…" oninput="debouncedGenerate()"></textarea></div>
+          </div>
+          <div id="input-phone" class="mode-form" style="display:none;">
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" id="phone-num" placeholder="+91-9876543210" oninput="debouncedGenerate()"></div>
+          </div>
+          <div id="input-sms" class="mode-form" style="display:none;">
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" id="sms-num" placeholder="+91-9876543210" oninput="debouncedGenerate()"></div>
+            <div class="form-group"><label class="form-label">Message (optional)</label><textarea id="sms-msg" rows="2" placeholder="Your message…" oninput="debouncedGenerate()"></textarea></div>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Customization</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Size</label>
+              <select id="qr-size" onchange="generate()">
+                <option value="128">Small (128px)</option>
+                <option value="200" selected>Medium (200px)</option>
+                <option value="256">Large (256px)</option>
+                <option value="512">Extra Large (512px)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Error Correction</label>
+              <select id="qr-ec" onchange="generate()">
+                <option value="L">Low (7%)</option>
+                <option value="M" selected>Medium (15%)</option>
+                <option value="Q">Quartile (25%)</option>
+                <option value="H">High (30%)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Dark Color</label>
+              <input type="color" id="qr-dark" value="#000000" onchange="generate()" style="height:42px;cursor:pointer;">
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Light Color</label>
+              <input type="color" id="qr-light" value="#ffffff" onchange="generate()" style="height:42px;cursor:pointer;">
+            </div>
+          </div>
+        </div>
+
+        <div id="qr-output" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">Your QR Code</div>
+            <button class="btn btn-primary btn-sm" onclick="downloadQR()">⬇ Download PNG</button>
+          </div>
+          <div style="display:flex;justify-content:center;padding:1rem;">
+            <div id="qr-container" style="background:white;padding:16px;border-radius:var(--radius-sm);display:inline-block;box-shadow:var(--shadow);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let currentMode='url', qrInstance=null, debTimer;
+function setMode(mode,btn){
+  currentMode=mode;
+  document.querySelectorAll('.mode-form').forEach(f=>f.style.display='none');
+  document.getElementById('input-'+mode).style.display='block';
+  document.querySelectorAll('[onclick*="setMode"]').forEach(b=>b.className='btn btn-secondary btn-sm');
+  btn.className='btn btn-primary btn-sm';
+  document.getElementById('qr-output').style.display='none';
+}
+function getContent(){
+  const g=id=>document.getElementById(id)?.value?.trim()||'';
+  switch(currentMode){
+    case 'url': return g('url-input');
+    case 'text': return g('text-input');
+    case 'wifi': return `WIFI:T:${g('wifi-sec')};S:${g('wifi-ssid')};P:${g('wifi-pass')};;`;
+    case 'email': return `mailto:${g('email-addr')}?subject=${encodeURIComponent(g('email-subj'))}&body=${encodeURIComponent(g('email-body'))}`;
+    case 'phone': return `tel:${g('phone-num')}`;
+    case 'sms': return `sms:${g('sms-num')}${g('sms-msg')?'?body='+encodeURIComponent(g('sms-msg')):''}`;
+    default: return '';
+  }
+}
+function debouncedGenerate(){clearTimeout(debTimer);debTimer=setTimeout(generate,500);}
+function generate(){
+  const content=getContent();
+  if(!content){document.getElementById('qr-output').style.display='none';return;}
+  const size=parseInt(document.getElementById('qr-size').value);
+  const dark=document.getElementById('qr-dark').value;
+  const light=document.getElementById('qr-light').value;
+  const ec=document.getElementById('qr-ec').value;
+  const container=document.getElementById('qr-container');
+  container.innerHTML='';
+  try{
+    new QRCode(container,{text:content,width:size,height:size,colorDark:dark,colorLight:light,correctLevel:QRCode.CorrectLevel[ec]});
+    document.getElementById('qr-output').style.display='block';
+  }catch(e){toast('QR content too long or invalid','danger');}
+}
+function downloadQR(){
+  const canvas=document.querySelector('#qr-container canvas');
+  const img=document.querySelector('#qr-container img');
+  if(canvas){const a=document.createElement('a');a.download='qrcode.png';a.href=canvas.toDataURL('image/png');a.click();}
+  else if(img){const a=document.createElement('a');a.download='qrcode.png';a.href=img.src;a.click();}
+  else toast('Generate a QR code first','danger');
+}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('qr-generator'));
+</script>
+</body></html>

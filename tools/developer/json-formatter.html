@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JSON Formatter & Beautifier — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online JSON formatter and beautifier. Format, validate and highlight JSON with 2 or 4 space indentation. No login required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.json-key{color:#7c3aed;}
+.json-str{color:#059669;}
+.json-num{color:#2563eb;}
+.json-bool{color:#d97706;}
+.json-null{color:#dc2626;}
+[data-theme="dark"] .json-key{color:#c084fc;}
+[data-theme="dark"] .json-str{color:#34d399;}
+[data-theme="dark"] .json-num{color:#60a5fa;}
+[data-theme="dark"] .json-bool{color:#fbbf24;}
+[data-theme="dark"] .json-null{color:#f87171;}
+.json-output{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-family:var(--font-mono);font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;overflow:auto;max-height:500px;min-height:100px;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › JSON Formatter</div>
+        <h1>{ } JSON Formatter</h1>
+        <p>Paste your JSON to format, beautify, and syntax-highlight it. Instantly see errors and fix them.</p>
+        <a href="../../blog/json-formatter.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;">Input JSON</div>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-secondary btn-sm" onclick="loadSample()">📄 Sample</button>
+              <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+              <button class="btn btn-secondary btn-sm" onclick="clearAll()">🗑 Clear</button>
+            </div>
+          </div>
+          <textarea id="input" class="w-full mono" style="min-height:180px;" placeholder='{"name":"John","age":30,"city":"New York"}'></textarea>
+        </div>
+
+        <div class="tool-panel" style="padding:1rem 1.25rem;">
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <span style="font-size:13px;font-weight:600;">Indent:</span>
+            <label style="display:flex;align-items:center;gap:5px;font-size:14px;cursor:pointer;"><input type="radio" name="indent" value="2" checked> 2 spaces</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:14px;cursor:pointer;"><input type="radio" name="indent" value="4"> 4 spaces</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:14px;cursor:pointer;"><input type="radio" name="indent" value="tab"> Tab</label>
+            <div class="tool-actions" style="margin-left:auto;">
+              <button class="btn btn-primary" onclick="format()">✨ Format JSON</button>
+              <button class="btn btn-secondary" onclick="minify()">📦 Minify</button>
+              <button class="btn btn-secondary" onclick="validate()">✅ Validate</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="error-box" class="alert alert-danger" style="display:none;"></div>
+        <div id="success-box" class="alert alert-success" style="display:none;"></div>
+
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+            <div class="panel-title" style="margin:0;" id="output-label">Formatted JSON</div>
+            <div style="display:flex;gap:8px;">
+              <button class="copy-btn" onclick="copyText(document.getElementById('raw-output').value,this)">📋 Copy</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadText(document.getElementById('raw-output').value,'formatted.json')">⬇ Download</button>
+            </div>
+          </div>
+          <div class="json-output" id="json-output"></div>
+          <textarea id="raw-output" style="display:none;"></textarea>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function getIndent(){const v=document.querySelector('input[name="indent"]:checked').value;return v==='tab'?'\t':' '.repeat(parseInt(v));}
+
+function syntaxHighlight(json){
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, m=>{
+    let cls='json-num';
+    if(/^"/.test(m)){cls=/:$/.test(m)?'json-key':'json-str';}
+    else if(/true|false/.test(m))cls='json-bool';
+    else if(/null/.test(m))cls='json-null';
+    return`<span class="${cls}">${m.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`;
+  });
+}
+
+function showError(msg){document.getElementById('error-box').innerHTML='❌ '+msg;document.getElementById('error-box').style.display='flex';document.getElementById('success-box').style.display='none';}
+function showSuccess(msg){document.getElementById('success-box').innerHTML='✅ '+msg;document.getElementById('success-box').style.display='flex';document.getElementById('error-box').style.display='none';}
+function hideMessages(){document.getElementById('error-box').style.display='none';document.getElementById('success-box').style.display='none';}
+
+function format(){
+  hideMessages();
+  const input=document.getElementById('input').value.trim();
+  if(!input){toast('Please enter some JSON','danger');return;}
+  try{
+    const parsed=JSON.parse(input);
+    const formatted=JSON.stringify(parsed,null,getIndent());
+    document.getElementById('json-output').innerHTML=syntaxHighlight(formatted);
+    document.getElementById('raw-output').value=formatted;
+    document.getElementById('output-label').textContent='Formatted JSON';
+    document.getElementById('output-panel').style.display='block';
+    showSuccess(`Valid JSON · ${countKeys(parsed)} keys · ${formatted.length} characters`);
+  }catch(e){showError(e.message);}
+}
+function minify(){
+  hideMessages();
+  const input=document.getElementById('input').value.trim();
+  if(!input){toast('Please enter some JSON','danger');return;}
+  try{
+    const minified=JSON.stringify(JSON.parse(input));
+    document.getElementById('json-output').innerHTML=syntaxHighlight(minified);
+    document.getElementById('raw-output').value=minified;
+    document.getElementById('output-label').textContent='Minified JSON';
+    document.getElementById('output-panel').style.display='block';
+    showSuccess(`Minified · ${minified.length} chars (saved ${document.getElementById('input').value.length-minified.length} chars)`);
+  }catch(e){showError(e.message);}
+}
+function validate(){
+  hideMessages();
+  const input=document.getElementById('input').value.trim();
+  if(!input){toast('Please enter some JSON','danger');return;}
+  try{JSON.parse(input);showSuccess('This is valid JSON! ✨');}
+  catch(e){showError('Invalid JSON: '+e.message);}
+}
+function countKeys(obj,count=0){
+  if(typeof obj==='object'&&obj!==null){Object.values(obj).forEach(v=>{count++;count+=countKeys(v)-1;});}
+  return count;
+}
+function loadSample(){
+  document.getElementById('input').value=`{"name":"Jane Doe","age":28,"email":"jane@example.com","address":{"street":"123 Main St","city":"Mumbai","country":"India"},"skills":["JavaScript","Python","SEO"],"active":true}`;
+}
+function clearAll(){document.getElementById('input').value='';document.getElementById('output-panel').style.display='none';hideMessages();}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('json-formatter'));
+</script>
+</body></html>

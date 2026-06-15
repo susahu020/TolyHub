@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Date Calculator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free date calculator. Find the difference between two dates, add or subtract days/weeks/months from any date. Instant results.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>.result-highlight{background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:14px 18px;font-size:18px;font-weight:800;color:var(--accent);margin-top:1rem;}</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#calculator-tools">Calculators</a> › Date Calculator</div>
+        <h1>📅 Date Calculator</h1>
+        <p>Find the difference between two dates, or add/subtract time from any date.</p>
+        <a href="../../blog/date-calculator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('diff',this)">📏 Date Difference</button>
+            <button class="tab-btn" onclick="switchTab('add',this)">➕ Add / Subtract</button>
+          </div>
+
+          <!-- Date Difference -->
+          <div id="tab-diff">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div class="form-group"><label class="form-label">Start Date</label><input type="date" id="diff-start" onchange="calcDiff()"></div>
+              <div class="form-group"><label class="form-label">End Date</label><input type="date" id="diff-end" onchange="calcDiff()"></div>
+            </div>
+            <div id="diff-result" style="display:none;">
+              <div class="stat-row">
+                <div class="stat-box"><div class="stat-val" id="d-years">—</div><div class="stat-lbl">Years</div></div>
+                <div class="stat-box"><div class="stat-val" id="d-months">—</div><div class="stat-lbl">Months</div></div>
+                <div class="stat-box"><div class="stat-val" id="d-days-rem">—</div><div class="stat-lbl">Days</div></div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-box"><div class="stat-val" id="d-total-days">—</div><div class="stat-lbl">Total Days</div></div>
+                <div class="stat-box"><div class="stat-val" id="d-weeks">—</div><div class="stat-lbl">Weeks</div></div>
+                <div class="stat-box"><div class="stat-val" id="d-workdays">—</div><div class="stat-lbl">Workdays (est.)</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add/Subtract -->
+          <div id="tab-add" style="display:none;">
+            <div class="form-group"><label class="form-label">Start Date</label><input type="date" id="add-start" onchange="calcAdd()"></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+              <div class="form-group"><label class="form-label">Years</label><input type="number" id="add-years" value="0" min="0" oninput="calcAdd()"></div>
+              <div class="form-group"><label class="form-label">Months</label><input type="number" id="add-months" value="0" min="0" oninput="calcAdd()"></div>
+              <div class="form-group"><label class="form-label">Days</label><input type="number" id="add-days" value="0" min="0" oninput="calcAdd()"></div>
+            </div>
+            <div style="display:flex;gap:1rem;">
+              <button class="btn btn-primary" onclick="setAddOp('add')">➕ Add</button>
+              <button class="btn btn-secondary" onclick="setAddOp('sub')">➖ Subtract</button>
+            </div>
+            <div id="add-result" style="display:none;" class="result-highlight"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let addOp='add';
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-diff').style.display=tab==='diff'?'block':'none';
+  document.getElementById('tab-add').style.display=tab==='add'?'block':'none';
+}
+function setAddOp(op){addOp=op;calcAdd();}
+
+function calcDiff(){
+  const s=document.getElementById('diff-start').value;
+  const e=document.getElementById('diff-end').value;
+  if(!s||!e)return;
+  const start=new Date(s),end=new Date(e);
+  const ms=Math.abs(end-start);
+  const totalDays=Math.round(ms/86400000);
+  const weeks=Math.floor(totalDays/7);
+
+  // Years/months/days
+  let d1=start<end?new Date(start):new Date(end);
+  let d2=start<end?new Date(end):new Date(start);
+  let years=d2.getFullYear()-d1.getFullYear();
+  let months=d2.getMonth()-d1.getMonth();
+  let days=d2.getDate()-d1.getDate();
+  if(days<0){months--;days+=new Date(d2.getFullYear(),d2.getMonth(),0).getDate();}
+  if(months<0){years--;months+=12;}
+
+  // Estimate workdays (Mon–Fri)
+  let workdays=0;
+  const cur=new Date(Math.min(start,end));
+  const fin=new Date(Math.max(start,end));
+  while(cur<=fin){const day=cur.getDay();if(day!==0&&day!==6)workdays++;cur.setDate(cur.getDate()+1);}
+
+  document.getElementById('d-years').textContent=years;
+  document.getElementById('d-months').textContent=months;
+  document.getElementById('d-days-rem').textContent=days;
+  document.getElementById('d-total-days').textContent=totalDays.toLocaleString();
+  document.getElementById('d-weeks').textContent=weeks.toLocaleString();
+  document.getElementById('d-workdays').textContent=workdays.toLocaleString();
+  document.getElementById('diff-result').style.display='block';
+}
+
+function calcAdd(){
+  const s=document.getElementById('add-start').value;
+  if(!s)return;
+  const years=parseInt(document.getElementById('add-years').value)||0;
+  const months=parseInt(document.getElementById('add-months').value)||0;
+  const days=parseInt(document.getElementById('add-days').value)||0;
+  const d=new Date(s);
+  if(addOp==='add'){d.setFullYear(d.getFullYear()+years);d.setMonth(d.getMonth()+months);d.setDate(d.getDate()+days);}
+  else{d.setFullYear(d.getFullYear()-years);d.setMonth(d.getMonth()-months);d.setDate(d.getDate()-days);}
+  const result=d.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const el=document.getElementById('add-result');
+  el.textContent=(addOp==='add'?'Result: ':'Result: ')+result;
+  el.style.display='block';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('diff-start').value=today;
+  document.getElementById('diff-end').value=today;
+  document.getElementById('add-start').value=today;
+  initToolPage('date-calculator');
+});
+</script>
+</body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Remove Duplicate Lines — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online duplicate line remover. Remove duplicate lines from any text instantly. Case-sensitive or insensitive options.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#text-tools">Text Tools</a> › Remove Duplicates</div>
+        <h1>🗑️ Remove Duplicate Lines</h1>
+        <p>Paste your text and instantly remove all duplicate lines. Keeps only unique lines.</p>
+        <a href="../../blog/remove-duplicates.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Input Text</div>
+          <textarea id="input" class="w-full mono" style="min-height:180px;" placeholder="Line 1&#10;Line 2&#10;Line 1&#10;Line 3&#10;Line 2"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value=''">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Options</div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <label class="toggle"><input type="checkbox" id="ignore-case"><div class="toggle-track"></div>Ignore Case</label>
+            <label class="toggle"><input type="checkbox" id="trim-lines" checked><div class="toggle-track"></div>Trim Whitespace</label>
+            <label class="toggle"><input type="checkbox" id="remove-empty" checked><div class="toggle-track"></div>Remove Empty Lines</label>
+            <label class="toggle"><input type="checkbox" id="keep-last"><div class="toggle-track"></div>Keep Last Occurrence</label>
+          </div>
+        </div>
+
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="removeDups()">🗑 Remove Duplicates</button>
+        </div>
+
+        <div id="output-panel" style="display:none;">
+          <div class="tool-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+              <div class="panel-title" style="margin:0;">Result</div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <span id="stats-text" style="font-size:12px;color:var(--text3);"></span>
+                <button class="copy-btn" onclick="copyText(document.getElementById('output').value,this)">📋 Copy</button>
+                <button class="btn btn-secondary btn-sm" onclick="downloadText(document.getElementById('output').value,'unique-lines.txt')">⬇ Download</button>
+              </div>
+            </div>
+            <textarea id="output" class="w-full mono" style="min-height:180px;" readonly></textarea>
+          </div>
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Total Lines</div></div>
+            <div class="stat-box"><div class="stat-val" id="s-unique">0</div><div class="stat-lbl">Unique Lines</div></div>
+            <div class="stat-box"><div class="stat-val" id="s-removed">0</div><div class="stat-lbl">Duplicates Removed</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function removeDups() {
+  let lines = document.getElementById('input').value.split('\n');
+  const total = lines.length;
+  const trim = document.getElementById('trim-lines').checked;
+  const ic = document.getElementById('ignore-case').checked;
+  const re = document.getElementById('remove-empty').checked;
+  const kl = document.getElementById('keep-last').checked;
+  if(trim) lines = lines.map(l=>l.trim());
+  if(re) lines = lines.filter(l=>l.trim());
+  if(!lines.length){toast('Please enter some text','danger');return;}
+  const seen = new Set();
+  let unique;
+  if(kl) {
+    lines.reverse();
+    unique = lines.filter(l=>{ const k=ic?l.toLowerCase():l; if(seen.has(k))return false; seen.add(k);return true; });
+    unique.reverse();
+  } else {
+    unique = lines.filter(l=>{ const k=ic?l.toLowerCase():l; if(seen.has(k))return false; seen.add(k);return true; });
+  }
+  const removed = total - unique.length;
+  document.getElementById('output').value = unique.join('\n');
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-unique').textContent = unique.length;
+  document.getElementById('s-removed').textContent = removed;
+  document.getElementById('output-panel').style.display = 'block';
+  toast(`Removed ${removed} duplicate${removed!==1?'s':''}`,'success');
+}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('remove-duplicates'));
+</script>
+</body></html>

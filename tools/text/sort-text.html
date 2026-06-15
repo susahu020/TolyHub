@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sort Text Lines — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online text line sorter. Sort lines A-Z, Z-A, by length, randomly, or numerically. Remove duplicates while sorting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#text-tools">Text Tools</a> › Sort Text Lines</div>
+        <h1>↕️ Sort Text Lines</h1>
+        <p>Sort lines of text in multiple ways — alphabetically, by length, numerically, or randomly.</p>
+        <a href="../../blog/sort-text.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Input (one item per line)</div>
+          <textarea id="input" class="w-full mono" style="min-height:180px;" placeholder="Apple&#10;Banana&#10;Cherry&#10;Date"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value=''">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Options</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+            <label class="toggle"><input type="checkbox" id="ignore-case"><div class="toggle-track"></div>Ignore Case</label>
+            <label class="toggle"><input type="checkbox" id="remove-dups"><div class="toggle-track"></div>Remove Duplicates</label>
+            <label class="toggle"><input type="checkbox" id="trim-lines"><div class="toggle-track"></div>Trim Whitespace</label>
+            <label class="toggle"><input type="checkbox" id="remove-empty"><div class="toggle-track"></div>Remove Empty Lines</label>
+          </div>
+        </div>
+
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="sort('az')">A → Z</button>
+          <button class="btn btn-primary" onclick="sort('za')">Z → A</button>
+          <button class="btn btn-secondary" onclick="sort('len-asc')">Shortest First</button>
+          <button class="btn btn-secondary" onclick="sort('len-desc')">Longest First</button>
+          <button class="btn btn-secondary" onclick="sort('num')">Numeric</button>
+          <button class="btn btn-secondary" onclick="sort('rand')">🎲 Random</button>
+          <button class="btn btn-secondary" onclick="sort('rev')">↩ Reverse</button>
+        </div>
+
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <div class="panel-title" style="margin:0;" id="output-label">Sorted Result</div>
+            <div style="display:flex;gap:8px;">
+              <span id="line-count" style="font-size:12px;color:var(--text3);align-self:center;"></span>
+              <button class="copy-btn" onclick="copyResult(this)">📋 Copy</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadResult()">⬇ Download</button>
+            </div>
+          </div>
+          <textarea id="output" class="w-full mono" style="min-height:180px;" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function getLines() {
+  let lines = document.getElementById('input').value.split('\n');
+  if(document.getElementById('trim-lines').checked) lines = lines.map(l=>l.trim());
+  if(document.getElementById('remove-empty').checked) lines = lines.filter(l=>l.trim());
+  if(document.getElementById('remove-dups').checked) lines = [...new Set(lines)];
+  return lines;
+}
+function sort(type) {
+  let lines = getLines();
+  if(!lines.length || (lines.length===1 && !lines[0])){toast('Please enter some text','danger');return;}
+  const ic = document.getElementById('ignore-case').checked;
+  const labels = {az:'A → Z',za:'Z → A','len-asc':'Shortest First','len-desc':'Longest First',num:'Numeric Sort',rand:'Random Order',rev:'Reversed Order'};
+  switch(type){
+    case 'az': lines.sort((a,b)=>(ic?a.toLowerCase():a).localeCompare(ic?b.toLowerCase():b)); break;
+    case 'za': lines.sort((a,b)=>(ic?b.toLowerCase():b).localeCompare(ic?a.toLowerCase():a)); break;
+    case 'len-asc': lines.sort((a,b)=>a.length-b.length); break;
+    case 'len-desc': lines.sort((a,b)=>b.length-a.length); break;
+    case 'num': lines.sort((a,b)=>parseFloat(a)-parseFloat(b)); break;
+    case 'rand': for(let i=lines.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[lines[i],lines[j]]=[lines[j],lines[i]];} break;
+    case 'rev': lines.reverse(); break;
+  }
+  const result = lines.join('\n');
+  document.getElementById('output').value = result;
+  document.getElementById('output-label').textContent = labels[type];
+  document.getElementById('line-count').textContent = `${lines.length} lines`;
+  document.getElementById('output-panel').style.display = 'block';
+}
+function copyResult(btn){copyText(document.getElementById('output').value,btn);}
+function downloadResult(){downloadText(document.getElementById('output').value,'sorted-text.txt');}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('sort-text'));
+</script>
+</body></html>

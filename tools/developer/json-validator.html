@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JSON Validator — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online JSON validator. Check if your JSON is valid and see detailed error messages with line numbers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › JSON Validator</div>
+        <h1>✅ JSON Validator</h1>
+        <p>Paste your JSON to check if it's valid. Get clear, detailed error messages to fix issues fast.</p>
+        <a href="../../blog/json-validator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Input JSON</div>
+          <textarea id="input" class="w-full mono" style="min-height:220px;" placeholder='Paste your JSON here…' oninput="liveValidate()"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-primary" onclick="validate()">✅ Validate JSON</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadSample()">📄 Sample</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';clearResult()">🗑 Clear</button>
+          </div>
+        </div>
+        <div id="result-panel" style="display:none;"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let timer;
+function liveValidate(){clearTimeout(timer);timer=setTimeout(()=>{if(document.getElementById('input').value.trim())validate();},600);}
+function validate(){
+  const input=document.getElementById('input').value.trim();
+  const panel=document.getElementById('result-panel');
+  if(!input){panel.style.display='none';return;}
+  try{
+    const parsed=JSON.parse(input);
+    const info=getInfo(parsed);
+    panel.innerHTML=`<div class="alert alert-success" style="flex-direction:column;align-items:flex-start;gap:8px;">
+      <div style="font-size:16px;font-weight:700;">✅ Valid JSON</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        ${info.map(i=>`<span style="font-size:13px;background:rgba(255,255,255,0.3);padding:2px 10px;border-radius:99px;">${i}</span>`).join('')}
+      </div>
+    </div>`;
+  }catch(e){
+    const pos=getErrorPos(document.getElementById('input').value,e);
+    panel.innerHTML=`<div class="alert alert-danger" style="flex-direction:column;align-items:flex-start;gap:8px;">
+      <div style="font-size:16px;font-weight:700;">❌ Invalid JSON</div>
+      <div style="font-size:14px;">${e.message}</div>
+      ${pos?`<div style="font-size:13px;">📍 ${pos}</div>`:''}
+    </div>`;
+  }
+  panel.style.display='block';
+}
+function getInfo(obj){
+  const type=Array.isArray(obj)?'Array':typeof obj;
+  const keys=typeof obj==='object'&&obj!==null?Object.keys(obj).length:0;
+  return[`Type: ${type}`,keys?`Top-level keys: ${keys}`:'',`Size: ${JSON.stringify(obj).length} chars`].filter(Boolean);
+}
+function getErrorPos(text,err){
+  const m=err.message.match(/position (\d+)/);
+  if(!m)return null;
+  const pos=parseInt(m[1]);
+  const lines=text.slice(0,pos).split('\n');
+  return`Line ${lines.length}, Column ${lines[lines.length-1].length+1}`;
+}
+function clearResult(){document.getElementById('result-panel').style.display='none';}
+function loadSample(){document.getElementById('input').value=`{"valid":true,"example":"this is valid JSON","numbers":[1,2,3],"nested":{"key":"value"}}`;validate();}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('json-validator'));
+</script>
+</body></html>

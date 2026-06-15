@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Base64 Decoder — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online Base64 decoder. Decode Base64 encoded strings back to readable text instantly in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › Base64 Decoder</div>
+        <h1>🔓 Base64 Decoder</h1>
+        <p>Decode Base64 encoded strings back to readable text. Fully processed in your browser.</p>
+        <a href="../../blog/base64-decoder.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Base64 to Decode</div>
+          <textarea id="input" class="w-full mono" style="min-height:140px;" placeholder="Paste Base64 encoded string here…" oninput="liveDecode()"></textarea>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-primary" onclick="decode()">🔓 Decode Base64</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';document.getElementById('output-panel').style.display='none';document.getElementById('error-box').style.display='none'">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+            <label class="toggle" style="margin-left:auto;"><input type="checkbox" id="url-safe"><div class="toggle-track"></div>URL-Safe</label>
+          </div>
+        </div>
+        <div id="error-box" class="alert alert-danger" style="display:none;"></div>
+        <div id="output-panel" style="display:none;" class="tool-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+            <div class="panel-title" style="margin:0;">Decoded Text</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('output').value,this)">📋 Copy</button>
+          </div>
+          <textarea id="output" class="w-full mono" style="min-height:100px;" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+let timer;
+function liveDecode(){clearTimeout(timer);timer=setTimeout(decode,400);}
+function decode(){
+  document.getElementById('error-box').style.display='none';
+  let input=document.getElementById('input').value.trim();
+  if(!input){document.getElementById('output-panel').style.display='none';return;}
+  try{
+    if(document.getElementById('url-safe').checked) input=input.replace(/-/g,'+').replace(/_/g,'/');
+    const pad=input.length%4;
+    if(pad)input+=Array(4-pad+1).join('=');
+    const decoded=decodeURIComponent(escape(atob(input)));
+    document.getElementById('output').value=decoded;
+    document.getElementById('output-panel').style.display='block';
+  }catch(e){
+    document.getElementById('error-box').innerHTML='❌ Invalid Base64 string. Make sure the input is valid Base64 encoded text.';
+    document.getElementById('error-box').style.display='flex';
+    document.getElementById('output-panel').style.display='none';
+  }
+}
+async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();decode();}catch{toast('Paste permission denied','danger');}}
+document.addEventListener('DOMContentLoaded',()=>initToolPage('base64-decoder'));
+</script>
+</body></html>

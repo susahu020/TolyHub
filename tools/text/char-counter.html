@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Character Counter — Free Online Tool | ToolBox</title>
+<meta name="description" content="Free online character counter. Count characters with/without spaces, words, lines. Perfect for Twitter, Instagram, SMS limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#text-tools">Text Tools</a> › Character Counter</div>
+        <h1>🔤 Character Counter</h1>
+        <p>Count characters, words, and lines. Check limits for Twitter (280), Instagram (2,200), SMS (160), and more.</p>
+        <a href="../../blog/char-counter.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="panel-title">Your Text</div>
+          <div style="position:relative;">
+            <textarea id="input" class="w-full" style="min-height:180px;" placeholder="Type or paste your text here…" oninput="analyze()"></textarea>
+            <span id="live-count" style="position:absolute;bottom:10px;right:12px;font-size:12px;color:var(--text3);font-weight:600;">0</span>
+          </div>
+          <div class="tool-actions mt-2">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('input').value='';analyze()">🗑 Clear</button>
+            <button class="btn btn-secondary btn-sm" onclick="pasteText()">📋 Paste</button>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-val" id="s-chars">0</div><div class="stat-lbl">Characters</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-nospace">0</div><div class="stat-lbl">No Spaces</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-words">0</div><div class="stat-lbl">Words</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-lines">0</div><div class="stat-lbl">Lines</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-spaces">0</div><div class="stat-lbl">Spaces</div></div>
+          <div class="stat-box"><div class="stat-val" id="s-paras">0</div><div class="stat-lbl">Paragraphs</div></div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="panel-title">Platform Limits</div>
+          <div id="limits-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+const LIMITS = [
+  { name:'Twitter / X', limit:280, icon:'🐦' },
+  { name:'Instagram Caption', limit:2200, icon:'📸' },
+  { name:'SMS Message', limit:160, icon:'💬' },
+  { name:'Meta Description', limit:160, icon:'🔍' },
+  { name:'Page Title (SEO)', limit:60, icon:'🏷️' },
+  { name:'LinkedIn Post', limit:3000, icon:'💼' },
+  { name:'YouTube Title', limit:100, icon:'▶️' },
+  { name:'Facebook Post', limit:63206, icon:'👍' },
+];
+function analyze() {
+  const text = document.getElementById('input').value;
+  const chars = text.length;
+  const noSpace = text.replace(/\s/g,'').length;
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  const lines = text === '' ? 0 : text.split('\n').length;
+  const spaces = (text.match(/ /g)||[]).length;
+  const paras = text.trim() === '' ? 0 : text.split(/\n\s*\n/).filter(p=>p.trim()).length || (text.trim() ? 1 : 0);
+
+  document.getElementById('live-count').textContent = chars;
+  document.getElementById('s-chars').textContent = chars.toLocaleString();
+  document.getElementById('s-nospace').textContent = noSpace.toLocaleString();
+  document.getElementById('s-words').textContent = words.toLocaleString();
+  document.getElementById('s-lines').textContent = lines.toLocaleString();
+  document.getElementById('s-spaces').textContent = spaces.toLocaleString();
+  document.getElementById('s-paras').textContent = paras.toLocaleString();
+
+  document.getElementById('limits-grid').innerHTML = LIMITS.map(l => {
+    const pct = Math.min(100, (chars/l.limit*100)).toFixed(0);
+    const over = chars > l.limit;
+    const color = over ? 'var(--danger)' : pct > 80 ? 'var(--warning)' : 'var(--accent)';
+    return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:13px;font-weight:600;">${l.icon} ${l.name}</span>
+        <span style="font-size:12px;color:${over?'var(--danger)':'var(--text3)'};">${chars}/${l.limit}</span>
+      </div>
+      <div class="progress"><div class="progress-bar" style="width:${pct}%;background:${color};"></div></div>
+      <div style="font-size:11px;color:${over?'var(--danger)':'var(--text3)'};margin-top:4px;">${over?'⚠️ '+(chars-l.limit)+' over limit':'✅ '+(l.limit-chars)+' remaining'}</div>
+    </div>`;
+  }).join('');
+}
+async function pasteText() {
+  try { document.getElementById('input').value = await navigator.clipboard.readText(); analyze(); } catch { toast('Paste permission denied','danger'); }
+}
+document.addEventListener('DOMContentLoaded', () => { analyze(); initToolPage('char-counter'); });
+</script>
+</body></html>
