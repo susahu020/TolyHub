@@ -221,6 +221,181 @@ function downloadText(content, filename) {
   URL.revokeObjectURL(a.href);
 }
 
+// ── CUSTOM DATEPICKER ──
+// Attach a styled calendar popover to any <input data-datepicker>.
+// The input keeps a real ISO value (YYYY-MM-DD) in dataset.value / .value,
+// shows a human-friendly format, and fires a 'change' event on selection.
+const Datepicker = {
+  MONTHS: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+  DAYS: ['Su','Mo','Tu','We','Th','Fr','Sa'],
+
+  formatDisplay(d) {
+    return `${this.MONTHS[d.getMonth()].slice(0,3)} ${d.getDate()}, ${d.getFullYear()}`;
+  },
+  toISO(d) {
+    const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), day = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${day}`;
+  },
+  fromISO(s) {
+    if (!s) return null;
+    const [y,m,d] = s.split('-').map(Number);
+    return new Date(y, m-1, d);
+  },
+
+  init(input) {
+    if (input.dataset.dpInit) return;
+    input.dataset.dpInit = '1';
+    input.readOnly = true;
+    input.classList.add('dp-input');
+    if (!input.placeholder) input.placeholder = 'Select date…';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'dp-wrap';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+
+    const icon = document.createElement('span');
+    icon.className = 'dp-icon';
+    icon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+    wrap.appendChild(icon);
+
+    const panel = document.createElement('div');
+    panel.className = 'dp-panel hidden';
+    wrap.appendChild(panel);
+
+    // Initial view date: existing value, or today
+    let viewDate = input.value ? this.fromISO(input.value) : new Date();
+    let selected = input.value ? this.fromISO(input.value) : null;
+
+    const minDate = input.dataset.dpMin ? this.fromISO(input.dataset.dpMin) : null;
+    const maxDate = input.dataset.dpMax ? this.fromISO(input.dataset.dpMax) : null;
+
+    const render = () => {
+      const year = viewDate.getFullYear();
+      const month = viewDate.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayISO = this.toISO(new Date());
+
+      let cells = '';
+      for (let i = 0; i < firstDay; i++) cells += '<span class="dp-day dp-empty"></span>';
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cellDate = new Date(year, month, d);
+        const iso = this.toISO(cellDate);
+        let cls = 'dp-day';
+        if (iso === todayISO) cls += ' dp-today';
+        if (selected && iso === this.toISO(selected)) cls += ' dp-selected';
+        if ((minDate && cellDate < minDate) || (maxDate && cellDate > maxDate)) cls += ' dp-disabled';
+        cells += `<span class="${cls}" data-iso="${iso}">${d}</span>`;
+      }
+
+      // Build year options (±100 years from today, reasonable for birthdates)
+      const curYear = new Date().getFullYear();
+      let yearOpts = '';
+      for (let y = curYear + 1; y >= curYear - 120; y--) {
+        yearOpts += `<option value="${y}"${y === year ? ' selected' : ''}>${y}</option>`;
+      }
+      let monthOpts = this.MONTHS.map((m, i) => `<option value="${i}"${i === month ? ' selected' : ''}>${m}</option>`).join('');
+
+      panel.innerHTML = `
+        <div class="dp-header">
+          <button type="button" class="dp-nav" data-dir="-1" aria-label="Previous month">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="dp-header-selects">
+            <select class="dp-month-select">${monthOpts}</select>
+            <select class="dp-year-select">${yearOpts}</select>
+          </div>
+          <button type="button" class="dp-nav" data-dir="1" aria-label="Next month">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="dp-weekdays">${this.DAYS.map(d => `<span>${d}</span>`).join('')}</div>
+        <div class="dp-days">${cells}</div>
+        <div class="dp-footer">
+          <button type="button" class="dp-today-btn">Today</button>
+          <button type="button" class="dp-clear-btn">Clear</button>
+        </div>`;
+
+      panel.querySelector('.dp-month-select').addEventListener('change', e => {
+        viewDate = new Date(viewDate.getFullYear(), parseInt(e.target.value), 1);
+        render();
+      });
+      panel.querySelector('.dp-year-select').addEventListener('change', e => {
+        viewDate = new Date(parseInt(e.target.value), viewDate.getMonth(), 1);
+        render();
+      });
+      panel.querySelectorAll('.dp-nav').forEach(btn => {
+        btn.addEventListener('click', () => {
+          viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + parseInt(btn.dataset.dir), 1);
+          render();
+        });
+      });
+      panel.querySelectorAll('.dp-day:not(.dp-empty):not(.dp-disabled)').forEach(cell => {
+        cell.addEventListener('click', () => {
+          selected = this.fromISO(cell.dataset.iso);
+          input.value = this.formatDisplay(selected);
+          input.dataset.value = cell.dataset.iso;
+          close();
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      });
+      panel.querySelector('.dp-today-btn').addEventListener('click', () => {
+        const t = new Date();
+        selected = t;
+        viewDate = t;
+        input.value = this.formatDisplay(t);
+        input.dataset.value = this.toISO(t);
+        close();
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      panel.querySelector('.dp-clear-btn').addEventListener('click', () => {
+        selected = null;
+        input.value = '';
+        input.dataset.value = '';
+        close();
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    };
+
+    const open = () => { render(); panel.classList.remove('hidden'); wrap.classList.add('dp-open'); };
+    const close = () => { panel.classList.add('hidden'); wrap.classList.remove('dp-open'); };
+
+    input.addEventListener('click', () => panel.classList.contains('hidden') ? open() : close());
+    icon.addEventListener('click', () => panel.classList.contains('hidden') ? open() : close());
+    document.addEventListener('click', e => {
+      if (!wrap.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') close();
+    });
+
+    // If the input already had a value set programmatically, reflect it
+    if (input.value && /^\d{4}-\d{2}-\d{2}$/.test(input.value)) {
+      const d = this.fromISO(input.value);
+      selected = d; viewDate = d;
+      input.dataset.value = input.value;
+      input.value = this.formatDisplay(d);
+    }
+
+    // Expose a setter for programmatic updates (e.g. "Use Today" buttons)
+    input._dpSet = (iso) => {
+      if (!iso) {
+        selected = null; input.value = ''; input.dataset.value = '';
+        return;
+      }
+      const d = this.fromISO(iso);
+      selected = d; viewDate = d;
+      input.value = this.formatDisplay(d);
+      input.dataset.value = iso;
+    };
+  },
+
+  initAll() {
+    document.querySelectorAll('input[data-datepicker]').forEach(inp => this.init(inp));
+  }
+};
+
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
   theme.init();

@@ -1,264 +1,257 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Blog — Guides &amp; Tutorials for SEO, Developer &amp; Online Tools | SeoToolBox</title>
-<meta name="description" content="Free guides and tutorials for every tool on SeoToolBox — learn how to use word counters, JSON formatters, SEO generators, calculators, and more.">
+<title>Blog — Free Guides for SEO, Developer &amp; Online Tools | SeoToolBox</title>
+<meta name="description" content="Browse in-depth guides and tutorials for all 30+ free tools on SeoToolBox — SEO, developer, security, productivity, and calculator tools.">
 <link rel="canonical" href="https://www.seotoolbox.com/blog.html">
-<meta property="og:title" content="SeoToolBox Blog — Guides &amp; Tutorials">
-<meta property="og:description" content="Free guides and tutorials for every tool on SeoToolBox.">
-<meta property="og:type" content="website">
+<meta property="og:title" content="SeoToolBox Blog — Tool Guides &amp; Tutorials"><meta property="og:description" content="In-depth guides for every free tool on SeoToolBox."><meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<script>window.PAGE_DEPTH = 0;</script>
+
 </head><body>
 <div id="nav-placeholder"></div>
 <div class="page-wrapper">
   <div id="sidebar-placeholder"></div>
   <main class="main-content">
-    <div class="blog-page">
-      <div class="breadcrumb"><a href="index.html">Home</a> › Blog</div>
-      <h1>📚 Blog — Guides &amp; Tutorials</h1>
-      <p class="lead">In-depth guides for every tool on SeoToolBox — learn what each tool does, how to use it, and best practices for SEO, development, security, and productivity.</p>
-
-      <div class="blog-filters">
-      <button class="blog-filter-btn active" data-filter="all">All</button>
-      <button class="blog-filter-btn" data-filter="Text Tools">Text Tools</button>
-      <button class="blog-filter-btn" data-filter="Developer Tools">Developer Tools</button>
-      <button class="blog-filter-btn" data-filter="SEO Tools">SEO Tools</button>
-      <button class="blog-filter-btn" data-filter="Security Tools">Security Tools</button>
-      <button class="blog-filter-btn" data-filter="Productivity Tools">Productivity Tools</button>
-      <button class="blog-filter-btn" data-filter="Calculators">Calculators</button>
-      </div>
-
-      <div class="blog-grid" id="blog-grid">
-      <a href="blog/word-counter.html" class="blog-card" data-cat="Text Tools">
-        <div class="blog-card-icon">📝</div>
-        <div class="blog-card-cat">Word Counter</div>
-        <h3>How to Use a Word Counter (and Why It Matters for SEO)</h3>
-        <p>Word count isn't just a vanity metric — it affects readability, SEO content length targets, and platform limits (tweets, meta descriptions, essays).</p>
-        <span class="blog-card-link">Read article →</span>
+    <div class="blog-hero">
+      <div class="breadcrumb" style="font-size:13px;color:var(--text3);margin-bottom:0.75rem;"><a href="index.html" style="color:var(--text3);">Home</a> › Blog</div>
+      <h1>Tool Guides &amp; Tutorials</h1>
+      <p>In-depth guides for every tool in SeoToolBox — how to use each one, real-world use cases, and answers to common questions. Pick a tool below to get started.</p>
+    </div>
+    <div class="blog-filter">
+            <button class="blog-filter-btn active" data-filter="all" onclick="filterBlog('all')">All Tools</button>
+      <button class="blog-filter-btn" data-filter="Text" onclick="filterBlog('Text')">Text Tools</button>
+      <button class="blog-filter-btn" data-filter="Developer" onclick="filterBlog('Developer')">Developer Tools</button>
+      <button class="blog-filter-btn" data-filter="SEO" onclick="filterBlog('SEO')">SEO Tools</button>
+      <button class="blog-filter-btn" data-filter="Security" onclick="filterBlog('Security')">Security Tools</button>
+      <button class="blog-filter-btn" data-filter="Productivity" onclick="filterBlog('Productivity')">Productivity Tools</button>
+      <button class="blog-filter-btn" data-filter="Calculators" onclick="filterBlog('Calculators')">Calculators</button>
+    </div>
+    <div class="blog-grid" id="blog-grid">
+      <a href="blog/word-counter.html" class="blog-card" data-cat="Text">
+        <div class="blog-card-icon icon-blue">📝</div>
+        <div class="blog-card-tag">Text Tools</div>
+        <h2>How to Use the Word Counter Tool (And Why Word Count Still Matters)</h2>
+        <p>Whether you're writing an essay, a blog post, a tweet, or an SEO meta description, knowing your exact word and character count helps you hit the target every time.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/char-counter.html" class="blog-card" data-cat="Text Tools">
-        <div class="blog-card-icon">🔤</div>
-        <div class="blog-card-cat">Character Counter</div>
-        <h3>Character Counter: Stay Within Limits for Titles, Tweets & Meta Tags</h3>
-        <p>From X (Twitter) posts to meta descriptions and SMS messages, character limits are everywhere. A character counter helps you write within the boundaries platforms enforce.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/char-counter.html" class="blog-card" data-cat="Text">
+        <div class="blog-card-icon icon-blue">🔤</div>
+        <div class="blog-card-tag">Text Tools</div>
+        <h2>Character Counter — Get Exact Character Counts in Seconds</h2>
+        <p>From SMS messages to meta descriptions, precise character counts matter. Here's how to use our character counter to stay within limits every time.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/case-converter.html" class="blog-card" data-cat="Text Tools">
-        <div class="blog-card-icon">🔡</div>
-        <div class="blog-card-cat">Case Converter</div>
-        <h3>Case Converter: Switch Between UPPERCASE, lowercase, Title Case & camelCase</h3>
-        <p>Whether you're formatting headlines, cleaning up data, or naming variables in code, converting text case manually is tedious and error-prone.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/case-converter.html" class="blog-card" data-cat="Text">
+        <div class="blog-card-icon icon-blue">🔡</div>
+        <div class="blog-card-tag">Text Tools</div>
+        <h2>Case Converter — Switch Between Text Cases Instantly</h2>
+        <p>Stop manually retyping text just to change its capitalization. Convert between UPPERCASE, lowercase, Title Case, Sentence case, and camelCase in one click.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/text-compare.html" class="blog-card" data-cat="Text Tools">
-        <div class="blog-card-icon">⚖️</div>
-        <div class="blog-card-cat">Text Compare</div>
-        <h3>Text Compare Tool: Find Differences Between Two Versions Instantly</h3>
-        <p>Comparing two blocks of text line-by-line manually is slow and error-prone — especially for contracts, code snippets, or article revisions.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/text-compare.html" class="blog-card" data-cat="Text">
+        <div class="blog-card-icon icon-blue">⚖️</div>
+        <div class="blog-card-tag">Text Tools</div>
+        <h2>Text Compare — Spot Differences Between Two Versions of Text</h2>
+        <p>Whether you're reviewing edits, comparing contract versions, or checking for plagiarism between drafts, our Text Compare tool highlights exactly what changed.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/sort-text.html" class="blog-card" data-cat="Text Tools">
-        <div class="blog-card-icon">↕️</div>
-        <div class="blog-card-cat">Sort Text Lines</div>
-        <h3>Sort Text Lines Alphabetically (A-Z or Z-A) in Seconds</h3>
-        <p>Need to alphabetize a list of names, tags, or keywords? Manually reordering lines is tedious — this tool does it instantly.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/sort-text.html" class="blog-card" data-cat="Text">
+        <div class="blog-card-icon icon-blue">↕️</div>
+        <div class="blog-card-tag">Text Tools</div>
+        <h2>Sort Text Lines — Alphabetize Any List in One Click</h2>
+        <p>Turn a messy, unordered list into a clean, alphabetized one instantly — perfect for names, keywords, links, and data exports.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/remove-duplicates.html" class="blog-card" data-cat="Text Tools">
-        <div class="blog-card-icon">🗑️</div>
-        <div class="blog-card-cat">Remove Duplicate Lines</div>
-        <h3>Remove Duplicate Lines From Any List Instantly</h3>
-        <p>Duplicate entries in email lists, keyword lists, or data exports can cause errors and skew analysis. This tool cleans them up in one click.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/remove-duplicates.html" class="blog-card" data-cat="Text">
+        <div class="blog-card-icon icon-blue">🗑️</div>
+        <div class="blog-card-tag">Text Tools</div>
+        <h2>Remove Duplicate Lines — Clean Up Lists in Seconds</h2>
+        <p>Merged spreadsheets, combined keyword lists, and copy-pasted data often end up full of duplicates. Remove them instantly with this free tool.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/json-formatter.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">{ }</div>
-        <div class="blog-card-cat">JSON Formatter</div>
-        <h3>JSON Formatter: Beautify and Pretty-Print JSON Online</h3>
-        <p>Minified or poorly formatted JSON is nearly impossible to read. A JSON formatter adds proper indentation and line breaks so you can understand the structure instantly.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/json-formatter.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">{ }</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>JSON Formatter — Beautify Messy JSON in One Click</h2>
+        <p>Turn a single-line wall of JSON into clean, properly indented, human-readable code instantly.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/json-validator.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">✅</div>
-        <div class="blog-card-cat">JSON Validator</div>
-        <h3>JSON Validator: Check JSON Syntax for Errors Online</h3>
-        <p>A single misplaced comma or unclosed bracket can break an entire API integration. A JSON validator pinpoints syntax errors before they cause production issues.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/json-validator.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">✅</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>JSON Validator — Find and Fix JSON Syntax Errors Fast</h2>
+        <p>A single misplaced comma or bracket can break an entire JSON file. Validate your JSON instantly and pinpoint exactly where the problem is.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/json-minifier.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">📦</div>
-        <div class="blog-card-cat">JSON Minifier</div>
-        <h3>JSON Minifier: Compress JSON by Removing Whitespace</h3>
-        <p>Minifying JSON strips unnecessary whitespace and line breaks, reducing file size for faster network transfer — useful for production API responses and config files.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/json-minifier.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">📦</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>JSON Minifier — Shrink JSON File Size Instantly</h2>
+        <p>Reduce JSON payload size for faster network transfers and smaller config files by stripping out unnecessary whitespace.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/base64-encoder.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">🔒</div>
-        <div class="blog-card-cat">Base64 Encoder</div>
-        <h3>Base64 Encoder: Convert Text to Base64 Online</h3>
-        <p>Base64 encoding converts binary or text data into an ASCII string format, commonly used for embedding data in URLs, JSON, or HTML.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/base64-encoder.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">🔒</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>Base64 Encoder — Convert Text to Base64 Instantly</h2>
+        <p>Base64 encoding is used everywhere from email attachments to API authentication headers. Encode any text in one click.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/base64-decoder.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">🔓</div>
-        <div class="blog-card-cat">Base64 Decoder</div>
-        <h3>Base64 Decoder: Convert Base64 Back to Plain Text</h3>
-        <p>Received a Base64-encoded string and need to read its actual content? This tool decodes it back to readable text instantly.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/base64-decoder.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">🔓</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>Base64 Decoder — Convert Base64 Back to Readable Text</h2>
+        <p>Got a Base64-encoded string and need to see what it actually says? Decode it instantly, right in your browser.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/url-encoder.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">🔗</div>
-        <div class="blog-card-cat">URL Encoder</div>
-        <h3>URL Encoder: Escape Special Characters for Safe URLs</h3>
-        <p>URLs can't contain spaces or certain special characters directly — they must be percent-encoded. This tool handles that conversion automatically.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/url-encoder.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">🔗</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>URL Encoder — Make Any Text Safe to Use in a URL</h2>
+        <p>Spaces, ampersands, and other special characters can break URLs. URL-encode your text instantly so it works reliably in links and query strings.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/url-decoder.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">🔗</div>
-        <div class="blog-card-cat">URL Decoder</div>
-        <h3>URL Decoder: Convert Percent-Encoded URLs to Readable Text</h3>
-        <p>Percent-encoded URLs (full of %20, %3D, and similar sequences) are hard to read. This tool decodes them back to plain text.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/url-decoder.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">🔗</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>URL Decoder — Turn %20 and Other Encoded Characters Back Into Text</h2>
+        <p>URLs full of %20, %3D, and %26 are hard to read. Decode them instantly to see the original text.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/md5-generator.html" class="blog-card" data-cat="Developer Tools">
-        <div class="blog-card-icon">#️⃣</div>
-        <div class="blog-card-cat">MD5 Hash Generator</div>
-        <h3>MD5 Hash Generator: Create MD5 Hashes From Text</h3>
-        <p>MD5 produces a fixed-length hash from any input, commonly used for checksums and legacy data integrity checks.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/md5-generator.html" class="blog-card" data-cat="Developer">
+        <div class="blog-card-icon icon-green">#️⃣</div>
+        <div class="blog-card-tag">Developer Tools</div>
+        <h2>MD5 Hash Generator — Create MD5 Checksums Instantly</h2>
+        <p>Generate an MD5 hash from any text input — useful for checksums, cache keys, and quick data comparisons.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/meta-generator.html" class="blog-card" data-cat="SEO Tools">
-        <div class="blog-card-icon">🏷️</div>
-        <div class="blog-card-cat">Meta Tag Generator</div>
-        <h3>Meta Tag Generator: Create SEO-Friendly HTML Meta Tags</h3>
-        <p>Properly formatted title, description, and meta tags directly influence how your pages appear in search results and social shares — and how likely people are to click.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/meta-generator.html" class="blog-card" data-cat="SEO">
+        <div class="blog-card-icon icon-orange">🏷️</div>
+        <div class="blog-card-tag">SEO Tools</div>
+        <h2>Meta Tag Generator — Create Search-Optimized Meta Tags</h2>
+        <p>A well-written title tag and meta description can significantly improve your click-through rate from search results. Generate them correctly in seconds.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/robots-generator.html" class="blog-card" data-cat="SEO Tools">
-        <div class="blog-card-icon">🤖</div>
-        <div class="blog-card-cat">Robots.txt Generator</div>
-        <h3>Robots.txt Generator: Control How Search Engines Crawl Your Site</h3>
-        <p>The robots.txt file tells search engine crawlers which parts of your site they can and cannot access — getting it wrong can accidentally block your entire site from search results.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/robots-generator.html" class="blog-card" data-cat="SEO">
+        <div class="blog-card-icon icon-orange">🤖</div>
+        <div class="blog-card-tag">SEO Tools</div>
+        <h2>Robots.txt Generator — Control Search Engine Crawling</h2>
+        <p>A correctly configured robots.txt file tells search engines which parts of your site to crawl — and which to leave alone.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/sitemap-generator.html" class="blog-card" data-cat="SEO Tools">
-        <div class="blog-card-icon">🗺️</div>
-        <div class="blog-card-cat">XML Sitemap Generator</div>
-        <h3>XML Sitemap Generator: Help Search Engines Discover Your Pages</h3>
-        <p>An XML sitemap lists all the important URLs on your site, helping search engines discover and crawl your content more efficiently — especially useful for larger or newer sites.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/sitemap-generator.html" class="blog-card" data-cat="SEO">
+        <div class="blog-card-icon icon-orange">🗺️</div>
+        <div class="blog-card-tag">SEO Tools</div>
+        <h2>XML Sitemap Generator — Help Search Engines Find Your Pages</h2>
+        <p>An XML sitemap lists all the important pages on your site, helping search engines discover and index your content efficiently.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/schema-generator.html" class="blog-card" data-cat="SEO Tools">
-        <div class="blog-card-icon">📋</div>
-        <div class="blog-card-cat">Schema Markup Generator</div>
-        <h3>Schema Markup Generator: Add JSON-LD Structured Data to Your Pages</h3>
-        <p>Structured data (schema markup) helps search engines understand your content's context, enabling rich results like star ratings, FAQs, and product details directly in search listings.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/schema-generator.html" class="blog-card" data-cat="SEO">
+        <div class="blog-card-icon icon-orange">📋</div>
+        <div class="blog-card-tag">SEO Tools</div>
+        <h2>Schema Markup Generator — Create JSON-LD Structured Data</h2>
+        <p>Structured data helps search engines understand your content better and can unlock rich results like star ratings, FAQs, and breadcrumbs.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/serp-preview.html" class="blog-card" data-cat="SEO Tools">
-        <div class="blog-card-icon">🔍</div>
-        <div class="blog-card-cat">SERP Preview</div>
-        <h3>SERP Preview Tool: See How Your Page Looks in Google Search Results</h3>
-        <p>Before publishing, preview exactly how your title and meta description will appear in Google's search results — including whether they'll be truncated.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/serp-preview.html" class="blog-card" data-cat="SEO">
+        <div class="blog-card-icon icon-orange">🔍</div>
+        <div class="blog-card-tag">SEO Tools</div>
+        <h2>SERP Preview — Visualize Your Google Search Snippet</h2>
+        <p>See exactly how your page's title and description will look in Google search results before you publish — including truncation.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/og-generator.html" class="blog-card" data-cat="SEO Tools">
-        <div class="blog-card-icon">📤</div>
-        <div class="blog-card-cat">Open Graph Generator</div>
-        <h3>Open Graph Tag Generator: Control How Your Links Look When Shared</h3>
-        <p>When a page is shared on Facebook, LinkedIn, or other platforms, Open Graph tags control the title, description, and image shown in the preview card.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/og-generator.html" class="blog-card" data-cat="SEO">
+        <div class="blog-card-icon icon-orange">📤</div>
+        <div class="blog-card-tag">SEO Tools</div>
+        <h2>Open Graph Generator — Control How Your Links Look When Shared</h2>
+        <p>Open Graph tags determine the title, description, and image shown when your page is shared on social media. Get them right to boost engagement.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/password-gen.html" class="blog-card" data-cat="Security Tools">
-        <div class="blog-card-icon">🔑</div>
-        <div class="blog-card-cat">Password Generator</div>
-        <h3>Password Generator: Create Strong, Random Passwords Instantly</h3>
-        <p>Weak or reused passwords are one of the most common causes of account compromise. A random password generator creates strong, unique passwords for every account.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/password-gen.html" class="blog-card" data-cat="Security">
+        <div class="blog-card-icon icon-red">🔑</div>
+        <div class="blog-card-tag">Security Tools</div>
+        <h2>Password Generator — Create Strong Passwords Instantly</h2>
+        <p>Weak or reused passwords are one of the biggest security risks. Generate a strong, random password in seconds.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/password-strength.html" class="blog-card" data-cat="Security Tools">
-        <div class="blog-card-icon">🛡️</div>
-        <div class="blog-card-cat">Password Strength Checker</div>
-        <h3>Password Strength Checker: How Secure Is Your Password?</h3>
-        <p>Not all passwords are created equal — this tool analyzes your password and estimates how resistant it is to common cracking techniques.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/password-strength.html" class="blog-card" data-cat="Security">
+        <div class="blog-card-icon icon-red">🛡️</div>
+        <div class="blog-card-tag">Security Tools</div>
+        <h2>Password Strength Checker — How Secure Is Your Password?</h2>
+        <p>Find out how strong (or weak) your password really is, and get suggestions to make it stronger.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/sha256-gen.html" class="blog-card" data-cat="Security Tools">
-        <div class="blog-card-icon">#️⃣</div>
-        <div class="blog-card-cat">SHA-256 Hash Generator</div>
-        <h3>SHA-256 Hash Generator: Create Secure Hashes From Text</h3>
-        <p>SHA-256 is a widely used cryptographic hash function, producing a fixed 64-character hexadecimal output used for integrity verification, digital signatures, and more.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/sha256-gen.html" class="blog-card" data-cat="Security">
+        <div class="blog-card-icon icon-red">#️⃣</div>
+        <div class="blog-card-tag">Security Tools</div>
+        <h2>SHA-256 Hash Generator — Create Secure Hashes Instantly</h2>
+        <p>SHA-256 is a widely trusted cryptographic hash function. Generate a SHA-256 hash from any text in one click.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/qr-generator.html" class="blog-card" data-cat="Productivity Tools">
-        <div class="blog-card-icon">📱</div>
-        <div class="blog-card-cat">QR Code Generator</div>
-        <h3>QR Code Generator: Create Free QR Codes for URLs, Text & More</h3>
-        <p>QR codes bridge print and digital — scan one with a phone camera to instantly open a link, view text, or connect to Wi-Fi. Generate your own in seconds.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/qr-generator.html" class="blog-card" data-cat="Productivity">
+        <div class="blog-card-icon icon-purple">📱</div>
+        <div class="blog-card-tag">Productivity Tools</div>
+        <h2>QR Code Generator — Create Custom QR Codes in Seconds</h2>
+        <p>Turn any link or text into a scannable QR code instantly — perfect for menus, business cards, posters, and packaging.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      <a href="blog/uuid-generator.html" class="blog-card" data-cat="Productivity Tools">
-        <div class="blog-card-icon">🆔</div>
-        <div class="blog-card-cat">UUID Generator</div>
-        <h3>UUID Generator: Create Unique Identifiers (v4) Online</h3>
-        <p>UUIDs (Universally Unique Identifiers) are used throughout software development to uniquely identify records, sessions, and objects without coordination between systems.</p>
-        <span class="blog-card-link">Read article →</span>
+      <a href="blog/uuid-generator.html" class="blog-card" data-cat="Productivity">
+        <div class="blog-card-icon icon-purple">🆔</div>
+        <div class="blog-card-tag">Productivity Tools</div>
+        <h2>UUID Generator — Create Unique Identifiers Instantly</h2>
+        <p>Need a guaranteed-unique ID for a database record, API request, or test fixture? Generate one (or many) instantly.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
       <a href="blog/percentage-calc.html" class="blog-card" data-cat="Calculators">
-        <div class="blog-card-icon">%</div>
-        <div class="blog-card-cat">Percentage Calculator</div>
-        <h3>Percentage Calculator: Quickly Calculate Percentages, Increases & Discounts</h3>
-        <p>From calculating discounts to figuring out what percentage one number is of another, percentage math comes up constantly — this calculator handles all the common scenarios.</p>
-        <span class="blog-card-link">Read article →</span>
+        <div class="blog-card-icon icon-teal">%</div>
+        <div class="blog-card-tag">Calculators</div>
+        <h2>Percentage Calculator — Solve Any Percentage Problem Instantly</h2>
+        <p>From discounts to grade calculations, percentages come up constantly. Get instant, accurate results for any percentage calculation.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
       <a href="blog/age-calculator.html" class="blog-card" data-cat="Calculators">
-        <div class="blog-card-icon">🎂</div>
-        <div class="blog-card-cat">Age Calculator</div>
-        <h3>Age Calculator: Find Your Exact Age in Years, Months & Days</h3>
-        <p>Calculating exact age — accounting for leap years and varying month lengths — is more complex than simple subtraction. This tool does it precisely.</p>
-        <span class="blog-card-link">Read article →</span>
+        <div class="blog-card-icon icon-teal">🎂</div>
+        <div class="blog-card-tag">Calculators</div>
+        <h2>Age Calculator — Find Your Exact Age in Years, Months &amp; Days</h2>
+        <p>Calculate someone's exact age — down to the day — from their date of birth, instantly.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
       <a href="blog/date-calculator.html" class="blog-card" data-cat="Calculators">
-        <div class="blog-card-icon">📅</div>
-        <div class="blog-card-cat">Date Calculator</div>
-        <h3>Date Calculator: Add, Subtract & Find the Difference Between Dates</h3>
-        <p>Whether you're counting down to a deadline or figuring out a date a certain number of days from now, manual date math is error-prone — this tool handles it instantly.</p>
-        <span class="blog-card-link">Read article →</span>
+        <div class="blog-card-icon icon-teal">📅</div>
+        <div class="blog-card-tag">Calculators</div>
+        <h2>Date Calculator — Add, Subtract, and Compare Dates Easily</h2>
+        <p>Find out what date falls 90 days from now, or how many days are between two dates — instantly, without counting on a calendar.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
       <a href="blog/gst-calculator.html" class="blog-card" data-cat="Calculators">
-        <div class="blog-card-icon">🧾</div>
-        <div class="blog-card-cat">GST Calculator</div>
-        <h3>GST Calculator: Calculate GST-Inclusive and Exclusive Amounts</h3>
-        <p>Goods and Services Tax (GST) calculations are a daily necessity for businesses and consumers in countries that use GST. This calculator handles both adding and removing GST.</p>
-        <span class="blog-card-link">Read article →</span>
+        <div class="blog-card-icon icon-teal">🧾</div>
+        <div class="blog-card-tag">Calculators</div>
+        <h2>GST Calculator — Add or Remove GST From Any Amount</h2>
+        <p>Quickly calculate the GST amount on a price, or work out the original price before GST was added.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
       <a href="blog/emi-calculator.html" class="blog-card" data-cat="Calculators">
-        <div class="blog-card-icon">🏦</div>
-        <div class="blog-card-cat">EMI Calculator</div>
-        <h3>EMI Calculator: Calculate Your Monthly Loan Installments</h3>
-        <p>Before taking a loan, understanding your Equated Monthly Installment (EMI) helps you budget and compare loan offers. This calculator computes EMI instantly from loan amount, interest rate, and tenure.</p>
-        <span class="blog-card-link">Read article →</span>
+        <div class="blog-card-icon icon-teal">🏦</div>
+        <div class="blog-card-tag">Calculators</div>
+        <h2>EMI Calculator — Estimate Your Monthly Loan Payments</h2>
+        <p>Before taking a loan, know exactly what your monthly payment will be — based on the loan amount, interest rate, and repayment period.</p>
+        <span class="read-more">Read Guide →</span>
       </a>
-      </div>
     </div>
+    <script>
+      function filterBlog(cat) {
+        document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === cat));
+        document.querySelectorAll('#blog-grid .blog-card').forEach(c => {
+          c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+        });
+      }
+    </script>
   </main>
 </div>
 <div id="footer-placeholder"></div>
+<script>window.PAGE_DEPTH = 0;</script>
 <script src="js/main.js"></script>
 <script src="js/layout.js"></script>
-<script>
-document.querySelectorAll('.blog-filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    document.querySelectorAll('.blog-card').forEach(card => {
-      card.style.display = (filter === 'all' || card.dataset.cat === filter) ? '' : 'none';
-    });
-  });
-});
-</script>
 </body></html>

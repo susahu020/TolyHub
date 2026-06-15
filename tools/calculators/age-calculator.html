@@ -25,11 +25,11 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             <div class="form-group">
               <label class="form-label">Date of Birth</label>
-              <input type="date" id="dob" onchange="calculate()">
+              <input type="text" id="dob" data-datepicker>
             </div>
             <div class="form-group">
               <label class="form-label">Age at Date (defaults to today)</label>
-              <input type="date" id="ref-date" onchange="calculate()">
+              <input type="text" id="ref-date" data-datepicker>
             </div>
           </div>
           <div class="tool-actions mt-1">
@@ -65,14 +65,17 @@
 <script src="../../js/layout.js"></script>
 <script>
 function setToday(){
-  document.getElementById('ref-date').value=new Date().toISOString().split('T')[0];
+  const refInput=document.getElementById('ref-date');
+  const iso=new Date().toISOString().split('T')[0];
+  if(refInput._dpSet) refInput._dpSet(iso);
+  else refInput.dataset.value=iso;
   calculate();
 }
 function calculate(){
-  const dobVal=document.getElementById('dob').value;
+  const dobVal=document.getElementById('dob').dataset.value;
   if(!dobVal){toast('Please enter your date of birth','danger');return;}
   const dob=new Date(dobVal);
-  const refVal=document.getElementById('ref-date').value;
+  const refVal=document.getElementById('ref-date').dataset.value;
   const ref=refVal?new Date(refVal):new Date();
   if(dob>ref){toast('Date of birth cannot be in the future','danger');return;}
 
@@ -124,7 +127,14 @@ function getZodiac(m,d){
 }
 document.addEventListener('DOMContentLoaded',()=>{
   const today=new Date().toISOString().split('T')[0];
-  document.getElementById('ref-date').value=today;
+  const dobInput=document.getElementById('dob');
+  const refInput=document.getElementById('ref-date');
+  dobInput.dataset.dpMax=today;
+  Datepicker.init(dobInput);
+  Datepicker.init(refInput);
+  refInput._dpSet(today);
+  dobInput.addEventListener('change',calculate);
+  refInput.addEventListener('change',calculate);
   initToolPage('age-calculator');
 });
 </script>
