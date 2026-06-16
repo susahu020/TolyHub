@@ -35,7 +35,7 @@ function getDepth() {
   if (KNOWN_TOP_FOLDERS.includes(dirs[0])) {
     return '../'.repeat(dirs.length);
   }
-  // Unknown nesting (e.g. deployed under a project subfolder like /SeoToolBox/about.html)
+  // Unknown nesting (e.g. deployed under a project subfolder like /TolyHub/about.html)
   // — treat the deepest known segment as root-relative depth 0.
   return './';
 }
@@ -47,29 +47,47 @@ function injectLayout() {
   const currentPath = window.location.pathname;
 
   // ── NAVBAR ──
-  function buildMegaMenu() {
-    return SIDEBAR_CATS.map(cat => {
+
+  // 3 most-used quick-link tools shown between All Tools and Resources
+  const POPULAR_IDS = ['word-counter', 'json-formatter', 'meta-generator'];
+
+  function buildAllToolsMega() {
+    const cols = SIDEBAR_CATS.map(cat => {
       const items = cat.tools.map(id => {
         const tool = (typeof TOOLS !== 'undefined') ? TOOLS.find(t => t.id === id) : null;
         if (!tool) return '';
-        return `<a href="${root}${tool.file}" class="mega-item" onclick="recent.add('${id}')">
-          <span class="mega-item-icon icon-${tool.color}">${tool.icon}</span>
-          <span class="mega-item-text">
-            <span class="mega-item-name">${tool.name}</span>
-            <span class="mega-item-desc">${tool.desc}</span>
-          </span>
+        return `<a href="${root}${tool.file}" class="at-item" onclick="recent.add('${id}')">
+          <span class="at-item-icon icon-${tool.color}">${tool.icon}</span>
+          <span class="at-item-name">${tool.name}</span>
         </a>`;
       }).join('');
-      return `
-        <div class="nav-cat-item">
-          <button class="nav-cat-btn" aria-haspopup="true">
-            <span class="nav-cat-icon">${NAV_SVG_ICONS[cat.label] || ''}</span>${cat.label}
-            <svg class="nav-cat-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 3.5L5 7L8.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <div class="mega-panel">
-            <div class="mega-panel-inner">${items}</div>
-          </div>
-        </div>`;
+      return `<div class="at-col">
+        <div class="at-col-title">${NAV_SVG_ICONS[cat.label] || ''}${cat.label}</div>
+        ${items}
+      </div>`;
+    }).join('');
+    return `<div class="nav-cat-item nav-all-tools">
+      <button class="nav-cat-btn nav-cat-btn--primary" aria-haspopup="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        All Tools
+        <svg class="nav-cat-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 3.5L5 7L8.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mega-panel at-panel">
+        <div class="at-grid">${cols}</div>
+        <div class="at-footer">
+          <a href="${root}index.html" class="at-view-all">View all 30+ free tools →</a>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function buildPopularLinks() {
+    return POPULAR_IDS.map(id => {
+      const tool = (typeof TOOLS !== 'undefined') ? TOOLS.find(t => t.id === id) : null;
+      if (!tool) return '';
+      return `<a href="${root}${tool.file}" class="nav-popular-link" onclick="recent.add('${id}')">
+        <span class="nav-popular-icon icon-${tool.color}">${tool.icon}</span>${tool.name}
+      </a>`;
     }).join('');
   }
 
@@ -109,23 +127,24 @@ function injectLayout() {
 <nav class="navbar">
   <a href="${root}index.html" class="nav-logo">
     <div class="logo-icon">🛠</div>
-    SeoToolBox
+    TolyHub
   </a>
 
   <div class="nav-categories">
-    ${buildMegaMenu()}
+    ${buildPopularLinks()}
+    <span class="nav-sep"></span>
     ${resourcesPanel}
+    <span class="nav-sep"></span>
+    ${buildAllToolsMega()}
   </div>
 
-  <div class="nav-divider"></div>
-
-  <div class="nav-search">
-    <input type="text" id="global-search" placeholder="Search 30+ tools…" autocomplete="off">
-    <kbd class="search-kbd">/</kbd>
-    <div id="search-results" class="search-results hidden"></div>
-  </div>
-
-  <div class="nav-actions">
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="global-search" placeholder="Search tools…" autocomplete="off">
+      <kbd class="search-kbd">/</kbd>
+      <div id="search-results" class="search-results hidden"></div>
+    </div>
     <button class="btn-icon" id="theme-toggle" onclick="theme.toggle()" aria-label="Toggle theme">🌙</button>
     <button class="btn-icon mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
   </div>
@@ -176,7 +195,7 @@ function injectLayout() {
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="${root}index.html" class="nav-logo" style="font-size:1.1rem;">
-        <div class="logo-icon" style="width:28px;height:28px;font-size:15px;">🛠</div> SeoToolBox
+        <div class="logo-icon" style="width:28px;height:28px;font-size:15px;">🛠</div> TolyHub
       </a>
       <p>100% free, privacy-first online tools. No login, no limits, no nonsense.</p>
     </div>
@@ -211,7 +230,7 @@ function injectLayout() {
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 SeoToolBox · All tools are free forever</span>
+    <span>© 2026 TolyHub · All tools are free forever</span>
     <span>Made with ❤️ · Privacy First · No Login Required</span>
   </div>
 </footer>`;
