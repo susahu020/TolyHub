@@ -43,6 +43,23 @@ function getDepth() {
 function injectLayout() {
   const root = getDepth();
 
+  // Inject favicon dynamically if not already present
+  if (!document.querySelector("link[rel='icon']")) {
+    const fav32 = document.createElement('link');
+    fav32.rel = 'icon';
+    fav32.type = 'image/png';
+    fav32.sizes = '32x32';
+    fav32.href = `${root}logo/favicon-32x32.png`;
+    document.head.appendChild(fav32);
+
+    const fav16 = document.createElement('link');
+    fav16.rel = 'icon';
+    fav16.type = 'image/png';
+    fav16.sizes = '16x16';
+    fav16.href = `${root}logo/favicon-16x16.png`;
+    document.head.appendChild(fav16);
+  }
+
   // const root = '/';
   const currentPath = window.location.pathname;
 
@@ -126,7 +143,7 @@ function injectLayout() {
   const navHtml = `
 <nav class="navbar">
   <a href="${root}index.html" class="nav-logo">
-    <div class="logo-icon">🛠</div>
+    <img src="${root}logo/logo-icon.svg" alt="TolyHub Logo" style="width:34px;height:34px;">
     TolyHub
   </a>
 
@@ -194,8 +211,8 @@ function injectLayout() {
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="${root}index.html" class="nav-logo" style="font-size:1.1rem;">
-        <div class="logo-icon" style="width:28px;height:28px;font-size:15px;">🛠</div> TolyHub
+      <a href="${root}index.html" class="nav-logo" style="font-size:1.1rem;display:flex;align-items:center;gap:8px;">
+        <img src="${root}logo/logo-icon.svg" alt="TolyHub Logo" style="width:28px;height:28px;"> TolyHub
       </a>
       <p>100% free, privacy-first online tools. No login, no limits, no nonsense.</p>
     </div>
