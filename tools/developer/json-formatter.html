@@ -131,9 +131,10 @@ function validate(){
   try{JSON.parse(input);showSuccess('This is valid JSON! ✨');}
   catch(e){showError('Invalid JSON: '+e.message);}
 }
-function countKeys(obj,count=0){
-  if(typeof obj==='object'&&obj!==null){Object.values(obj).forEach(v=>{count++;count+=countKeys(v)-1;});}
-  return count;
+function countKeys(obj){
+  if(typeof obj!=='object'||obj===null)return 0;
+  if(Array.isArray(obj))return obj.reduce((sum,v)=>sum+countKeys(v),0);
+  return Object.keys(obj).length+Object.values(obj).reduce((sum,v)=>sum+countKeys(v),0);
 }
 function loadSample(){
   document.getElementById('input').value=`{"name":"Jane Doe","age":28,"email":"jane@example.com","address":{"street":"123 Main St","city":"Mumbai","country":"India"},"skills":["JavaScript","Python","SEO"],"active":true}`;

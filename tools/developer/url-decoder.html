@@ -23,6 +23,10 @@
         <div class="tool-panel">
           <div class="panel-title">URL-Encoded String to Decode</div>
           <textarea id="input" class="w-full mono" style="min-height:140px;" placeholder="Paste URL-encoded string here…&#10;Example: Hello%20World%20%26%20more%21" oninput="liveDecode()"></textarea>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;margin-top:0.5rem;cursor:pointer;">
+            <input type="checkbox" id="form-encoded" onchange="decode()">
+            Treat <code>+</code> as space (form-encoded query strings only)
+          </label>
           <div class="tool-actions mt-2">
             <button class="btn btn-primary" onclick="decode()">🔓 Decode URL</button>
             <button class="btn btn-secondary btn-sm" onclick="clearAll()">🗑 Clear</button>
@@ -52,7 +56,8 @@ function decode(){
   const input=document.getElementById('input').value.trim();
   if(!input){document.getElementById('output-panel').style.display='none';return;}
   try{
-    const decoded=decodeURIComponent(input.replace(/\+/g,' '));
+    const treatPlusAsSpace=document.getElementById('form-encoded').checked;
+    const decoded=decodeURIComponent(treatPlusAsSpace?input.replace(/\+/g,' '):input);
     document.getElementById('output').value=decoded;
     document.getElementById('output-panel').style.display='block';
   }catch(e){

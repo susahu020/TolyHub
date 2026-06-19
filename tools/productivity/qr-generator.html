@@ -114,12 +114,15 @@ function setMode(mode,btn){
   btn.className='btn btn-primary btn-sm';
   document.getElementById('qr-output').style.display='none';
 }
+function wifiEscape(s){
+  return s.replace(/([\\;,:"])/g,'\\$1');
+}
 function getContent(){
   const g=id=>document.getElementById(id)?.value?.trim()||'';
   switch(currentMode){
     case 'url': return g('url-input');
     case 'text': return g('text-input');
-    case 'wifi': return `WIFI:T:${g('wifi-sec')};S:${g('wifi-ssid')};P:${g('wifi-pass')};;`;
+    case 'wifi': return `WIFI:T:${g('wifi-sec')};S:${wifiEscape(g('wifi-ssid'))};P:${wifiEscape(g('wifi-pass'))};;`;
     case 'email': return `mailto:${g('email-addr')}?subject=${encodeURIComponent(g('email-subj'))}&body=${encodeURIComponent(g('email-body'))}`;
     case 'phone': return `tel:${g('phone-num')}`;
     case 'sms': return `sms:${g('sms-num')}${g('sms-msg')?'?body='+encodeURIComponent(g('sms-msg')):''}`;

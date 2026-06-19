@@ -85,7 +85,7 @@ function md5(string){
     a=ii(a,b,c,d,x[i+4],6,-145523070);d=ii(d,a,b,c,x[i+11],10,-1120210379);c=ii(c,d,a,b,x[i+2],15,718787259);b=ii(b,c,d,a,x[i+9],21,-343485551);
     a=ad(a,olda);b=ad(b,oldb);c=ad(c,oldc);d=ad(d,oldd);
   }
-  return [a,b,c,d].map(n=>(Array(4).join('0')+(n<0?n+4294967296:n).toString(16).slice(-8)).slice(-8).replace(/../g,s=>s.slice(1)+s.slice(0,1))).join('');
+  return [a,b,c,d].map(n=>{const hex=(Array(8).join('0')+(n<0?n+4294967296:n).toString(16)).slice(-8);return hex.match(/../g).reverse().join('');}).join('');
 }
 let timer;
 function liveHash(){clearTimeout(timer);timer=setTimeout(generateHash,300);}

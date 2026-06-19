@@ -78,7 +78,7 @@
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>
 <script>
-function esc(s){return s.replace(/"/g,'&quot;');}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function getDomain(url){try{return new URL(url).hostname;}catch{return url;}}
 function update(){
   const title=document.getElementById('og-title').value;

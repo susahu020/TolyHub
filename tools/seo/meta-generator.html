@@ -101,7 +101,7 @@ function countChars(inputId,countId,max){
   el.textContent=`${len} / ${max} chars`;
   el.className='char-count '+(len>max?'over':len>max*0.85?'warn':'ok');
 }
-function esc(s){return s.replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function update(){
   const title=document.getElementById('f-title').value;
   const desc=document.getElementById('f-desc').value;

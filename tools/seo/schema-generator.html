@@ -130,9 +130,9 @@ const forms={
 
 function setType(type){
   currentType=type;
-  document.querySelectorAll('#form-container button, .tool-panel .btn').forEach(b=>{});
-  document.querySelectorAll('[onclick*="setType"]').forEach(b=>b.className='btn btn-secondary btn-sm');
-  event.target.className='btn btn-primary btn-sm';
+  document.querySelectorAll('[onclick*="setType"]').forEach(b=>{
+    b.className = b.getAttribute('onclick').includes(`'${type}'`) ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+  });
   document.getElementById('form-container').innerHTML=forms[type]||'';
   document.getElementById('output-panel').style.display='none';
   // set today dates
