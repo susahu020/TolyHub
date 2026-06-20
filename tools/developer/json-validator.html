@@ -57,12 +57,13 @@ function validate(){
     const pos=getErrorPos(document.getElementById('input').value,e);
     panel.innerHTML=`<div class="alert alert-danger" style="flex-direction:column;align-items:flex-start;gap:8px;">
       <div style="font-size:16px;font-weight:700;">❌ Invalid JSON</div>
-      <div style="font-size:14px;">${e.message}</div>
+      <div style="font-size:14px;">${escapeHtml(e.message)}</div>
       ${pos?`<div style="font-size:13px;">📍 ${pos}</div>`:''}
     </div>`;
   }
   panel.style.display='block';
 }
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function getInfo(obj){
   const type=Array.isArray(obj)?'Array':typeof obj;
   const keys=typeof obj==='object'&&obj!==null?Object.keys(obj).length:0;

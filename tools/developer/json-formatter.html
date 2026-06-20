@@ -93,8 +93,9 @@ function syntaxHighlight(json){
   });
 }
 
-function showError(msg){document.getElementById('error-box').innerHTML='❌ '+msg;document.getElementById('error-box').style.display='flex';document.getElementById('success-box').style.display='none';}
-function showSuccess(msg){document.getElementById('success-box').innerHTML='✅ '+msg;document.getElementById('success-box').style.display='flex';document.getElementById('error-box').style.display='none';}
+function showError(msg){document.getElementById('error-box').innerHTML='❌ '+escapeHtml(msg);document.getElementById('error-box').style.display='flex';document.getElementById('success-box').style.display='none';}
+function showSuccess(msg){document.getElementById('success-box').innerHTML='✅ '+escapeHtml(msg);document.getElementById('success-box').style.display='flex';document.getElementById('error-box').style.display='none';}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hideMessages(){document.getElementById('error-box').style.display='none';document.getElementById('success-box').style.display='none';}
 
 function format(){

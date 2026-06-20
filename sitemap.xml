@@ -46,6 +46,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.tolyhub.com/blog/irctc-date-calculator.html</loc>
+    <lastmod>2026-06-20</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.tolyhub.com/blog/gst-calculator.html</loc>
     <lastmod>2026-06-15</lastmod>
     <priority>0.6</priority>
@@ -193,6 +198,11 @@
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/emi-calculator.html</loc>
     <lastmod>2026-06-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tolyhub.com/tools/calculators/irctc-date-calculator.html</loc>
+    <lastmod>2026-06-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>

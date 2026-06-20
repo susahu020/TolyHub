@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IRCTC Date Calculator — Booking, Tatkal & Cancellation Dates | ToolBox</title>
+<meta name="description" content="Free IRCTC date calculator. Find your exact train ticket booking opening date (60-day ARP rule), Tatkal booking date & time, and estimated cancellation refund — instantly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.result-highlight{background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:14px 18px;font-size:18px;font-weight:800;color:var(--accent);margin-top:1rem;}
+.alert-warning{background:#fff3cd;color:#8a6500;border:1px solid #ffe69c;}
+[data-theme="dark"] .alert-warning{background:#3a2f0b;color:#facc15;border-color:#5c4a0e;}
+.irctc-class-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.irctc-tier-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:0.75rem;}
+.irctc-tier-table th{background:var(--bg3);padding:8px 10px;text-align:left;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);}
+.irctc-tier-table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+.irctc-tier-table tr:last-child td{border-bottom:none;}
+.irctc-tier-table tr.tier-active td{background:var(--accent-light);font-weight:700;}
+.irctc-note{font-size:12.5px;color:var(--text3);margin-top:0.5rem;line-height:1.5;}
+.irctc-journey-row{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:1rem;text-align:center;}
+.irctc-journey-row .form-label{margin:0;}
+.irctc-journey-row .dp-wrap{width:100%;}
+.irctc-journey-row .dp-input{text-align:center;}
+.irctc-journey-row .dp-panel{left:50%;transform:translateX(-50%);}
+.stat-box .irctc-result-flash,.irctc-result-flash{animation:irctcColorCycleLight 6s linear infinite;}
+[data-theme="dark"] .stat-box .irctc-result-flash,[data-theme="dark"] .irctc-result-flash{animation-name:irctcColorCycleDark;}
+@keyframes irctcColorCycleLight{
+  0%,100%{color:#4361ee;}
+  20%{color:#c2255c;}
+  40%{color:#15803d;}
+  60%{color:#b45309;}
+  80%{color:#6f42c1;}
+}
+@keyframes irctcColorCycleDark{
+  0%,100%{color:#4d70f0;}
+  20%{color:#ff7eb6;}
+  40%{color:#4ade80;}
+  60%{color:#fbbf24;}
+  80%{color:#c4b5fd;}
+}
+.irctc-preview-wrap{margin-top:0.75rem;}
+.irctc-pick-card{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:var(--radius-sm);background:var(--accent-light);border:2px solid var(--accent);margin-bottom:0.85rem;}
+.irctc-pick-card .irctc-pick-label,.irctc-pick-card .irctc-pick-arrow,.irctc-pick-card .irctc-pick-open,.irctc-pick-card .irctc-pick-journey{
+  animation:irctcColorCycleLight 6s linear infinite;
+}
+[data-theme="dark"] .irctc-pick-card .irctc-pick-label,
+[data-theme="dark"] .irctc-pick-card .irctc-pick-arrow,
+[data-theme="dark"] .irctc-pick-card .irctc-pick-open,
+[data-theme="dark"] .irctc-pick-card .irctc-pick-journey{
+  animation-name:irctcColorCycleDark;
+}
+.irctc-pick-card .irctc-pick-arrow{animation-delay:0.3s;}
+.irctc-pick-card .irctc-pick-open{animation-delay:0.6s;}
+.irctc-pick-card .irctc-pick-journey{animation-delay:0.9s;}
+.irctc-pick-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:2px;}
+.irctc-pick-journey{font-size:16px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px;}
+.irctc-pick-arrow{font-size:14px;color:var(--accent);}
+.irctc-pick-open{font-size:16px;font-weight:800;color:var(--accent);}
+.irctc-preview-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin-bottom:6px;}
+.irctc-preview-table{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.irctc-preview-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);background:var(--surface);transition:background 0.15s;}
+.irctc-preview-row:last-child{border-bottom:none;}
+.irctc-preview-row:hover{background:var(--bg2);}
+.irctc-preview-journey{font-size:14px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
+.irctc-preview-arrow{font-size:13px;color:var(--text3);}
+.irctc-preview-open{font-size:14px;font-weight:700;color:var(--text);}
+input[type="time"]{padding:10px 28px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:14px;font-family:var(--font);width:100%;outline:none;transition:border 0.2s;}
+input[type="time"]:focus{border-color:var(--accent);}
+input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#calculator-tools">Calculators</a> › IRCTC Date Calculator</div>
+        <h1>🚆 IRCTC Date Calculator</h1>
+        <p>Find your train ticket booking opening date, Tatkal booking time, and estimated cancellation refund — all in one place.</p>
+        <a href="../../blog/irctc-date-calculator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('arp',this)">🗓️ Booking Open Date</button>
+            <button class="tab-btn" onclick="switchTab('tatkal',this)">⚡ Tatkal Date &amp; Time</button>
+            <button class="tab-btn" onclick="switchTab('refund',this)">💸 Cancellation Refund</button>
+          </div>
+
+          <!-- ARP: 60-day booking window -->
+          <div id="tab-arp">
+            <div class="form-group irctc-journey-row"><label class="form-label">Select Journey Date</label><input type="text" id="arp-journey" data-datepicker></div>
+            <div id="arp-result" style="display:none;">
+              <div class="result-highlight" id="arp-result-text"></div>
+              <div class="irctc-preview-wrap">
+                <div id="arp-pick-card"></div>
+                <div class="irctc-preview-label">Next 4 days</div>
+                <div id="arp-preview-table"></div>
+                <div class="irctc-note">Click any row to jump to that journey date. Each day slides the booking-open date forward by exactly one day too — that's the 60-day rule in action.</div>
+              </div>
+              <div class="alert alert-info" style="margin-top:0.75rem;">
+                <span>ℹ️</span>
+                <div>Most trains follow the current 60-day Advance Reservation Period (ARP), counted backward from the journey date, excluding the journey date itself. Booking opens at <strong>8:00 AM IST</strong> on the opening day. Some special/premium trains may follow a different ARP — always confirm on the official IRCTC site before relying on this for a time-sensitive booking.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tatkal -->
+          <div id="tab-tatkal" style="display:none;">
+            <div class="form-group irctc-journey-row"><label class="form-label">Select Journey Date</label><input type="text" id="tatkal-journey" data-datepicker></div>
+            <div id="tatkal-result" style="display:none;">
+              <div class="stat-row">
+                <div class="stat-box"><div class="stat-val irctc-result-flash" id="tatkal-ac-date">—</div><div class="stat-lbl">AC Classes open · 10:00 AM</div></div>
+                <div class="stat-box"><div class="stat-val irctc-result-flash" id="tatkal-nonac-date">—</div><div class="stat-lbl">Sleeper / Non-AC open · 11:00 AM</div></div>
+              </div>
+              <div class="alert alert-warning" style="margin-top:0.75rem;">
+                <span>⚠️</span>
+                <div>Tatkal booking opens exactly <strong>one day before</strong> the journey date, counted from the train's originating station — not your boarding station. Agents cannot book during the first 30 minutes of the window (10:00–10:30 AM for AC, 11:00–11:30 AM for non-AC). Aadhaar-based OTP authentication is mandatory for online Tatkal bookings.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cancellation refund estimator -->
+          <div id="tab-refund" style="display:none;">
+            <div class="irctc-class-row">
+              <div class="form-group"><label class="form-label">Departure Date</label><input type="text" id="ref-date" data-datepicker></div>
+              <div class="form-group"><label class="form-label">Departure Time</label><input type="time" id="ref-time" value="10:00" oninput="calcRefund()"></div>
+            </div>
+            <div class="irctc-class-row">
+              <div class="form-group"><label class="form-label">Ticket Fare (₹)</label><input type="number" id="ref-fare" placeholder="e.g. 1200" min="0" oninput="calcRefund()"></div>
+              <div class="form-group"><label class="form-label">Class</label>
+                <select id="ref-class" onchange="calcRefund()">
+                  <option value="1A">1st AC (1A)</option>
+                  <option value="2A">2nd AC (2A)</option>
+                  <option value="3A" selected>3rd AC (3A)</option>
+                  <option value="CC">AC Chair Car (CC)</option>
+                  <option value="SL">Sleeper (SL)</option>
+                  <option value="2S">Second Sitting (2S)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="ref-tatkal" onchange="calcRefund()">
+              <label for="ref-tatkal" style="margin:0;cursor:pointer;font-size:13.5px;">This is a confirmed Tatkal ticket</label>
+            </div>
+            <div id="refund-result" style="display:none;">
+              <div class="result-highlight" id="refund-amount-text"></div>
+              <table class="irctc-tier-table">
+                <thead><tr><th>Cancel Before Departure</th><th>Deduction</th><th>You Get Back</th></tr></thead>
+                <tbody id="refund-tier-body"></tbody>
+              </table>
+              <div class="irctc-note">Estimate only, based on Indian Railways' confirmed-ticket cancellation slabs effective April 2026 (72h / 24h / 8h windows). RAC and waitlisted tickets follow different, smaller deductions. Confirmed Tatkal tickets are non-refundable on voluntary cancellation regardless of timing. Always verify the exact refund on IRCTC before cancelling.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+const MS_DAY = 86400000;
+const FLAT_FEE = { '1A': 240, '2A': 200, '3A': 180, 'CC': 180, 'SL': 120, '2S': 60 };
+const CLASS_LABEL = { '1A':'1st AC', '2A':'2nd AC', '3A':'3rd AC', 'CC':'AC Chair Car', 'SL':'Sleeper', '2S':'Second Sitting' };
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-arp').style.display=tab==='arp'?'block':'none';
+  document.getElementById('tab-tatkal').style.display=tab==='tatkal'?'block':'none';
+  document.getElementById('tab-refund').style.display=tab==='refund'?'block':'none';
+}
+
+// ── Booking Open Date (60-day ARP, excluding journey date) ──
+function calcArp(){
+  const j=document.getElementById('arp-journey').dataset.value;
+  if(!j)return;
+  const journey=new Date(j);
+  const open=new Date(journey);
+  open.setDate(open.getDate()-60);
+  const fmt=d=>d.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const today=new Date();today.setHours(0,0,0,0);
+  const openMidnight=new Date(open);openMidnight.setHours(0,0,0,0);
+  const daysDiff=Math.round((openMidnight-today)/MS_DAY);
+
+  let line;
+  if(daysDiff>0){
+    line=`Booking opens: ${fmt(open)} at 8:00 AM IST (in ${daysDiff} day${daysDiff!==1?'s':''})`;
+  } else if(daysDiff===0){
+    line=`Booking opens: ${fmt(open)} at 8:00 AM IST — That's today!`;
+  } else {
+    line=`Booking opened: ${fmt(open)} at 8:00 AM IST (${Math.abs(daysDiff)} day${Math.abs(daysDiff)!==1?'s':''} ago — booking is already open for this journey date)`;
+  }
+  const resultEl=document.getElementById('arp-result-text');
+  resultEl.textContent=line;
+  resultEl.classList.add('irctc-result-flash');
+  document.getElementById('arp-result').style.display='block';
+  renderArpPreview(j);
+}
+
+// Renders 5 rows: the picked journey date plus the next 4 days, each with its own
+// sliding booking-open date. Clicking a row re-bases the calculator to that date.
+function renderArpPreview(baseISO){
+  const base=new Date(baseISO);
+  const shortFmt=d=>d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  const toISO=d=>{const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return`${y}-${m}-${day}`;};
+
+  const dates=[];
+  for(let i=0;i<5;i++){
+    const journey=new Date(base);
+    journey.setDate(journey.getDate()+i);
+    const open=new Date(journey);
+    open.setDate(open.getDate()-60);
+    dates.push({journey,open,iso:toISO(journey)});
+  }
+
+  const pick=dates[0];
+  // Re-render (not just update) the pick card so the entrance animation replays every time the date changes
+  document.getElementById('arp-pick-card').innerHTML=`<div class="irctc-pick-card">
+    <div>
+      <div class="irctc-pick-label">🚆 Your pick</div>
+      <div class="irctc-pick-journey">${shortFmt(pick.journey)}</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="irctc-pick-arrow">opens →</span>
+      <span class="irctc-pick-open">${shortFmt(pick.open)}</span>
+    </div>
+  </div>`;
+
+  const rowsHtml=dates.slice(1).map(d=>`<div class="irctc-preview-row" data-iso="${d.iso}">
+      <div class="irctc-preview-journey">📅 ${shortFmt(d.journey)}</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="irctc-preview-arrow">→</span>
+        <span class="irctc-preview-open">${shortFmt(d.open)}</span>
+      </div>
+    </div>`).join('');
+  const table=document.getElementById('arp-preview-table');
+  table.innerHTML=`<div class="irctc-preview-table">${rowsHtml}</div>`;
+  table.querySelectorAll('.irctc-preview-row').forEach(row=>{
+    row.addEventListener('click',()=>{
+      const iso=row.dataset.iso;
+      document.getElementById('arp-journey')._dpSet(iso);
+      calcArp();
+    });
+  });
+}
+
+// ── Tatkal opening date (1 day before journey, fixed times by class) ──
+function calcTatkal(){
+  const j=document.getElementById('tatkal-journey').dataset.value;
+  if(!j)return;
+  const journey=new Date(j);
+  const open=new Date(journey);
+  open.setDate(open.getDate()-1);
+  const fmt=d=>d.toLocaleDateString('en-IN',{month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('tatkal-ac-date').textContent=fmt(open);
+  document.getElementById('tatkal-nonac-date').textContent=fmt(open);
+  document.getElementById('tatkal-result').style.display='block';
+}
+
+// ── Cancellation refund estimator (April 2026 rules: 72h / 24h / 8h) ──
+function refundTier(hrs){
+  if(hrs<0) return {tier:'departed',deduction:'Train departed',pct:null};
+  if(hrs>=72) return {tier:'full',deduction:'Flat charge only',pct:100};
+  if(hrs>=24) return {tier:'q75',deduction:'25% of fare',pct:75};
+  if(hrs>=8) return {tier:'q50',deduction:'50% of fare',pct:50};
+  return {tier:'none',deduction:'No refund',pct:0};
+}
+function estimateRefund(fare,cls,hrs,isTatkal){
+  if(isTatkal) return {refund:0,tier:'tatkal'};
+  const t=refundTier(hrs);
+  const flat=FLAT_FEE[cls]||180;
+  let refund=0;
+  if(t.tier==='full') refund=Math.max(0,fare-flat);
+  else if(t.tier==='q75') refund=Math.max(0,fare-Math.max(fare*0.25,flat));
+  else if(t.tier==='q50') refund=Math.max(0,fare-fare*0.5);
+  return {refund:Math.round(refund),tier:t.tier};
+}
+function calcRefund(){
+  const d=document.getElementById('ref-date').dataset.value;
+  const t=document.getElementById('ref-time').value;
+  const fare=parseFloat(document.getElementById('ref-fare').value);
+  const cls=document.getElementById('ref-class').value;
+  const isTatkal=document.getElementById('ref-tatkal').checked;
+  if(!d||!t||!fare||fare<=0){document.getElementById('refund-result').style.display='none';return;}
+
+  const departure=new Date(`${d}T${t}:00`);
+  const now=new Date();
+  const hrs=(departure-now)/(1000*60*60);
+
+  const result=estimateRefund(fare,cls,hrs,isTatkal);
+  const flat=FLAT_FEE[cls]||180;
+
+  let headline;
+  if(isTatkal){
+    headline=`Confirmed Tatkal: ₹0 refund (non-refundable on voluntary cancellation)`;
+  } else if(hrs<0){
+    headline=`This departure time has already passed — refund only possible via TDR if the train was delayed 3+ hours.`;
+  } else {
+    headline=`Estimated refund right now: ₹${result.refund.toLocaleString('en-IN')} of ₹${fare.toLocaleString('en-IN')}`;
+  }
+  document.getElementById('refund-amount-text').textContent=headline;
+
+  const rows=[
+    {label:'More than 72 hours before',ded:`Flat ₹${flat} (${CLASS_LABEL[cls]})`,get:f=>Math.max(0,f-flat),tier:'full'},
+    {label:'72 hours to 24 hours before',ded:'25% of fare (min flat fee)',get:f=>Math.max(0,f-Math.max(f*0.25,flat)),tier:'q75'},
+    {label:'24 hours to 8 hours before',ded:'50% of fare',get:f=>Math.max(0,f-f*0.5),tier:'q50'},
+    {label:'Less than 8 hours before',ded:'No refund',get:()=>0,tier:'none'},
+  ];
+  const currentTier=isTatkal?null:refundTier(hrs).tier;
+  document.getElementById('refund-tier-body').innerHTML=rows.map(r=>{
+    const active=(r.tier===currentTier)?' class="tier-active"':'';
+    const amt=fare?Math.round(r.get(fare)).toLocaleString('en-IN'):'—';
+    return `<tr${active}><td>${r.label}</td><td>${r.ded}</td><td>₹${amt}</td></tr>`;
+  }).join('');
+  document.getElementById('refund-result').style.display='block';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const today=new Date().toISOString().split('T')[0];
+  const arpJourney=document.getElementById('arp-journey');
+  const tatkalJourney=document.getElementById('tatkal-journey');
+  const refDate=document.getElementById('ref-date');
+
+  // Year range auto-calculates from whatever the real current year is: one year back through
+  // 24 years forward (e.g. if today is in 2026, the picker spans 2025–2050). Recalculates itself
+  // every year automatically since it's derived from new Date(), never hardcoded.
+  const curYear=new Date().getFullYear();
+  const rangeMinISO=`${curYear-1}-01-01`;
+  const rangeMaxISO=`${curYear+24}-12-31`;
+
+  arpJourney.dataset.dpMin=rangeMinISO;
+  arpJourney.dataset.dpMax=rangeMaxISO;
+  tatkalJourney.dataset.dpMin=rangeMinISO;
+  tatkalJourney.dataset.dpMax=rangeMaxISO;
+  refDate.dataset.dpMin=rangeMinISO;
+  refDate.dataset.dpMax=rangeMaxISO;
+
+  Datepicker.init(arpJourney);
+  Datepicker.init(tatkalJourney);
+  Datepicker.init(refDate);
+
+  // ARP needs a future default (today + 60 days) so the result isn't an immediate "already open" message.
+  // Tatkal defaults to TOMORROW's journey date, so the Tatkal-open date shown is today — i.e. it opens
+  // straight to "here's what's live for booking right now" instead of yesterday's already-closed window.
+  // Refund defaults to today since it's a near-term, day-of-travel feature.
+  const future=new Date();future.setDate(future.getDate()+60);
+  const futureISO=future.toISOString().split('T')[0];
+  const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);
+  const tomorrowISO=tomorrow.toISOString().split('T')[0];
+  arpJourney._dpSet(futureISO);
+  tatkalJourney._dpSet(tomorrowISO);
+  refDate._dpSet(today);
+
+  arpJourney.addEventListener('change',calcArp);
+  tatkalJourney.addEventListener('change',calcTatkal);
+  refDate.addEventListener('change',calcRefund);
+
+  calcArp();
+  calcTatkal();
+
+  initToolPage('irctc-date-calculator');
+});
+</script>
+</body></html>

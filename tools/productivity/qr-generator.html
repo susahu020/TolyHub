@@ -119,13 +119,14 @@ function wifiEscape(s){
 }
 function getContent(){
   const g=id=>document.getElementById(id)?.value?.trim()||'';
+  const cleanNum=n=>n.replace(/[^\d+]/g,''); // tel:/sms: should contain only digits and a leading +, per RFC 3966
   switch(currentMode){
     case 'url': return g('url-input');
     case 'text': return g('text-input');
     case 'wifi': return `WIFI:T:${g('wifi-sec')};S:${wifiEscape(g('wifi-ssid'))};P:${wifiEscape(g('wifi-pass'))};;`;
-    case 'email': return `mailto:${g('email-addr')}?subject=${encodeURIComponent(g('email-subj'))}&body=${encodeURIComponent(g('email-body'))}`;
-    case 'phone': return `tel:${g('phone-num')}`;
-    case 'sms': return `sms:${g('sms-num')}${g('sms-msg')?'?body='+encodeURIComponent(g('sms-msg')):''}`;
+    case 'email': return `mailto:${encodeURIComponent(g('email-addr')).replace(/%40/g,'@')}?subject=${encodeURIComponent(g('email-subj'))}&body=${encodeURIComponent(g('email-body'))}`;
+    case 'phone': return `tel:${cleanNum(g('phone-num'))}`;
+    case 'sms': return `sms:${cleanNum(g('sms-num'))}${g('sms-msg')?'?body='+encodeURIComponent(g('sms-msg')):''}`;
     default: return '';
   }
 }

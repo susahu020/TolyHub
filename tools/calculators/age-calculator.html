@@ -102,10 +102,17 @@ function calculate(){
   document.getElementById('r-mins').textContent=totalMins.toLocaleString();
 
   // Birthday info
-  const today=new Date();
-  const thisYearBday=new Date(today.getFullYear(),dob.getMonth(),dob.getDate());
-  const nextBday=thisYearBday>today?thisYearBday:new Date(today.getFullYear()+1,dob.getMonth(),dob.getDate());
-  const daysToNext=Math.ceil((nextBday-today)/msPerDay);
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()); // normalize to midnight so time-of-day never affects the comparison
+  function birthdayInYear(year){
+    // Clamp Feb 29 birthdays to Feb 28 in non-leap years, instead of overflowing into March 1
+    const isLeap=(year%4===0&&year%100!==0)||year%400===0;
+    const day=(dob.getMonth()===1&&dob.getDate()===29&&!isLeap)?28:dob.getDate();
+    return new Date(year,dob.getMonth(),day);
+  }
+  const thisYearBday=birthdayInYear(today.getFullYear());
+  const nextBday=thisYearBday>=today?thisYearBday:birthdayInYear(today.getFullYear()+1);
+  const daysToNext=Math.round((nextBday-today)/msPerDay);
   const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dobDay=dayNames[dob.getDay()];

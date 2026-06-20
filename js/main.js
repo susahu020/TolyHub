@@ -38,6 +38,7 @@ const TOOLS = [
   { id:'date-calculator',  name:'Date Calculator',     cat:'Calculators', icon:'📅',color:'teal',   file:'tools/calculators/date-calculator.html', desc:'Add/subtract dates & find differences' },
   { id:'gst-calculator',   name:'GST Calculator',      cat:'Calculators', icon:'🧾',color:'teal',   file:'tools/calculators/gst-calculator.html',  desc:'Calculate GST amounts easily' },
   { id:'emi-calculator',   name:'EMI Calculator',      cat:'Calculators', icon:'🏦',color:'teal',   file:'tools/calculators/emi-calculator.html',  desc:'Calculate loan EMI amounts' },
+  { id:'irctc-date-calculator', name:'IRCTC Date Calculator', cat:'Calculators', icon:'🚆',color:'teal', file:'tools/calculators/irctc-date-calculator.html', desc:'Train booking, Tatkal & refund dates' },
 ];
 
 // ── THEME ──
@@ -289,10 +290,14 @@ const Datepicker = {
         cells += `<span class="${cls}" data-iso="${iso}">${d}</span>`;
       }
 
-      // Build year options (±100 years from today, reasonable for birthdates)
+      // Build year options. If the input declares a min/max range (data-dp-min / data-dp-max),
+      // constrain the dropdown to that range instead of always showing the full birthdate-style
+      // +1/-120 year span — a journey-date picker only needs a handful of nearby years, for example.
       const curYear = new Date().getFullYear();
+      const yearMax = maxDate ? maxDate.getFullYear() : curYear + 1;
+      const yearMin = minDate ? minDate.getFullYear() : curYear - 120;
       let yearOpts = '';
-      for (let y = curYear + 1; y >= curYear - 120; y--) {
+      for (let y = yearMax; y >= yearMin; y--) {
         yearOpts += `<option value="${y}"${y === year ? ' selected' : ''}>${y}</option>`;
       }
       let monthOpts = this.MONTHS.map((m, i) => `<option value="${i}"${i === month ? ' selected' : ''}>${m}</option>`).join('');

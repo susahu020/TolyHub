@@ -6,7 +6,7 @@ const SIDEBAR_CATS = [
   { label: 'SEO Tools',  icon: '🔍', color: 'orange', tools: ['meta-generator','robots-generator','sitemap-generator','schema-generator','serp-preview','og-generator'] },
   { label: 'Security',   icon: '🔒', color: 'red', tools: ['password-gen','password-strength','sha256-gen'] },
   { label: 'Productivity', icon: '⚡', color: 'purple', tools: ['qr-generator','uuid-generator'] },
-  { label: 'Calculators', icon: '🧮', color: 'teal', tools: ['percentage-calc','age-calculator','date-calculator','gst-calculator','emi-calculator'] },
+  { label: 'Calculators', icon: '🧮', color: 'teal', tools: ['percentage-calc','age-calculator','date-calculator','gst-calculator','emi-calculator','irctc-date-calculator'] },
 ];
 
 // Clean outline SVG icons for the top nav (replaces emoji for a more premium look)
@@ -42,23 +42,6 @@ function getDepth() {
 
 function injectLayout() {
   const root = getDepth();
-
-  // Inject favicon dynamically if not already present
-  if (!document.querySelector("link[rel='icon']")) {
-    const fav32 = document.createElement('link');
-    fav32.rel = 'icon';
-    fav32.type = 'image/png';
-    fav32.sizes = '32x32';
-    fav32.href = `${root}logo/favicon-32x32.png`;
-    document.head.appendChild(fav32);
-
-    const fav16 = document.createElement('link');
-    fav16.rel = 'icon';
-    fav16.type = 'image/png';
-    fav16.sizes = '16x16';
-    fav16.href = `${root}logo/favicon-16x16.png`;
-    document.head.appendChild(fav16);
-  }
 
   // const root = '/';
   const currentPath = window.location.pathname;
