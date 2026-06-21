@@ -221,6 +221,12 @@ code, pre { font-family: var(--font-mono); }
 /* ── LAYOUT ── */
 .page-wrapper { display: flex; min-height: calc(100vh - var(--nav-h)); }
 .sidebar { width: var(--sidebar-w); flex-shrink: 0; border-right: 1px solid var(--border); padding: 1.5rem 0; position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); overflow-y: auto; background: var(--bg); }
+@media (min-width: 769px) {
+  /* Homepage has no permanent sidebar column on desktop -- it's a wide, full-width landing page.
+     The sidebar element still exists in the DOM purely so the mobile drawer (below) has something
+     to open; on desktop it should take up no space at all here. */
+  body.home-page .sidebar { display: none; }
+}
 .main-content { flex: 1; min-width: 0; padding: 2rem 2.5rem; }
 
 /* ── SIDEBAR ── */
