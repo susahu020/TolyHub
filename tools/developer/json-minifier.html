@@ -66,8 +66,9 @@ function minify(){
     document.getElementById('s-min').textContent=min.toLocaleString();
     document.getElementById('s-saved').textContent=saved+'%';
     document.getElementById('output-panel').style.display='block';
-  }catch(e){document.getElementById('error-box').innerHTML='❌ '+e.message;document.getElementById('error-box').style.display='flex';}
+  }catch(e){document.getElementById('error-box').innerHTML='❌ '+escapeHtml(e.message);document.getElementById('error-box').style.display='flex';}
 }
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function loadSample(){document.getElementById('input').value=`{\n  "name": "ToolBox",\n  "version": "1.0.0",\n  "free": true,\n  "tools": [\n    "JSON Formatter",\n    "Base64 Encoder",\n    "Word Counter"\n  ]\n}`;}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('json-minifier'));
 </script>

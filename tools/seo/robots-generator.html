@@ -92,7 +92,7 @@ function addBotRule(){
   const row=document.createElement('div');
   row.className='bot-rule';
   row.style.cssText='display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;';
-  row.innerHTML=`<select class="bot-name" onchange="update()"><option>Googlebot</option><option>Bingbot</option><option>GPTBot (ChatGPT)</option><option>CCBot</option><option>anthropic-ai</option></select>
+  row.innerHTML=`<select class="bot-name" onchange="update()"><option value="Googlebot">Googlebot</option><option value="Bingbot">Bingbot</option><option value="GPTBot">GPTBot (ChatGPT)</option><option value="CCBot">CCBot</option><option value="anthropic-ai">anthropic-ai</option></select>
     <input type="text" class="bot-path" placeholder="/private/" oninput="update()">
     <select class="bot-action" onchange="update()"><option value="Disallow">Disallow</option><option value="Allow">Allow</option></select>`;
   document.getElementById('bot-rules').appendChild(row);

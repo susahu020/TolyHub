@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contact Us — SeoToolBox</title>
-<meta name="description" content="Get in touch with the SeoToolBox team for support, feedback, bug reports, or business inquiries.">
-<link rel="canonical" href="https://www.seotoolbox.com/contact.html">
-<meta property="og:title" content="Contact SeoToolBox">
+<title>Contact Us — TolyHub</title>
+<meta name="description" content="Get in touch with the TolyHub team for support, feedback, bug reports, or business inquiries.">
+<link rel="canonical" href="https://www.TolyHub.com/contact.html">
+<meta property="og:title" content="Contact TolyHub">
 <meta property="og:description" content="Have feedback, found a bug, or want to suggest a new tool? Get in touch with us.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,22 +25,22 @@
         <div class="contact-card">
           <div class="icon">✉️</div>
           <h3>Email Support</h3>
-          <p>For general questions and feedback:<br><a href="mailto:support@seotoolbox.com">support@seotoolbox.com</a></p>
+          <p>For general questions and feedback:<br><a href="mailto:tolyhub2@gmail.com">tolyhub2@gmail.com</a></p>
         </div>
         <div class="contact-card">
           <div class="icon">🐞</div>
           <h3>Bug Reports</h3>
-          <p>Found something broken? Let us know what tool, what browser, and what happened:<br><a href="mailto:bugs@seotoolbox.com">bugs@seotoolbox.com</a></p>
+          <p>Found something broken? Let us know what tool, what browser, and what happened:<br><a href="mailto:tolyhub2@gmail.com">tolyhub2@gmail.com</a></p>
         </div>
         <div class="contact-card">
           <div class="icon">💡</div>
           <h3>Tool Suggestions</h3>
-          <p>Want a tool we don't have yet? Tell us what it should do:<br><a href="mailto:ideas@seotoolbox.com">ideas@seotoolbox.com</a></p>
+          <p>Want a tool we don't have yet? Tell us what it should do:<br><a href="mailto:tolyhub2@gmail.com">tolyhub2@gmail.com</a></p>
         </div>
         <div class="contact-card">
           <div class="icon">🤝</div>
           <h3>Business & Advertising</h3>
-          <p>Partnerships, sponsorships, and ad inquiries:<br><a href="mailto:business@seotoolbox.com">business@seotoolbox.com</a></p>
+          <p>Partnerships, sponsorships, and ad inquiries:<br><a href="mailto:tolyhub2@gmail.com">tolyhub2@gmail.com</a></p>
         </div>
       </div>
 
@@ -68,8 +68,9 @@
           <label for="cf-message">Message</label>
           <textarea id="cf-message" name="message" required placeholder="How can we help?"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">📤 Send Message</button>
-        <p class="form-note">This form opens your default email app with the message pre-filled — we don't store any data you enter here. Prefer to email directly? Use <a href="mailto:support@seotoolbox.com">support@seotoolbox.com</a>.</p>
+        <button type="submit" class="btn btn-primary" id="submit-btn">📤 Send Message</button>
+        <p id="form-status" style="margin-top:12px;font-weight:500;display:none;"></p>
+        <p class="form-note">We'll get back to you at the email address you provide. Prefer to email directly? Use <a href="mailto:tolyhub2@gmail.com">tolyhub2@gmail.com</a>.</p>
       </form>
     </div>
   </main>
@@ -78,15 +79,49 @@
 <script src="js/main.js"></script>
 <script src="js/layout.js"></script>
 <script>
-function handleContactSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById('cf-name').value;
-  const email = document.getElementById('cf-email').value;
-  const subject = document.getElementById('cf-subject').value;
-  const message = document.getElementById('cf-message').value;
-  const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-  window.location.href = `mailto:support@seotoolbox.com?subject=${encodeURIComponent('[SeoToolBox] ' + subject)}&body=${encodeURIComponent(body)}`;
-  return false;
-}
+  // ← PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwauZGTzl0f3JojlbWUYF2Lxblej-Dc6fD7NTqyE-gDoDMOU9WjaQ_Cip0fJ-2gtNBx/exec';
+
+  function handleContactSubmit(e) {
+    e.preventDefault();
+
+    const btn    = document.getElementById('submit-btn');
+    const status = document.getElementById('form-status');
+
+    const payload = {
+      name:    document.getElementById('cf-name').value,
+      email:   document.getElementById('cf-email').value,
+      subject: document.getElementById('cf-subject').value,
+      message: document.getElementById('cf-message').value
+    };
+
+    btn.disabled    = true;
+    btn.textContent = '⏳ Sending…';
+    status.style.display = 'none';
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      status.style.color   = 'green';
+      status.textContent   = '✅ Message sent! We\'ll get back to you soon.';
+      status.style.display = 'block';
+      document.getElementById('contact-form').reset();
+      btn.disabled    = false;
+      btn.textContent = '📤 Send Message';
+    })
+    .catch(() => {
+      status.style.color   = 'red';
+      status.textContent   = '❌ Something went wrong. Please email us at tolyhub2@gmail.com';
+      status.style.display = 'block';
+      btn.disabled    = false;
+      btn.textContent = '📤 Send Message';
+    });
+
+    return false;
+  }
 </script>
 </body></html>

@@ -94,6 +94,8 @@ function diffWords(a, b) {
   return ops;
 }
 
+const DIFF_TOKEN_LIMIT = 1500; // beyond this, the O(n*m) DP becomes too slow for a responsive page
+
 function compare() {
   let t1 = document.getElementById('text1').value;
   let t2 = document.getElementById('text2').value;
@@ -111,17 +113,32 @@ function compare() {
     return;
   }
 
-  const ops = diffWords(a, b);
-  let adds=0, dels=0;
-  const html = ops.map(op=>{
-    if(op.type==='eq') return escapeHtml(op.val);
-    if(op.type==='ins'){adds++;return`<mark class="diff-add">${escapeHtml(op.val)}</mark>`;}
-    dels++;return`<mark class="diff-del">${escapeHtml(op.val)}</mark>`;
-  }).join('');
-  document.getElementById('diff-output').innerHTML=html;
-  document.getElementById('stat-diff').textContent=`+${adds} added, −${dels} removed`;
+  const tokenCount = a.split(/(\s+)/).length + b.split(/(\s+)/).length;
+  if(tokenCount > DIFF_TOKEN_LIMIT){
+    document.getElementById('diff-output').innerHTML=`<span style="color:var(--warning,#b7791f)">⚠️ These texts are too long (~${Math.round(tokenCount/2)} words each) for a detailed word-by-word comparison, which can freeze the page. Try comparing shorter sections, or use the line-by-line view of a dedicated diff tool for full documents.</span>`;
+    document.getElementById('stat-diff').textContent='Comparison skipped (text too long)';
+    document.getElementById('results-panel').style.display='block';
+    return;
+  }
+
+  document.getElementById('diff-output').innerHTML='<span style="color:var(--text-muted,#666)">Comparing…</span>';
+  document.getElementById('stat-diff').textContent='';
   document.getElementById('results-panel').style.display='block';
-  document.getElementById('results-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+
+  // Yield to the browser before the heavy O(n*m) computation so the UI can paint the "Comparing…" state
+  // and the click handler returns immediately instead of appearing to hang.
+  setTimeout(()=>{
+    const ops = diffWords(a, b);
+    let adds=0, dels=0;
+    const html = ops.map(op=>{
+      if(op.type==='eq') return escapeHtml(op.val);
+      if(op.type==='ins'){adds++;return`<mark class="diff-add">${escapeHtml(op.val)}</mark>`;}
+      dels++;return`<mark class="diff-del">${escapeHtml(op.val)}</mark>`;
+    }).join('');
+    document.getElementById('diff-output').innerHTML=html;
+    document.getElementById('stat-diff').textContent=`+${adds} added, −${dels} removed`;
+    document.getElementById('results-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }, 10);
 }
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function clearAll(){document.getElementById('text1').value='';document.getElementById('text2').value='';document.getElementById('results-panel').style.display='none';}

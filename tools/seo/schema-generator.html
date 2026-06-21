@@ -130,9 +130,9 @@ const forms={
 
 function setType(type){
   currentType=type;
-  document.querySelectorAll('#form-container button, .tool-panel .btn').forEach(b=>{});
-  document.querySelectorAll('[onclick*="setType"]').forEach(b=>b.className='btn btn-secondary btn-sm');
-  event.target.className='btn btn-primary btn-sm';
+  document.querySelectorAll('[onclick*="setType"]').forEach(b=>{
+    b.className = b.getAttribute('onclick').includes(`'${type}'`) ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+  });
   document.getElementById('form-container').innerHTML=forms[type]||'';
   document.getElementById('output-panel').style.display='none';
   // set today dates
@@ -173,7 +173,8 @@ function generate(){
   } else if(currentType==='BreadcrumbList'){
     const names=[...document.querySelectorAll('.bc-name')].map(el=>el.value);
     const urls=[...document.querySelectorAll('.bc-url')].map(el=>el.value);
-    const items=names.map((n,i)=>({"@type":"ListItem","position":i+1,"name":n,"item":urls[i]})).filter(i=>i.name);
+    const items=names.map((n,i)=>({name:n,url:urls[i]})).filter(i=>i.name)
+      .map((i,idx)=>({"@type":"ListItem","position":idx+1,"name":i.name,"item":i.url}));
     schema={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":items};
   } else if(currentType==='WebSite'){
     schema={"@context":"https://schema.org","@type":"WebSite","name":g('s-name'),"url":g('s-url'),"description":g('s-desc')};

@@ -87,6 +87,9 @@ document.getElementById('urls').addEventListener('input',()=>{
 function getUrls(){
   return document.getElementById('urls').value.split('\n').map(s=>s.trim()).filter(s=>s&&s.startsWith('http'));
 }
+function escapeXml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+}
 function generate(){
   const urls=getUrls();
   if(!urls.length){toast('Please enter at least one valid URL starting with http','danger');return;}
@@ -99,7 +102,7 @@ function generate(){
   ];
   urls.forEach(url=>{
     lines.push('  <url>');
-    lines.push(`    <loc>${url}</loc>`);
+    lines.push(`    <loc>${escapeXml(url)}</loc>`);
     if(lastmod)lines.push(`    <lastmod>${lastmod}</lastmod>`);
     lines.push(`    <changefreq>${freq}</changefreq>`);
     lines.push(`    <priority>${priority}</priority>`);

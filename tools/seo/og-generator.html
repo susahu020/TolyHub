@@ -78,7 +78,7 @@
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>
 <script>
-function esc(s){return s.replace(/"/g,'&quot;');}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function getDomain(url){try{return new URL(url).hostname;}catch{return url;}}
 function update(){
   const title=document.getElementById('og-title').value;
@@ -96,7 +96,7 @@ function update(){
   document.getElementById('prev-desc').textContent=desc||'Your description will appear here.';
   document.getElementById('prev-domain').textContent=url?getDomain(url):'yoursite.com';
   const imgEl=document.getElementById('og-preview-img');
-  if(image){imgEl.innerHTML=`<img src="${image}" alt="OG Image" onerror="this.parentElement.innerHTML='🖼️ Image not found'">`;imgEl.style.height='auto';}
+  if(image){imgEl.innerHTML=`<img src="${esc(image)}" alt="OG Image" onerror="this.parentElement.innerHTML='🖼️ Image not found'">`;imgEl.style.height='auto';}
   else{imgEl.innerHTML='🖼️';imgEl.style.height='260px';}
 
   // Code

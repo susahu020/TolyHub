@@ -57,23 +57,30 @@ function validate(){
     const pos=getErrorPos(document.getElementById('input').value,e);
     panel.innerHTML=`<div class="alert alert-danger" style="flex-direction:column;align-items:flex-start;gap:8px;">
       <div style="font-size:16px;font-weight:700;">❌ Invalid JSON</div>
-      <div style="font-size:14px;">${e.message}</div>
+      <div style="font-size:14px;">${escapeHtml(e.message)}</div>
       ${pos?`<div style="font-size:13px;">📍 ${pos}</div>`:''}
     </div>`;
   }
   panel.style.display='block';
 }
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function getInfo(obj){
   const type=Array.isArray(obj)?'Array':typeof obj;
   const keys=typeof obj==='object'&&obj!==null?Object.keys(obj).length:0;
   return[`Type: ${type}`,keys?`Top-level keys: ${keys}`:'',`Size: ${JSON.stringify(obj).length} chars`].filter(Boolean);
 }
 function getErrorPos(text,err){
+  // Modern V8/Chrome format: "... (line 3 column 8)"
+  const lc=err.message.match(/line (\d+) column (\d+)/i);
+  if(lc)return`Line ${lc[1]}, Column ${lc[2]}`;
+  // Legacy format: "... at position 42"
   const m=err.message.match(/position (\d+)/);
-  if(!m)return null;
-  const pos=parseInt(m[1]);
-  const lines=text.slice(0,pos).split('\n');
-  return`Line ${lines.length}, Column ${lines[lines.length-1].length+1}`;
+  if(m){
+    const pos=parseInt(m[1]);
+    const lines=text.slice(0,pos).split('\n');
+    return`Line ${lines.length}, Column ${lines[lines.length-1].length+1}`;
+  }
+  return null;
 }
 function clearResult(){document.getElementById('result-panel').style.display='none';}
 function loadSample(){document.getElementById('input').value=`{"valid":true,"example":"this is valid JSON","numbers":[1,2,3],"nested":{"key":"value"}}`;validate();}

@@ -103,7 +103,7 @@
 <script>
 function truncate(s,max){return s.length>max?s.slice(0,max)+'…':s;}
 function formatUrl(url){
-  try{const u=new URL(url);return{host:u.hostname,path:u.pathname.replace(/\//g,' › ').replace(/^›\s/,'').replace(/-/g,' ')||''};}
+  try{const u=new URL(url);return{host:u.hostname,path:u.pathname.replace(/\//g,' › ').replace(/^\s*›\s*/,'').replace(/-/g,' ').trim()};}
   catch{return{host:url,path:''};}
 }
 function update(){

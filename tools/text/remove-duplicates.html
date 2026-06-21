@@ -71,7 +71,7 @@
 <script>
 function removeDups() {
   let lines = document.getElementById('input').value.split('\n');
-  const total = lines.length;
+  const rawTotal = lines.length;
   const trim = document.getElementById('trim-lines').checked;
   const ic = document.getElementById('ignore-case').checked;
   const re = document.getElementById('remove-empty').checked;
@@ -79,6 +79,8 @@ function removeDups() {
   if(trim) lines = lines.map(l=>l.trim());
   if(re) lines = lines.filter(l=>l.trim());
   if(!lines.length){toast('Please enter some text','danger');return;}
+  const blanksRemoved = rawTotal - lines.length;
+  const total = lines.length; // count AFTER blank-line filtering, so "duplicates removed" only reflects true duplicates
   const seen = new Set();
   let unique;
   if(kl) {
@@ -94,7 +96,8 @@ function removeDups() {
   document.getElementById('s-unique').textContent = unique.length;
   document.getElementById('s-removed').textContent = removed;
   document.getElementById('output-panel').style.display = 'block';
-  toast(`Removed ${removed} duplicate${removed!==1?'s':''}`,'success');
+  const blanksNote = blanksRemoved ? ` (and ${blanksRemoved} blank line${blanksRemoved!==1?'s':''} stripped)` : '';
+  toast(`Removed ${removed} duplicate${removed!==1?'s':''}${blanksNote}`,'success');
 }
 async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();}catch{toast('Paste permission denied','danger');}}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('remove-duplicates'));

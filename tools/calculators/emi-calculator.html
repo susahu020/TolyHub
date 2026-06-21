@@ -133,19 +133,23 @@ function calculate(){
 
   // Amortization table (yearly summary)
   let balance=P;
+  let yearPrincipal=0, yearInterest=0;
   const rows=[];
   for(let m=1;m<=n;m++){
     const interestPart=balance*r;
     const principalPart=emi-interestPart;
     balance-=principalPart;
+    yearPrincipal+=principalPart;
+    yearInterest+=interestPart;
     if(m%12===0||m===n){
       rows.push(`<tr>
         <td>${Math.ceil(m/12)}</td>
-        <td>${inr(emi*Math.min(12,m))}</td>
-        <td>${inr(principalPart*(m%12||12))}</td>
-        <td>${inr(interestPart*(m%12||12))}</td>
+        <td>${inr(yearPrincipal+yearInterest)}</td>
+        <td>${inr(yearPrincipal)}</td>
+        <td>${inr(yearInterest)}</td>
         <td>${inr(Math.max(0,balance))}</td>
       </tr>`);
+      yearPrincipal=0; yearInterest=0;
     }
   }
   document.getElementById('amort-tbody').innerHTML=rows.join('');

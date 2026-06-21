@@ -266,7 +266,7 @@ When you're ready to expand, add:
 
 - `blog.html` — listing page with all 30 tool guides, filterable by category
 - `blog/<tool-id>.html` — one in-depth SEO article per tool (how-to steps, use cases, FAQ with schema.org markup, related tools)
-- `blog_data.py` + `generate_blog.py` — regenerate all blog pages after editing content or adding new tools. Run from inside the `SeoToolBox/` folder:
+- `blog_data.py` + `generate_blog.py` — regenerate all blog pages after editing content or adding new tools. Run from inside the `tolyhub/` folder:
   ```
   python3 generate_blog.py
   ```

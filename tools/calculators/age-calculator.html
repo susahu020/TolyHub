@@ -25,11 +25,11 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             <div class="form-group">
               <label class="form-label">Date of Birth</label>
-              <input type="date" id="dob" onchange="calculate()">
+              <input type="text" id="dob" data-datepicker>
             </div>
             <div class="form-group">
               <label class="form-label">Age at Date (defaults to today)</label>
-              <input type="date" id="ref-date" onchange="calculate()">
+              <input type="text" id="ref-date" data-datepicker>
             </div>
           </div>
           <div class="tool-actions mt-1">
@@ -65,14 +65,17 @@
 <script src="../../js/layout.js"></script>
 <script>
 function setToday(){
-  document.getElementById('ref-date').value=new Date().toISOString().split('T')[0];
+  const refInput=document.getElementById('ref-date');
+  const iso=new Date().toISOString().split('T')[0];
+  if(refInput._dpSet) refInput._dpSet(iso);
+  else refInput.dataset.value=iso;
   calculate();
 }
 function calculate(){
-  const dobVal=document.getElementById('dob').value;
+  const dobVal=document.getElementById('dob').dataset.value;
   if(!dobVal){toast('Please enter your date of birth','danger');return;}
   const dob=new Date(dobVal);
-  const refVal=document.getElementById('ref-date').value;
+  const refVal=document.getElementById('ref-date').dataset.value;
   const ref=refVal?new Date(refVal):new Date();
   if(dob>ref){toast('Date of birth cannot be in the future','danger');return;}
 
@@ -99,10 +102,17 @@ function calculate(){
   document.getElementById('r-mins').textContent=totalMins.toLocaleString();
 
   // Birthday info
-  const today=new Date();
-  const thisYearBday=new Date(today.getFullYear(),dob.getMonth(),dob.getDate());
-  const nextBday=thisYearBday>today?thisYearBday:new Date(today.getFullYear()+1,dob.getMonth(),dob.getDate());
-  const daysToNext=Math.ceil((nextBday-today)/msPerDay);
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()); // normalize to midnight so time-of-day never affects the comparison
+  function birthdayInYear(year){
+    // Clamp Feb 29 birthdays to Feb 28 in non-leap years, instead of overflowing into March 1
+    const isLeap=(year%4===0&&year%100!==0)||year%400===0;
+    const day=(dob.getMonth()===1&&dob.getDate()===29&&!isLeap)?28:dob.getDate();
+    return new Date(year,dob.getMonth(),day);
+  }
+  const thisYearBday=birthdayInYear(today.getFullYear());
+  const nextBday=thisYearBday>=today?thisYearBday:birthdayInYear(today.getFullYear()+1);
+  const daysToNext=Math.round((nextBday-today)/msPerDay);
   const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dobDay=dayNames[dob.getDay()];
@@ -124,7 +134,14 @@ function getZodiac(m,d){
 }
 document.addEventListener('DOMContentLoaded',()=>{
   const today=new Date().toISOString().split('T')[0];
-  document.getElementById('ref-date').value=today;
+  const dobInput=document.getElementById('dob');
+  const refInput=document.getElementById('ref-date');
+  dobInput.dataset.dpMax=today;
+  Datepicker.init(dobInput);
+  Datepicker.init(refInput);
+  refInput._dpSet(today);
+  dobInput.addEventListener('change',calculate);
+  refInput.addEventListener('change',calculate);
   initToolPage('age-calculator');
 });
 </script>
