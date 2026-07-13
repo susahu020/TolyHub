@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Schema Markup Generator — Free SEO Tool | ToolBox</title>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schema Markup Generator — Free SEO Tool | TolyHub</title>
 <meta name="description" content="Free JSON-LD schema markup generator. Generate structured data for Article, FAQ, Product, LocalBusiness, and more.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/seo/schema-generator.html">
+<meta property="og:title" content="Schema Markup Generator — Free SEO Tool | TolyHub">
+<meta property="og:description" content="Free JSON-LD schema markup generator. Generate structured data for Article, FAQ, Product, LocalBusiness, and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/seo/schema-generator.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Schema Markup Generator — Free SEO Tool">
+<meta name="twitter:description" content="Free JSON-LD schema markup generator. Generate structured data for Article, FAQ, Product, LocalBusiness, and more.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Schema Markup Generator — Free SEO Tool","description":"Free JSON-LD schema markup generator. Generate structured data for Article, FAQ, Product, LocalBusiness, and more.","url":"https://www.tolyhub.com/tools/seo/schema-generator.html","applicationCategory":"WebApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"SEO Tools","item":"https://www.tolyhub.com/index.html#seo-tools"},{"@type":"ListItem","position":3,"name":"Schema Markup Generator","item":"https://www.tolyhub.com/tools/seo/schema-generator.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css">
@@ -14,14 +29,14 @@
   <main class="main-content">
     <div class="tool-page">
       <div class="tool-header">
-        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Schema Generator</div>
-        <h1>📋 Schema Markup Generator</h1>
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#seo-tools">SEO Tools</a><span class="bc-sep">›</span>Schema Generator</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-orange">📋</div><h1>Schema Markup Generator</h1></div>
         <p>Generate JSON-LD structured data markup to help search engines understand your content and show rich results.</p>
-        <a href="../../blog/schema-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
       </div>
       <div class="tool-body">
         <div class="tool-panel">
-          <div class="panel-title">Schema Type</div>
+          <div class="tp-title">Schema Type</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button class="btn btn-primary btn-sm" onclick="setType('Article')">📰 Article</button>
             <button class="btn btn-secondary btn-sm" onclick="setType('FAQ')">❓ FAQ</button>
@@ -40,7 +55,7 @@
 
         <div id="output-panel" style="display:none;" class="tool-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
-            <div class="panel-title" style="margin:0;">JSON-LD Schema Code</div>
+            <div class="tp-title" style="margin:0;">JSON-LD Schema Code</div>
             <div style="display:flex;gap:8px;">
               <button class="copy-btn" onclick="copyText(document.getElementById('output').textContent,this)">📋 Copy</button>
             </div>
@@ -49,9 +64,19 @@
           <div class="alert alert-info mt-2">Paste this code inside your page's <code>&lt;head&gt;</code> tag for best results.</div>
         </div>
       </div>
-    </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More SEO Tools</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/seo/meta-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🏷️</span>Meta Tag Generator</a>
+        <a href="../../tools/seo/robots-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🤖</span>Robots.txt Generator</a>
+        <a href="../../tools/seo/sitemap-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🗺️</span>Sitemap Generator</a>
+        <a href="../../tools/seo/serp-preview.html" class="related-tool-card"><span class="rtc-icon icon-orange">🔍</span>SERP Preview</a>
+        </div>
+      </div>
   </main>
 </div>
+
 <div id="footer-placeholder"></div>
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>
@@ -59,7 +84,7 @@
 let currentType='Article';
 const forms={
   Article:`
-    <div class="panel-title">Article Details</div>
+    <div class="tp-title">Article Details</div>
     <div class="form-group"><label class="form-label">Headline *</label><input type="text" id="s-headline" placeholder="My Amazing Article Title"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="Brief description of the article"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
@@ -72,7 +97,7 @@ const forms={
     </div>
     <div class="form-group"><label class="form-label">Article URL</label><input type="url" id="s-url" placeholder="https://example.com/article"></div>`,
   FAQ:`
-    <div class="panel-title">FAQ Items</div>
+    <div class="tp-title">FAQ Items</div>
     <div id="faq-items">
       <div class="faq-item-form" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;">
         <div class="form-group" style="margin-bottom:8px;"><label class="form-label">Question 1</label><input type="text" class="faq-q" placeholder="What is your product?"></div>
@@ -81,7 +106,7 @@ const forms={
     </div>
     <button class="btn btn-secondary btn-sm mt-1" onclick="addFAQ()">+ Add Question</button>`,
   Product:`
-    <div class="panel-title">Product Details</div>
+    <div class="tp-title">Product Details</div>
     <div class="form-group"><label class="form-label">Product Name *</label><input type="text" id="s-name" placeholder="Amazing Widget Pro"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="Product description"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
@@ -94,7 +119,7 @@ const forms={
       <div class="form-group"><label class="form-label">SKU</label><input type="text" id="s-sku" placeholder="WIDGET-001"></div>
     </div>`,
   LocalBusiness:`
-    <div class="panel-title">Local Business Details</div>
+    <div class="tp-title">Local Business Details</div>
     <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="s-name" placeholder="My Awesome Shop"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="What your business does"></textarea></div>
     <div class="form-group"><label class="form-label">Street Address</label><input type="text" id="s-street" placeholder="123 Main Street"></div>
@@ -108,7 +133,7 @@ const forms={
       <div class="form-group"><label class="form-label">Website</label><input type="url" id="s-url" placeholder="https://myshop.com"></div>
     </div>`,
   BreadcrumbList:`
-    <div class="panel-title">Breadcrumb Items</div>
+    <div class="tp-title">Breadcrumb Items</div>
     <div id="breadcrumb-items">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
         <input type="text" class="bc-name" placeholder="Home">
@@ -121,7 +146,7 @@ const forms={
     </div>
     <button class="btn btn-secondary btn-sm mt-1" onclick="addBreadcrumb()">+ Add Item</button>`,
   WebSite:`
-    <div class="panel-title">Website Details</div>
+    <div class="tp-title">Website Details</div>
     <div class="form-group"><label class="form-label">Website Name *</label><input type="text" id="s-name" placeholder="My Website"></div>
     <div class="form-group"><label class="form-label">Website URL *</label><input type="url" id="s-url" placeholder="https://mywebsite.com"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea id="s-desc" rows="2" placeholder="Brief description of your website"></textarea></div>

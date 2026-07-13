@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.tolyhub.com/</loc>
+    <lastmod>2026-06-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://www.tolyhub.com/about.html</loc>
     <lastmod>2026-06-15</lastmod>
     <priority>0.5</priority>
@@ -48,6 +54,11 @@
   <url>
     <loc>https://www.tolyhub.com/blog/irctc-date-calculator.html</loc>
     <lastmod>2026-06-20</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.tolyhub.com/blog/sip-calculator.html</loc>
+    <lastmod>2026-07-13</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
@@ -187,157 +198,162 @@
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/age-calculator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/date-calculator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/emi-calculator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tolyhub.com/tools/calculators/sip-calculator.html</loc>
+    <lastmod>2026-07-13</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/irctc-date-calculator.html</loc>
-    <lastmod>2026-06-20</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/gst-calculator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/calculators/percentage-calc.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/base64-decoder.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/base64-encoder.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/json-formatter.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/json-minifier.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/json-validator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/md5-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/url-decoder.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/developer/url-encoder.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/productivity/qr-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/productivity/uuid-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/security/password-gen.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/security/password-strength.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/security/sha256-gen.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/seo/meta-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/seo/og-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/seo/robots-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/seo/schema-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/seo/serp-preview.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/seo/sitemap-generator.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/text/case-converter.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/text/char-counter.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/text/remove-duplicates.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/text/sort-text.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/text/text-compare.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tolyhub.com/tools/text/word-counter.html</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>

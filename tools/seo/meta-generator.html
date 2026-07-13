@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Meta Tag Generator — Free SEO Tool | ToolBox</title>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meta Tag Generator — Free SEO Tool | TolyHub</title>
 <meta name="description" content="Free meta tag generator. Generate complete HTML meta tags for SEO, Open Graph, and Twitter Cards. Copy-paste ready output.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/seo/meta-generator.html">
+<meta property="og:title" content="Meta Tag Generator — Free SEO Tool | TolyHub">
+<meta property="og:description" content="Free meta tag generator. Generate complete HTML meta tags for SEO, Open Graph, and Twitter Cards. Copy-paste ready output.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/seo/meta-generator.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Meta Tag Generator — Free SEO Tool">
+<meta name="twitter:description" content="Free meta tag generator. Generate complete HTML meta tags for SEO, Open Graph, and Twitter Cards. Copy-paste ready output.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Meta Tag Generator — Free SEO Tool","description":"Free meta tag generator. Generate complete HTML meta tags for SEO, Open Graph, and Twitter Cards. Copy-paste ready output.","url":"https://www.tolyhub.com/tools/seo/meta-generator.html","applicationCategory":"WebApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"SEO Tools","item":"https://www.tolyhub.com/index.html#seo-tools"},{"@type":"ListItem","position":3,"name":"Meta Tag Generator","item":"https://www.tolyhub.com/tools/seo/meta-generator.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css">
@@ -15,14 +30,14 @@
   <main class="main-content">
     <div class="tool-page">
       <div class="tool-header">
-        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Meta Tag Generator</div>
-        <h1>🏷️ Meta Tag Generator</h1>
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#seo-tools">SEO Tools</a><span class="bc-sep">›</span>Meta Tag Generator</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-orange">🏷️</div><h1>️ Meta Tag Generator</h1></div>
         <p>Fill in the fields below and get complete, copy-ready HTML meta tags for your webpage.</p>
-        <a href="../../blog/meta-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
       </div>
       <div class="tool-body">
         <div class="tool-panel">
-          <div class="panel-title">Basic SEO Tags</div>
+          <div class="tp-title">Basic SEO Tags</div>
           <div class="form-group">
             <label class="form-label">Page Title <span style="color:var(--danger)">*</span></label>
             <input type="text" id="f-title" placeholder="My Awesome Page Title" oninput="update();countChars('f-title','cc-title',60)">
@@ -55,7 +70,7 @@
         </div>
 
         <div class="tool-panel">
-          <div class="panel-title">Open Graph (Social Sharing)</div>
+          <div class="tp-title">Open Graph (Social Sharing)</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             <div class="form-group">
               <label class="form-label">OG Title <span style="color:var(--text3);font-weight:400">(defaults to title)</span></label>
@@ -82,15 +97,25 @@
 
         <div class="tool-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
-            <div class="panel-title" style="margin:0;">Generated Meta Tags</div>
+            <div class="tp-title" style="margin:0;">Generated Meta Tags</div>
             <button class="copy-btn" onclick="copyText(document.getElementById('output').textContent,this)">📋 Copy All</button>
           </div>
           <pre class="output-box" id="output" style="font-size:12px;line-height:1.7;">Fill in the fields above to generate meta tags…</pre>
         </div>
       </div>
-    </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More SEO Tools</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/seo/robots-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🤖</span>Robots.txt Generator</a>
+        <a href="../../tools/seo/sitemap-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🗺️</span>Sitemap Generator</a>
+        <a href="../../tools/seo/schema-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">📋</span>Schema Generator</a>
+        <a href="../../tools/seo/serp-preview.html" class="related-tool-card"><span class="rtc-icon icon-orange">🔍</span>SERP Preview</a>
+        </div>
+      </div>
   </main>
 </div>
+
 <div id="footer-placeholder"></div>
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>
@@ -119,7 +144,9 @@ function update(){
   if(author)lines.push(`<meta name="author" content="${esc(author)}">`);
   lines.push(`<meta name="robots" content="${robots}">`);
   lines.push(`<meta name="viewport" content="width=device-width, initial-scale=1.0">`);
-  lines.push(`<meta charset="UTF-8">`);
+  lines.push(`<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> -->`);
   if(url)lines.push(`<link rel="canonical" href="${esc(url)}">`);
   if(ogTitle||url||ogImage){
     lines.push('');

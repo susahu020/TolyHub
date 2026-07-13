@@ -39,6 +39,7 @@ const TOOLS = [
   { id:'gst-calculator',   name:'GST Calculator',      cat:'Calculators', icon:'🧾',color:'teal',   file:'tools/calculators/gst-calculator.html',  desc:'Calculate GST amounts easily' },
   { id:'emi-calculator',   name:'EMI Calculator',      cat:'Calculators', icon:'🏦',color:'teal',   file:'tools/calculators/emi-calculator.html',  desc:'Calculate loan EMI amounts' },
   { id:'irctc-date-calculator', name:'IRCTC Date Calculator', cat:'Calculators', icon:'🚆',color:'teal', file:'tools/calculators/irctc-date-calculator.html', desc:'Train booking, Tatkal & refund dates' },
+  { id:'sip-calculator',   name:'SIP Calculator',      cat:'Calculators', icon:'📈',color:'teal',   file:'tools/calculators/sip-calculator.html',  desc:'Estimate mutual fund SIP returns' },
 ];
 
 // ── THEME ──
@@ -85,47 +86,105 @@ const recent = {
   }
 };
 
-// ── SEARCH ──
+// ── SEARCH (shared utility) ──
+function _buildSearch(inp, box, root) {
+  if (!inp || !box) return;
+  let activeIdx = -1;
+
+  function esc(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+  function highlight(text, q) {
+    if (!q) return text;
+    return text.replace(new RegExp('(' + esc(q) + ')', 'gi'), '<mark>$1</mark>');
+  }
+  function groupBy(arr, key) {
+    return arr.reduce((acc, item) => {
+      (acc[item[key]] = acc[item[key]] || []).push(item); return acc;
+    }, {});
+  }
+  function getItems() { return box.querySelectorAll('.search-result-item'); }
+  function setActive(idx) {
+    const items = getItems();
+    items.forEach((el, i) => el.classList.toggle('sr-active', i === idx));
+    if (items[idx]) items[idx].scrollIntoView({ block: 'nearest' });
+    activeIdx = idx;
+  }
+
+  function render(q) {
+    if (!q) { box.classList.add('hidden'); activeIdx = -1; return; }
+    const matches = TOOLS.filter(t =>
+      t.name.toLowerCase().includes(q) ||
+      t.cat.toLowerCase().includes(q) ||
+      t.desc.toLowerCase().includes(q)
+    ).slice(0, 10);
+
+    if (!matches.length) {
+      const safeQ = String(q).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      box.innerHTML = '<div class="search-empty">'
+        + '<div class="se-icon">🔍</div>'
+        + '<div class="se-text">No tools found for "' + safeQ + '"</div>'
+        + '<div class="se-sub">Try "JSON", "password", "GST", or "word"</div>'
+        + '</div>';
+      box.classList.remove('hidden'); activeIdx = -1; return;
+    }
+
+    const groups = groupBy(matches, 'cat');
+    let html = '<div class="sr-list">';
+    Object.entries(groups).forEach(([cat, tools]) => {
+      html += '<div class="sr-group-header">' + cat + '</div>';
+      tools.forEach(t => {
+        html += '<a href="' + root + t.file + '" class="search-result-item" onclick="recent.add(\'' + t.id + '\')">'
+          + '<div class="result-icon icon-' + t.color + '">' + t.icon + '</div>'
+          + '<div class="result-text">'
+          + '<div class="result-name">' + highlight(t.name, q) + '</div>'
+          + '<div class="result-cat">' + t.desc + '</div>'
+          + '</div><span class="result-arrow">→</span></a>';
+      });
+    });
+    html += '</div>'
+      + '<div class="sr-footer">'
+      + '<span><kbd>↑↓</kbd> Navigate</span>'
+      + '<span><kbd>↵</kbd> Open</span>'
+      + '<span><kbd>Esc</kbd> Close</span>'
+      + '<span style="margin-left:auto">' + matches.length + ' result' + (matches.length !== 1 ? 's' : '') + '</span>'
+      + '</div>';
+    box.innerHTML = html;
+    box.classList.remove('hidden'); activeIdx = -1;
+  }
+
+  inp.addEventListener('input', () => render(inp.value.trim().toLowerCase()));
+  inp.addEventListener('focus', () => { if (inp.value.trim()) render(inp.value.trim().toLowerCase()); });
+
+  inp.addEventListener('keydown', e => {
+    const items = getItems();
+    if (e.key === 'ArrowDown')  { e.preventDefault(); setActive(Math.min(activeIdx + 1, items.length - 1)); }
+    else if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      const target = activeIdx >= 0 ? items[activeIdx] : items[0];
+      if (target) target.click();
+    } else if (e.key === 'Escape') { box.classList.add('hidden'); inp.blur(); activeIdx = -1; }
+  });
+
+  document.addEventListener('click', e => {
+    const wrap = inp.closest('.nav-search, .search-spotlight');
+    if (wrap && !wrap.contains(e.target)) { box.classList.add('hidden'); activeIdx = -1; }
+    else if (!inp.contains(e.target) && !box.contains(e.target)) { box.classList.add('hidden'); activeIdx = -1; }
+  });
+}
+
 const search = {
   init(root = '') {
-    const inp = document.getElementById('global-search');
-    const results = document.getElementById('search-results');
-    if (!inp || !results) return;
-
-    inp.addEventListener('input', () => {
-      const q = inp.value.trim().toLowerCase();
-      if (!q) { results.classList.add('hidden'); return; }
-      const matches = TOOLS.filter(t =>
-        t.name.toLowerCase().includes(q) ||
-        t.cat.toLowerCase().includes(q) ||
-        t.desc.toLowerCase().includes(q)
-      ).slice(0, 8);
-
-      if (!matches.length) {
-        results.innerHTML = '<div class="search-empty">No tools found</div>';
-      } else {
-        results.innerHTML = matches.map(t => `
-          <a href="${root}${t.file}" class="search-result-item" onclick="recent.add('${t.id}')">
-            <div class="result-icon icon-${t.color}">${t.icon}</div>
-            <div>
-              <div class="result-name">${t.name}</div>
-              <div class="result-cat">${t.cat} · ${t.desc}</div>
-            </div>
-          </a>`).join('');
-      }
-      results.classList.remove('hidden');
-    });
-
-    document.addEventListener('click', e => {
-      if (!inp.contains(e.target) && !results.contains(e.target))
-        results.classList.add('hidden');
-    });
-    inp.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { results.classList.add('hidden'); inp.blur(); }
-    });
-
-    // '/' focuses search from anywhere (unless already typing in a field)
+    _buildSearch(
+      document.getElementById('global-search'),
+      document.getElementById('search-results'),
+      root
+    );
+    // '/' shortcut focuses navbar search
     document.addEventListener('keydown', e => {
+      const inp = document.getElementById('global-search');
+      if (!inp) return;
       if (e.key === '/' && document.activeElement !== inp) {
         const tag = (document.activeElement?.tagName || '').toLowerCase();
         if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
@@ -176,11 +235,21 @@ async function copyText(text, btn) {
 
 // ── TOAST ──
 function toast(msg, type = 'success') {
+  // Remove any existing toast to avoid stacking
+  document.getElementById('tb-toast')?.remove();
   const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;color:#fff;background:${type==='success'?'#2ecc71':type==='danger'?'#e74c3c':'#4361ee'};box-shadow:0 4px 20px rgba(0,0,0,0.2);animation:slideIn 0.3s ease`;
-  t.textContent = msg;
+  t.id = 'tb-toast';
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const styles = {
+    success: { bg: isDark ? '#0d2818' : '#eafaf1', color: isDark ? '#4ade80' : '#1a7a44', border: isDark ? '#166534' : '#a9dfbf', icon: '✅' },
+    danger:  { bg: isDark ? '#2d0e0e' : '#fdedec', color: isDark ? '#f87171' : '#a93226', border: isDark ? '#7f1d1d' : '#f5b7b1', icon: '❌' },
+    info:    { bg: isDark ? '#1a2142' : '#eef0fd', color: isDark ? '#7fa7ff' : '#4361ee', border: isDark ? '#1e3a8a' : '#c5cdf8', icon: 'ℹ️' },
+  };
+  const s = styles[type] || styles.success;
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;background:${s.bg};color:${s.color};border:1px solid ${s.border};box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:320px;transition:opacity .3s;`;
+  t.innerHTML = `${s.icon} ${msg}`;
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2800);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 320); }, 2600);
 }
 
 // ── FAQ TOGGLE ──
@@ -209,6 +278,14 @@ function initToolPage(toolId) {
   // Mark sidebar link active
   document.querySelectorAll('.sidebar-link').forEach(l => {
     if (l.href && l.href.includes(toolId)) l.classList.add('active');
+  });
+  // Wire Cmd/Ctrl+K to focus the global search (matches the ⌘K hint shown in the nav)
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      const s = document.getElementById('global-search');
+      if (s) { s.focus(); s.select(); }
+    }
   });
 }
 
@@ -405,4 +482,18 @@ const Datepicker = {
 document.addEventListener('DOMContentLoaded', () => {
   theme.init();
   initFAQ();
+});
+
+// ── GLOBAL ⌘K SHORTCUT (homepage) ──
+// Tool pages wire this inside initToolPage(); this covers the homepage and other non-tool pages.
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    // Only fire if initToolPage hasn't already added a listener (avoid double-focus)
+    if (document.body.classList.contains('home-page') ||
+        !document.body.dataset.toolInit) {
+      e.preventDefault();
+      const s = document.getElementById('global-search');
+      if (s) { s.focus(); s.select(); }
+    }
+  }
 });

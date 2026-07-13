@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIP Calculator — Free Online Mutual Fund SIP Return Calculator | TolyHub</title>
+<meta name="description" content="Free SIP calculator to estimate mutual fund returns. Calculate invested amount, wealth gained, and maturity value for regular or step-up SIPs with a year-wise breakdown.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/calculators/sip-calculator.html">
+<meta property="og:title" content="SIP Calculator — Free Online Mutual Fund SIP Return Calculator | TolyHub">
+<meta property="og:description" content="Free SIP calculator to estimate mutual fund returns. Calculate invested amount, wealth gained, and maturity value for regular or step-up SIPs with a year-wise breakdown.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/calculators/sip-calculator.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SIP Calculator — Free Online Mutual Fund SIP Return Calculator">
+<meta name="twitter:description" content="Free SIP calculator to estimate mutual fund returns. Calculate invested amount, wealth gained, and maturity value for regular or step-up SIPs with a year-wise breakdown.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SIP Calculator — Free Online Mutual Fund SIP Return Calculator","description":"Free SIP calculator to estimate mutual fund returns. Calculate invested amount, wealth gained, and maturity value for regular or step-up SIPs with a year-wise breakdown.","url":"https://www.tolyhub.com/tools/calculators/sip-calculator.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.tolyhub.com/index.html#calculator-tools"},{"@type":"ListItem","position":3,"name":"SIP Calculator","item":"https://www.tolyhub.com/tools/calculators/sip-calculator.html"}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>window.PAGE_DEPTH = 2;</script>
+<style>
+.sip-table{width:100%;border-collapse:collapse;font-size:13px;}
+.sip-table th{background:var(--bg3);padding:8px 10px;text-align:left;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);}
+.sip-table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+.sip-table tr:last-child td{border-bottom:none;}
+.sip-table tr:hover td{background:var(--bg2);}
+.sip-toggle-row{display:flex;align-items:center;gap:8px;margin-top:0.75rem;font-size:13.5px;font-weight:600;}
+.sip-toggle-row input[type="checkbox"]{width:16px;height:16px;cursor:pointer;}
+</style>
+</head><body>
+<div id="nav-placeholder"></div>
+<div class="page-wrapper">
+  <div id="sidebar-placeholder"></div>
+  <main class="main-content">
+    <div class="tool-page">
+      <div class="tool-header">
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#calculator-tools">Calculators</a><span class="bc-sep">›</span>SIP Calculator</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-teal">📈</div><h1>SIP Calculator</h1></div>
+        <p>Estimate the future value of your mutual fund SIP (Systematic Investment Plan). See invested amount, wealth gained, and total maturity value — with optional annual step-up.</p>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-panel">
+          <div class="tp-title">Investment Details</div>
+          <div class="form-group">
+            <label class="form-label">Monthly Investment (₹): <strong id="amt-display">₹5,000</strong></label>
+            <input type="range" id="monthly-amt" min="500" max="200000" value="5000" step="500" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>₹500</span><span>₹2,00,000</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Annual Return (%): <strong id="rate-display">12%</strong></label>
+            <input type="range" id="return-rate" min="1" max="30" value="12" step="0.5" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>1%</span><span>30%</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Investment Period: <strong id="period-display">10 Years</strong></label>
+            <input type="range" id="period" min="1" max="40" value="10" step="1" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>1 Yr</span><span>40 Yrs</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.5rem;">
+            <div class="form-group" style="margin:0;"><label class="form-label">Monthly ₹</label><input type="number" id="amt-manual" placeholder="5000" oninput="syncManual('amt')"></div>
+            <div class="form-group" style="margin:0;"><label class="form-label">Return %</label><input type="number" id="rate-manual" placeholder="12" step="0.1" oninput="syncManual('rate')"></div>
+            <div class="form-group" style="margin:0;"><label class="form-label">Period (Years)</label><input type="number" id="period-manual" placeholder="10" oninput="syncManual('period')"></div>
+          </div>
+          <div class="sip-toggle-row">
+            <input type="checkbox" id="stepup-enabled" onchange="toggleStepUp();calculate()">
+            <label for="stepup-enabled" style="cursor:pointer;">Step-up SIP — increase investment every year</label>
+          </div>
+          <div class="form-group" id="stepup-group" style="display:none;margin-top:0.5rem;">
+            <label class="form-label">Annual Step-up (%): <strong id="stepup-display">10%</strong></label>
+            <input type="range" id="stepup-rate" min="1" max="50" value="10" step="1" oninput="updateDisplay();calculate()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;"><span>1%</span><span>50%</span></div>
+          </div>
+        </div>
+
+        <div id="result-panel" style="display:none;">
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-val" id="r-invested" style="font-size:1.4rem;">—</div><div class="stat-lbl">Invested Amount</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-returns" style="font-size:1.4rem;">—</div><div class="stat-lbl">Est. Returns</div></div>
+            <div class="stat-box"><div class="stat-val" id="r-total" style="font-size:1.4rem;">—</div><div class="stat-lbl">Total Value</div></div>
+          </div>
+
+          <div class="tool-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+              <div class="tp-title" style="margin:0;">Year-wise Growth</div>
+              <button class="btn btn-secondary btn-sm" onclick="toggleTable()">📋 Show/Hide Table</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;font-size:13px;margin-bottom:1rem;">
+              <span>🔵 Invested: <strong id="pct-invested">—</strong>%</span>
+              <span>🟢 Returns: <strong id="pct-returns">—</strong>%</span>
+            </div>
+            <div id="progress-bars" style="margin-bottom:1rem;">
+              <div style="margin-bottom:6px;font-size:12px;color:var(--text3);">Invested Amount</div>
+              <div class="progress" style="margin-bottom:10px;"><div class="progress-bar" id="bar-invested" style="background:var(--accent);"></div></div>
+              <div style="margin-bottom:6px;font-size:12px;color:var(--text3);">Estimated Returns</div>
+              <div class="progress"><div class="progress-bar" id="bar-returns" style="background:var(--success);"></div></div>
+            </div>
+            <div id="sip-table-container" style="display:none;max-height:360px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);">
+              <table class="sip-table">
+                <thead><tr><th>Year</th><th>Invested (Yearly)</th><th>Invested (Total)</th><th>Value at Year End</th></tr></thead>
+                <tbody id="sip-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More Calculators</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/calculators/emi-calculator.html" class="related-tool-card"><span class="rtc-icon icon-teal">🏦</span>EMI Calculator</a>
+        <a href="../../tools/calculators/percentage-calc.html" class="related-tool-card"><span class="rtc-icon icon-teal">%</span>Percentage Calculator</a>
+        <a href="../../tools/calculators/gst-calculator.html" class="related-tool-card"><span class="rtc-icon icon-teal">🧾</span>GST Calculator</a>
+        <a href="../../tools/calculators/age-calculator.html" class="related-tool-card"><span class="rtc-icon icon-teal">🎂</span>Age Calculator</a>
+        </div>
+      </div>
+  </main>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../../js/main.js"></script>
+<script src="../../js/layout.js"></script>
+<script>
+function inr(n){return'₹'+Math.round(n).toLocaleString('en-IN');}
+function toggleStepUp(){
+  const on=document.getElementById('stepup-enabled').checked;
+  document.getElementById('stepup-group').style.display=on?'block':'none';
+}
+function updateDisplay(){
+  const amt=parseFloat(document.getElementById('monthly-amt').value);
+  const rate=parseFloat(document.getElementById('return-rate').value);
+  const period=parseInt(document.getElementById('period').value);
+  const stepup=parseFloat(document.getElementById('stepup-rate').value);
+  document.getElementById('amt-display').textContent=inr(amt);
+  document.getElementById('rate-display').textContent=rate+'%';
+  document.getElementById('period-display').textContent=period+(period===1?' Year':' Years');
+  document.getElementById('stepup-display').textContent=stepup+'%';
+  document.getElementById('amt-manual').value=amt;
+  document.getElementById('rate-manual').value=rate;
+  document.getElementById('period-manual').value=period;
+}
+function syncManual(type){
+  if(type==='amt'){const v=document.getElementById('amt-manual').value;document.getElementById('monthly-amt').value=v;}
+  if(type==='rate'){const v=document.getElementById('rate-manual').value;document.getElementById('return-rate').value=v;}
+  if(type==='period'){const v=document.getElementById('period-manual').value;document.getElementById('period').value=v;}
+  updateDisplay();calculate();
+}
+function calculate(){
+  const P=parseFloat(document.getElementById('monthly-amt').value);
+  const annualRate=parseFloat(document.getElementById('return-rate').value);
+  const years=parseInt(document.getElementById('period').value);
+  const stepUpOn=document.getElementById('stepup-enabled').checked;
+  const stepUpPct=stepUpOn?parseFloat(document.getElementById('stepup-rate').value):0;
+  if(!P||!annualRate||!years)return;
+
+  const i=annualRate/12/100;
+  const n=years*12;
+
+  // Month-by-month simulation (annuity-due: invest at start of month, then that
+  // month's return applies). This also lets us support step-up SIPs, where the
+  // monthly instalment increases by stepUpPct% at the start of every new year.
+  let balance=0, totalInvested=0;
+  let currentMonthly=P;
+  const yearlyRows=[];
+  let yearInvested=0;
+
+  for(let m=1;m<=n;m++){
+    if(stepUpOn && m>1 && (m-1)%12===0){
+      currentMonthly=currentMonthly*(1+stepUpPct/100);
+    }
+    balance=(balance+currentMonthly)*(1+i);
+    totalInvested+=currentMonthly;
+    yearInvested+=currentMonthly;
+
+    if(m%12===0||m===n){
+      yearlyRows.push({
+        year: Math.ceil(m/12),
+        yearlyInvested: yearInvested,
+        totalInvested: totalInvested,
+        value: balance
+      });
+      yearInvested=0;
+    }
+  }
+
+  const totalValue=balance;
+  const estReturns=totalValue-totalInvested;
+  const investedPct=Math.round(totalInvested/totalValue*100);
+  const returnsPct=100-investedPct;
+
+  document.getElementById('r-invested').textContent=inr(totalInvested);
+  document.getElementById('r-returns').textContent=inr(estReturns);
+  document.getElementById('r-total').textContent=inr(totalValue);
+  document.getElementById('pct-invested').textContent=investedPct;
+  document.getElementById('pct-returns').textContent=returnsPct;
+  document.getElementById('bar-invested').style.width=investedPct+'%';
+  document.getElementById('bar-returns').style.width=returnsPct+'%';
+
+  document.getElementById('sip-tbody').innerHTML=yearlyRows.map(row=>`<tr>
+    <td>${row.year}</td>
+    <td>${inr(row.yearlyInvested)}</td>
+    <td>${inr(row.totalInvested)}</td>
+    <td>${inr(row.value)}</td>
+  </tr>`).join('');
+
+  document.getElementById('result-panel').style.display='block';
+}
+function toggleTable(){
+  const t=document.getElementById('sip-table-container');
+  t.style.display=t.style.display==='none'?'block':'none';
+}
+document.addEventListener('DOMContentLoaded',()=>{updateDisplay();calculate();initToolPage('sip-calculator');});
+</script>
+</body></html>

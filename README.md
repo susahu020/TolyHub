@@ -1,4 +1,4 @@
-# 🛠 ToolBox — Phase 1 Deployment Guide
+# 🛠️ TolyHub — Phase 1 Deployment Guide
 ## Complete Beginner's Step-by-Step Guide
 
 ---
@@ -6,7 +6,7 @@
 ## 📁 Project Structure
 
 ```
-toolbox/
+tolyhub/
 ├── index.html                    ← Homepage
 ├── css/
 │   └── style.css                 ← All styles (design system)
@@ -75,7 +75,7 @@ toolbox/
 
 Just open the files directly in your browser:
 
-1. Go to your `toolbox/` folder
+1. Go to your `tolyhub/` folder
 2. Double-click `index.html`
 3. It opens in your browser — that's it!
 
@@ -91,7 +91,7 @@ Just open the files directly in your browser:
 
 ### Upload Your Project
 1. Click **New repository** (green button)
-2. Name it: `toolbox` (or any name you want)
+2. Name it: `tolyhub` (or any name you want)
 3. Set it to **Public**
 4. Click **Create repository**
 5. Click **uploading an existing file**
@@ -105,7 +105,7 @@ Just open the files directly in your browser:
 4. Select **main** branch, **/ (root)** folder
 5. Click **Save**
 6. Wait 2–3 minutes
-7. Your site is live at: `https://yourusername.github.io/toolbox/`
+7. Your site is live at: `https://yourusername.github.io/tolyhub/`
 
 ✅ **100% FREE. No credit card. No limits.**
 
@@ -115,7 +115,7 @@ Just open the files directly in your browser:
 
 1. Go to https://netlify.com and sign up (free)
 2. Click **Add new site** → **Deploy manually**
-3. **Drag your entire `toolbox/` folder** into the browser
+3. **Drag your entire `tolyhub/` folder** into the browser
 4. Your site is live instantly with a random URL like `amazing-einstein-123.netlify.app`
 5. To get a custom domain later, go to **Site settings** → **Domain management**
 
@@ -183,7 +183,7 @@ To add a new tool, just copy any existing tool file and modify it:
 Edit these to match your brand:
 
 ### Change Site Name
-Search for `ToolBox` in all files and replace with your brand name.
+Search for `TolyHub` in all files and replace with your brand name.
 
 ### Change Colors
 Open `css/style.css` and edit:
@@ -274,7 +274,20 @@ When you're ready to expand, add:
 
 ---
 
-## 🆘 Common Issues
+## 📬 Contact Form (Google Apps Script)
+
+`contact.html` posts to a Google Apps Script Web App URL (`SCRIPT_URL` inside the page). The script itself is version-controlled at `scripts/contact-form.gs` — copy its full contents into your Apps Script project at script.google.com.
+
+**Important:** editing `scripts/contact-form.gs` in this repo does **not** update the live script. Apps Script only picks up changes after you redeploy:
+1. Open your project at script.google.com
+2. Paste the updated code from `scripts/contact-form.gs`, replacing everything
+3. **Deploy → Manage deployments → ✏️ (edit) → Version: New version → Deploy**
+4. The `/exec` URL stays the same, so `contact.html` doesn't need any changes
+
+If a submitted message arrives as plain, unstyled text (or with garbled symbols) instead of the branded card design, it almost always means step 3 was skipped and an older version of the script is still live.
+
+---
+
 
 **Sidebar not showing?**
 → Make sure `js/layout.js` and `js/main.js` are loaded in every page
