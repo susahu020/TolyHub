@@ -123,7 +123,7 @@ function generateHash(){
   document.getElementById('output-panel').style.display='block';
 }
 function hideOutput(){document.getElementById('output-panel').style.display='none';}
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();generateHash();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input', generateHash);}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('md5-generator'));
 </script>
 </body></html>

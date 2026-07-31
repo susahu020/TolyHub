@@ -165,7 +165,6 @@ function compare() {
     document.getElementById('results-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
   }, 10);
 }
-function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function clearAll(){document.getElementById('text1').value='';document.getElementById('text2').value='';document.getElementById('results-panel').style.display='none';}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('text-compare'));
 </script>

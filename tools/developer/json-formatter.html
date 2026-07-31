@@ -120,7 +120,6 @@ function syntaxHighlight(json){
 
 function showError(msg){document.getElementById('error-box').innerHTML='❌ '+escapeHtml(msg);document.getElementById('error-box').style.display='flex';document.getElementById('success-box').style.display='none';}
 function showSuccess(msg){document.getElementById('success-box').innerHTML='✅ '+escapeHtml(msg);document.getElementById('success-box').style.display='flex';document.getElementById('error-box').style.display='none';}
-function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hideMessages(){document.getElementById('error-box').style.display='none';document.getElementById('success-box').style.display='none';}
 
 function format(){
@@ -166,7 +165,7 @@ function loadSample(){
   document.getElementById('input').value=`{"name":"Jane Doe","age":28,"email":"jane@example.com","address":{"street":"123 Main St","city":"Mumbai","country":"India"},"skills":["JavaScript","Python","SEO"],"active":true}`;
 }
 function clearAll(){document.getElementById('input').value='';document.getElementById('output-panel').style.display='none';hideMessages();}
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input');}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('json-formatter'));
 </script>
 </body></html>

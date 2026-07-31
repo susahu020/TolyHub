@@ -174,6 +174,26 @@
 .badge-pop { background: var(--accent-light); color: var(--accent); }
 .badge-in  { background: var(--success-light); color: #1a7a44; }
 
+/* ── FAVORITE STAR (on hp-card / pop-card) ── */
+/* Sits top-left so it never collides with the existing top-right "Popular" badge. */
+.card-fav-btn {
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%; border: none;
+  background: var(--surface); color: var(--text3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1; cursor: pointer;
+  opacity: 0; transition: opacity .15s, color .15s, transform .1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.14);
+}
+/* Visible on hover, on focus (keyboard users), and always once favorited —
+   so a favorited state is never hidden just because the mouse moved away. */
+.hp-card:hover .card-fav-btn,
+.pop-card:hover .card-fav-btn,
+.card-fav-btn:focus-visible,
+.card-fav-btn.is-fav { opacity: 1; }
+.card-fav-btn.is-fav { color: #f5a623; }
+.card-fav-btn:hover { transform: scale(1.12); }
+
 /* ── CAT SECTION HEADER ── */
 .cat-sec { margin-bottom: 2.5rem; }
 .cat-sec-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
@@ -217,6 +237,9 @@
 
 /* ── RECENTLY USED ── */
 .recently-used-section { display: none; }
+
+/* ── FAVORITES ── */
+.favorites-section { display: none; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) { .popular-row { grid-template-columns: repeat(2,1fr); } }
@@ -272,6 +295,15 @@
       </div>
     </section>
 
+    <!-- ── FAVORITES ── -->
+    <section class="favorites-section" id="favorites-section">
+      <div class="sep-row">
+        <span class="sep-label">&#11088; Favorites</span>
+        <span class="sep-line"></span>
+      </div>
+      <div class="hp-tool-grid" id="favorite-tools"></div>
+    </section>
+
     <!-- ── RECENTLY USED ── -->
     <section class="recently-used-section" id="recent-section">
       <div class="sep-row">
@@ -289,17 +321,17 @@
         <span class="sep-meta">Top 3 picks</span>
       </div>
       <div class="popular-row">
-        <a href="tools/developer/json-formatter.html" class="pop-card" onclick="recent.add('json-formatter')">
+        <a href="tools/developer/json-formatter.html" class="pop-card" data-tool-id="json-formatter" onclick="recent.add('json-formatter')">
           <div class="pc-icon icon-green">{ }</div>
           <div><div class="pc-name">JSON Formatter</div><div class="pc-desc">Format, validate &amp; highlight JSON</div></div>
           <span class="pop-badge">Popular</span>
         </a>
-        <a href="tools/text/word-counter.html" class="pop-card" onclick="recent.add('word-counter')">
+        <a href="tools/text/word-counter.html" class="pop-card" data-tool-id="word-counter" onclick="recent.add('word-counter')">
           <div class="pc-icon icon-blue">&#128221;</div>
           <div><div class="pc-name">Word Counter</div><div class="pc-desc">Words, chars, sentences &amp; reading time</div></div>
           <span class="pop-badge">Popular</span>
         </a>
-        <a href="tools/seo/meta-generator.html" class="pop-card" onclick="recent.add('meta-generator')">
+        <a href="tools/seo/meta-generator.html" class="pop-card" data-tool-id="meta-generator" onclick="recent.add('meta-generator')">
           <div class="pc-icon icon-orange">&#127991;&#65039;</div>
           <div><div class="pc-name">Meta Tag Generator</div><div class="pc-desc">Complete HTML meta tags for SEO</div></div>
           <span class="pop-badge">Popular</span>
@@ -331,33 +363,33 @@
           <span class="cat-count">6 tools</span>
         </div>
         <div class="hp-tool-grid">
-          <a href="tools/text/word-counter.html" class="hp-card" onclick="recent.add('word-counter')">
+          <a href="tools/text/word-counter.html" class="hp-card" data-tool-id="word-counter" onclick="recent.add('word-counter')">
             <div class="tc-icon icon-blue">&#128221;</div>
             <div class="tc-name">Word Counter</div>
             <div class="tc-desc">Count words, chars, sentences and more</div>
             <span class="tc-badge badge-pop">Popular</span>
           </a>
-          <a href="tools/text/char-counter.html" class="hp-card" onclick="recent.add('char-counter')">
+          <a href="tools/text/char-counter.html" class="hp-card" data-tool-id="char-counter" onclick="recent.add('char-counter')">
             <div class="tc-icon icon-blue">&#128292;</div>
             <div class="tc-name">Character Counter</div>
             <div class="tc-desc">Count characters with and without spaces</div>
           </a>
-          <a href="tools/text/case-converter.html" class="hp-card" onclick="recent.add('case-converter')">
+          <a href="tools/text/case-converter.html" class="hp-card" data-tool-id="case-converter" onclick="recent.add('case-converter')">
             <div class="tc-icon icon-blue">&#128289;</div>
             <div class="tc-name">Case Converter</div>
             <div class="tc-desc">UPPER, lower, Title, camelCase and more</div>
           </a>
-          <a href="tools/text/text-compare.html" class="hp-card" onclick="recent.add('text-compare')">
+          <a href="tools/text/text-compare.html" class="hp-card" data-tool-id="text-compare" onclick="recent.add('text-compare')">
             <div class="tc-icon icon-blue">&#9878;&#65039;</div>
             <div class="tc-name">Text Compare</div>
             <div class="tc-desc">Find differences between two text blocks</div>
           </a>
-          <a href="tools/text/sort-text.html" class="hp-card" onclick="recent.add('sort-text')">
+          <a href="tools/text/sort-text.html" class="hp-card" data-tool-id="sort-text" onclick="recent.add('sort-text')">
             <div class="tc-icon icon-blue">&#8597;&#65039;</div>
             <div class="tc-name">Sort Text Lines</div>
             <div class="tc-desc">Sort lines A&ndash;Z, reverse, or by length</div>
           </a>
-          <a href="tools/text/remove-duplicates.html" class="hp-card" onclick="recent.add('remove-duplicates')">
+          <a href="tools/text/remove-duplicates.html" class="hp-card" data-tool-id="remove-duplicates" onclick="recent.add('remove-duplicates')">
             <div class="tc-icon icon-blue">&#128465;&#65039;</div>
             <div class="tc-name">Remove Duplicates</div>
             <div class="tc-desc">Remove duplicate lines from any text</div>
@@ -373,43 +405,43 @@
           <span class="cat-count">8 tools</span>
         </div>
         <div class="hp-tool-grid">
-          <a href="tools/developer/json-formatter.html" class="hp-card" onclick="recent.add('json-formatter')">
+          <a href="tools/developer/json-formatter.html" class="hp-card" data-tool-id="json-formatter" onclick="recent.add('json-formatter')">
             <div class="tc-icon icon-green">{ }</div>
             <div class="tc-name">JSON Formatter</div>
             <div class="tc-desc">Format &amp; beautify JSON with syntax highlighting</div>
             <span class="tc-badge badge-pop">Popular</span>
           </a>
-          <a href="tools/developer/json-validator.html" class="hp-card" onclick="recent.add('json-validator')">
+          <a href="tools/developer/json-validator.html" class="hp-card" data-tool-id="json-validator" onclick="recent.add('json-validator')">
             <div class="tc-icon icon-green">&#9989;</div>
             <div class="tc-name">JSON Validator</div>
             <div class="tc-desc">Check if your JSON is valid with error details</div>
           </a>
-          <a href="tools/developer/json-minifier.html" class="hp-card" onclick="recent.add('json-minifier')">
+          <a href="tools/developer/json-minifier.html" class="hp-card" data-tool-id="json-minifier" onclick="recent.add('json-minifier')">
             <div class="tc-icon icon-green">&#128230;</div>
             <div class="tc-name">JSON Minifier</div>
             <div class="tc-desc">Compress and minify JSON to save bytes</div>
           </a>
-          <a href="tools/developer/base64-encoder.html" class="hp-card" onclick="recent.add('base64-encoder')">
+          <a href="tools/developer/base64-encoder.html" class="hp-card" data-tool-id="base64-encoder" onclick="recent.add('base64-encoder')">
             <div class="tc-icon icon-green">&#128274;</div>
             <div class="tc-name">Base64 Encoder</div>
             <div class="tc-desc">Encode text or strings to Base64 format</div>
           </a>
-          <a href="tools/developer/base64-decoder.html" class="hp-card" onclick="recent.add('base64-decoder')">
+          <a href="tools/developer/base64-decoder.html" class="hp-card" data-tool-id="base64-decoder" onclick="recent.add('base64-decoder')">
             <div class="tc-icon icon-green">&#128275;</div>
             <div class="tc-name">Base64 Decoder</div>
             <div class="tc-desc">Decode Base64 strings back to readable text</div>
           </a>
-          <a href="tools/developer/url-encoder.html" class="hp-card" onclick="recent.add('url-encoder')">
+          <a href="tools/developer/url-encoder.html" class="hp-card" data-tool-id="url-encoder" onclick="recent.add('url-encoder')">
             <div class="tc-icon icon-green">&#128279;</div>
             <div class="tc-name">URL Encoder</div>
             <div class="tc-desc">Encode special characters for safe URL usage</div>
           </a>
-          <a href="tools/developer/url-decoder.html" class="hp-card" onclick="recent.add('url-decoder')">
+          <a href="tools/developer/url-decoder.html" class="hp-card" data-tool-id="url-decoder" onclick="recent.add('url-decoder')">
             <div class="tc-icon icon-green">&#128279;</div>
             <div class="tc-name">URL Decoder</div>
             <div class="tc-desc">Decode URL-encoded strings to readable text</div>
           </a>
-          <a href="tools/developer/md5-generator.html" class="hp-card" onclick="recent.add('md5-generator')">
+          <a href="tools/developer/md5-generator.html" class="hp-card" data-tool-id="md5-generator" onclick="recent.add('md5-generator')">
             <div class="tc-icon icon-green">#</div>
             <div class="tc-name">MD5 Generator</div>
             <div class="tc-desc">Generate MD5 hash from any text string</div>
@@ -425,33 +457,33 @@
           <span class="cat-count">6 tools</span>
         </div>
         <div class="hp-tool-grid">
-          <a href="tools/seo/meta-generator.html" class="hp-card" onclick="recent.add('meta-generator')">
+          <a href="tools/seo/meta-generator.html" class="hp-card" data-tool-id="meta-generator" onclick="recent.add('meta-generator')">
             <div class="tc-icon icon-orange">&#127991;&#65039;</div>
             <div class="tc-name">Meta Tag Generator</div>
             <div class="tc-desc">Generate complete HTML meta tags for SEO</div>
             <span class="tc-badge badge-pop">Popular</span>
           </a>
-          <a href="tools/seo/robots-generator.html" class="hp-card" onclick="recent.add('robots-generator')">
+          <a href="tools/seo/robots-generator.html" class="hp-card" data-tool-id="robots-generator" onclick="recent.add('robots-generator')">
             <div class="tc-icon icon-orange">&#129302;</div>
             <div class="tc-name">Robots.txt Generator</div>
             <div class="tc-desc">Create a robots.txt file for your website</div>
           </a>
-          <a href="tools/seo/sitemap-generator.html" class="hp-card" onclick="recent.add('sitemap-generator')">
+          <a href="tools/seo/sitemap-generator.html" class="hp-card" data-tool-id="sitemap-generator" onclick="recent.add('sitemap-generator')">
             <div class="tc-icon icon-orange">&#128506;&#65039;</div>
             <div class="tc-name">Sitemap Generator</div>
             <div class="tc-desc">Generate an XML sitemap from your URLs</div>
           </a>
-          <a href="tools/seo/schema-generator.html" class="hp-card" onclick="recent.add('schema-generator')">
+          <a href="tools/seo/schema-generator.html" class="hp-card" data-tool-id="schema-generator" onclick="recent.add('schema-generator')">
             <div class="tc-icon icon-orange">&#128203;</div>
             <div class="tc-name">Schema Generator</div>
             <div class="tc-desc">Generate JSON-LD structured data markup</div>
           </a>
-          <a href="tools/seo/serp-preview.html" class="hp-card" onclick="recent.add('serp-preview')">
+          <a href="tools/seo/serp-preview.html" class="hp-card" data-tool-id="serp-preview" onclick="recent.add('serp-preview')">
             <div class="tc-icon icon-orange">&#128269;</div>
             <div class="tc-name">SERP Preview</div>
             <div class="tc-desc">Preview how your page looks in Google results</div>
           </a>
-          <a href="tools/seo/og-generator.html" class="hp-card" onclick="recent.add('og-generator')">
+          <a href="tools/seo/og-generator.html" class="hp-card" data-tool-id="og-generator" onclick="recent.add('og-generator')">
             <div class="tc-icon icon-orange">&#128228;</div>
             <div class="tc-name">Open Graph Generator</div>
             <div class="tc-desc">Generate Open Graph meta tags for social sharing</div>
@@ -467,17 +499,17 @@
           <span class="cat-count">3 tools</span>
         </div>
         <div class="hp-tool-grid">
-          <a href="tools/security/password-gen.html" class="hp-card" onclick="recent.add('password-gen')">
+          <a href="tools/security/password-gen.html" class="hp-card" data-tool-id="password-gen" onclick="recent.add('password-gen')">
             <div class="tc-icon icon-red">&#128273;</div>
             <div class="tc-name">Password Generator</div>
             <div class="tc-desc">Generate strong, secure random passwords</div>
           </a>
-          <a href="tools/security/password-strength.html" class="hp-card" onclick="recent.add('password-strength')">
+          <a href="tools/security/password-strength.html" class="hp-card" data-tool-id="password-strength" onclick="recent.add('password-strength')">
             <div class="tc-icon icon-red">&#128737;&#65039;</div>
             <div class="tc-name">Password Strength Checker</div>
             <div class="tc-desc">Check how strong and secure your password is</div>
           </a>
-          <a href="tools/security/sha256-gen.html" class="hp-card" onclick="recent.add('sha256-gen')">
+          <a href="tools/security/sha256-gen.html" class="hp-card" data-tool-id="sha256-gen" onclick="recent.add('sha256-gen')">
             <div class="tc-icon icon-red">#</div>
             <div class="tc-name">SHA256 Generator</div>
             <div class="tc-desc">Generate SHA-256 hash from any text string</div>
@@ -493,12 +525,12 @@
           <span class="cat-count">2 tools</span>
         </div>
         <div class="hp-tool-grid">
-          <a href="tools/productivity/qr-generator.html" class="hp-card" onclick="recent.add('qr-generator')">
+          <a href="tools/productivity/qr-generator.html" class="hp-card" data-tool-id="qr-generator" onclick="recent.add('qr-generator')">
             <div class="tc-icon icon-purple">&#128241;</div>
             <div class="tc-name">QR Code Generator</div>
             <div class="tc-desc">Generate QR codes for URLs, text, and more</div>
           </a>
-          <a href="tools/productivity/uuid-generator.html" class="hp-card" onclick="recent.add('uuid-generator')">
+          <a href="tools/productivity/uuid-generator.html" class="hp-card" data-tool-id="uuid-generator" onclick="recent.add('uuid-generator')">
             <div class="tc-icon icon-purple">&#127997;</div>
             <div class="tc-name">UUID Generator</div>
             <div class="tc-desc">Generate unique UUIDs (v4) instantly</div>
@@ -514,39 +546,39 @@
           <span class="cat-count">7 tools</span>
         </div>
         <div class="hp-tool-grid">
-          <a href="tools/calculators/percentage-calc.html" class="hp-card" onclick="recent.add('percentage-calc')">
+          <a href="tools/calculators/percentage-calc.html" class="hp-card" data-tool-id="percentage-calc" onclick="recent.add('percentage-calc')">
             <div class="tc-icon icon-teal">%</div>
             <div class="tc-name">Percentage Calculator</div>
             <div class="tc-desc">Calculate percentages, increases, decreases</div>
           </a>
-          <a href="tools/calculators/age-calculator.html" class="hp-card" onclick="recent.add('age-calculator')">
+          <a href="tools/calculators/age-calculator.html" class="hp-card" data-tool-id="age-calculator" onclick="recent.add('age-calculator')">
             <div class="tc-icon icon-teal">&#127874;</div>
             <div class="tc-name">Age Calculator</div>
             <div class="tc-desc">Calculate exact age in years, months, and days</div>
           </a>
-          <a href="tools/calculators/date-calculator.html" class="hp-card" onclick="recent.add('date-calculator')">
+          <a href="tools/calculators/date-calculator.html" class="hp-card" data-tool-id="date-calculator" onclick="recent.add('date-calculator')">
             <div class="tc-icon icon-teal">&#128197;</div>
             <div class="tc-name">Date Calculator</div>
             <div class="tc-desc">Add or subtract dates, find date differences</div>
           </a>
-          <a href="tools/calculators/gst-calculator.html" class="hp-card" onclick="recent.add('gst-calculator')">
+          <a href="tools/calculators/gst-calculator.html" class="hp-card" data-tool-id="gst-calculator" onclick="recent.add('gst-calculator')">
             <div class="tc-icon icon-teal">&#129534;</div>
             <div class="tc-name">GST Calculator</div>
             <div class="tc-desc">Calculate GST amounts for Indian tax rates</div>
             <span class="tc-badge badge-in">India</span>
           </a>
-          <a href="tools/calculators/emi-calculator.html" class="hp-card" onclick="recent.add('emi-calculator')">
+          <a href="tools/calculators/emi-calculator.html" class="hp-card" data-tool-id="emi-calculator" onclick="recent.add('emi-calculator')">
             <div class="tc-icon icon-teal">&#127970;</div>
             <div class="tc-name">EMI Calculator</div>
             <div class="tc-desc">Calculate monthly loan EMI payments</div>
           </a>
-          <a href="tools/calculators/irctc-date-calculator.html" class="hp-card" onclick="recent.add('irctc-date-calculator')">
+          <a href="tools/calculators/irctc-date-calculator.html" class="hp-card" data-tool-id="irctc-date-calculator" onclick="recent.add('irctc-date-calculator')">
             <div class="tc-icon icon-teal">&#128646;</div>
             <div class="tc-name">IRCTC Date Calculator</div>
             <div class="tc-desc">Booking, Tatkal &amp; cancellation refund dates</div>
             <span class="tc-badge badge-in">India</span>
           </a>
-          <a href="tools/calculators/sip-calculator.html" class="hp-card" onclick="recent.add('sip-calculator')">
+          <a href="tools/calculators/sip-calculator.html" class="hp-card" data-tool-id="sip-calculator" onclick="recent.add('sip-calculator')">
             <div class="tc-icon icon-teal">&#128200;</div>
             <div class="tc-name">SIP Calculator</div>
             <div class="tc-desc">Estimate mutual fund SIP returns</div>
@@ -637,6 +669,33 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ── Favorites ──
+  // Pulled out as a function (not just inline like recent-tools below) because it also
+  // needs to re-run whenever a star is toggled anywhere on the page, not just once on load.
+  function renderFavorites() {
+    const favIds = favorites.get();
+    const favSection = document.getElementById('favorites-section');
+    const favGrid    = document.getElementById('favorite-tools');
+    if (favIds.length > 0) {
+      favSection.style.display = 'block';
+      favGrid.innerHTML = favIds.map(id => {
+        const tool = TOOLS.find(t => t.id === id);
+        if (!tool) return '';
+        return `<a href="${tool.file}" class="hp-card" data-tool-id="${id}" onclick="recent.add('${id}')">
+          <div class="tc-icon icon-${tool.color}">${tool.icon}</div>
+          <div class="tc-name">${tool.name}</div>
+          <div class="tc-desc">${tool.desc}</div>
+        </a>`;
+      }).join('');
+    } else {
+      favSection.style.display = 'none';
+      favGrid.innerHTML = '';
+    }
+    initFavoriteStars(); // wire up stars on the cards just rendered
+  }
+  renderFavorites();
+  document.addEventListener('favorites:changed', renderFavorites);
+
   // ── Recently used tools ──
   const recentIds = recent.get();
   if (recentIds.length > 0) {
@@ -646,12 +705,13 @@ document.addEventListener('DOMContentLoaded', () => {
     recentGrid.innerHTML = recentIds.slice(0, 4).map(id => {
       const tool = TOOLS.find(t => t.id === id);
       if (!tool) return '';
-      return `<a href="${tool.file}" class="hp-card" onclick="recent.add('${id}')">
+      return `<a href="${tool.file}" class="hp-card" data-tool-id="${id}" onclick="recent.add('${id}')">
         <div class="tc-icon icon-${tool.color}">${tool.icon}</div>
         <div class="tc-name">${tool.name}</div>
         <div class="tc-desc">${tool.desc}</div>
       </a>`;
     }).join('');
+    initFavoriteStars(); // wire up stars on the cards just rendered
   }
 
   // ── HERO SEARCH — uses shared _buildSearch from main.js ──

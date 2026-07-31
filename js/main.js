@@ -58,7 +58,12 @@ const theme = {
   },
   updateBtn(t) {
     const btn = document.getElementById('theme-toggle');
-    if (btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
+    if (!btn) return;
+    btn.textContent = t === 'dark' ? '☀️' : '🌙';
+    // aria-pressed reflects current state (true = dark mode is on); aria-label describes
+    // the action the button performs from here, which is more useful than a static label.
+    btn.setAttribute('aria-pressed', String(t === 'dark'));
+    btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
   }
 };
 
@@ -70,10 +75,45 @@ const favorites = {
     if (favs.includes(id)) favs = favs.filter(f => f !== id);
     else favs.unshift(id);
     localStorage.setItem('tb-favorites', JSON.stringify(favs));
+    // Let any part of the page (e.g. a homepage "Favorites" section) react without
+    // main.js needing to know that section exists — plain event-based decoupling.
+    document.dispatchEvent(new CustomEvent('favorites:changed'));
     return favs.includes(id);
   },
   has(id) { return this.get().includes(id); }
 };
+
+// Injects a star toggle button into every tool card on the page (identified by
+// data-tool-id="<id>" on the card's <a>). Safe to call repeatedly — e.g. after
+// dynamically re-rendering a grid of cards — since it skips cards that already
+// have a button. Works on both statically-written cards and JS-rendered ones
+// (recent tools, favorites) as long as they carry the same data-tool-id attribute.
+function initFavoriteStars() {
+  document.querySelectorAll('[data-tool-id]').forEach(card => {
+    if (card.querySelector('.card-fav-btn')) return; // already wired
+    const id = card.dataset.toolId;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-fav-btn';
+    btn.innerHTML = '★';
+    const sync = () => {
+      const isFav = favorites.has(id);
+      btn.classList.toggle('is-fav', isFav);
+      btn.setAttribute('aria-pressed', String(isFav));
+      btn.setAttribute('aria-label', isFav ? 'Remove from favorites' : 'Add to favorites');
+    };
+    sync();
+    btn.addEventListener('click', e => {
+      // Cards are <a> links to the tool page — stop the click from following that
+      // link or bubbling to any card-level handler, since this button only toggles state.
+      e.preventDefault();
+      e.stopPropagation();
+      favorites.toggle(id);
+      sync();
+    });
+    card.prepend(btn);
+  });
+}
 
 // ── RECENTLY USED ──
 const recent = {
@@ -91,6 +131,27 @@ function _buildSearch(inp, box, root) {
   if (!inp || !box) return;
   let activeIdx = -1;
 
+  // Accessible combobox/listbox wiring — screen reader users get the same "N results"
+  // and current-selection feedback that sighted users get visually from the dropdown.
+  if (!box.id) box.id = 'sr-' + Math.random().toString(36).slice(2, 9);
+  inp.setAttribute('role', 'combobox');
+  inp.setAttribute('aria-autocomplete', 'list');
+  inp.setAttribute('aria-expanded', 'false');
+  inp.setAttribute('aria-controls', box.id);
+  box.setAttribute('role', 'listbox');
+  box.setAttribute('aria-label', 'Search results');
+
+  // A visually-hidden live region announces result-count changes without forcing
+  // screen readers to re-read the entire dropdown on every keystroke.
+  let statusEl = inp.parentElement.querySelector('.search-sr-status');
+  if (!statusEl) {
+    statusEl = document.createElement('div');
+    statusEl.className = 'search-sr-status sr-only';
+    statusEl.setAttribute('aria-live', 'polite');
+    statusEl.setAttribute('aria-atomic', 'true');
+    inp.parentElement.appendChild(statusEl);
+  }
+
   function esc(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
@@ -106,13 +167,24 @@ function _buildSearch(inp, box, root) {
   function getItems() { return box.querySelectorAll('.search-result-item'); }
   function setActive(idx) {
     const items = getItems();
-    items.forEach((el, i) => el.classList.toggle('sr-active', i === idx));
+    items.forEach((el, i) => {
+      const active = i === idx;
+      el.classList.toggle('sr-active', active);
+      el.setAttribute('aria-selected', String(active));
+    });
     if (items[idx]) items[idx].scrollIntoView({ block: 'nearest' });
+    inp.setAttribute('aria-activedescendant', items[idx] ? items[idx].id : '');
     activeIdx = idx;
   }
 
   function render(q) {
-    if (!q) { box.classList.add('hidden'); activeIdx = -1; return; }
+    if (!q) {
+      box.classList.add('hidden'); activeIdx = -1;
+      inp.setAttribute('aria-expanded', 'false');
+      inp.removeAttribute('aria-activedescendant');
+      statusEl.textContent = '';
+      return;
+    }
     const matches = TOOLS.filter(t =>
       t.name.toLowerCase().includes(q) ||
       t.cat.toLowerCase().includes(q) ||
@@ -126,20 +198,26 @@ function _buildSearch(inp, box, root) {
         + '<div class="se-text">No tools found for "' + safeQ + '"</div>'
         + '<div class="se-sub">Try "JSON", "password", "GST", or "word"</div>'
         + '</div>';
-      box.classList.remove('hidden'); activeIdx = -1; return;
+      box.classList.remove('hidden'); activeIdx = -1;
+      inp.setAttribute('aria-expanded', 'true');
+      inp.removeAttribute('aria-activedescendant');
+      statusEl.textContent = 'No results found for "' + q + '"';
+      return;
     }
 
     const groups = groupBy(matches, 'cat');
     let html = '<div class="sr-list">';
+    let i = 0;
     Object.entries(groups).forEach(([cat, tools]) => {
       html += '<div class="sr-group-header">' + cat + '</div>';
       tools.forEach(t => {
-        html += '<a href="' + root + t.file + '" class="search-result-item" onclick="recent.add(\'' + t.id + '\')">'
+        html += '<a href="' + root + t.file + '" id="' + box.id + '-opt-' + i + '" role="option" aria-selected="false" class="search-result-item" onclick="recent.add(\'' + t.id + '\')">'
           + '<div class="result-icon icon-' + t.color + '">' + t.icon + '</div>'
           + '<div class="result-text">'
           + '<div class="result-name">' + highlight(t.name, q) + '</div>'
           + '<div class="result-cat">' + t.desc + '</div>'
           + '</div><span class="result-arrow">→</span></a>';
+        i++;
       });
     });
     html += '</div>'
@@ -151,6 +229,9 @@ function _buildSearch(inp, box, root) {
       + '</div>';
     box.innerHTML = html;
     box.classList.remove('hidden'); activeIdx = -1;
+    inp.setAttribute('aria-expanded', 'true');
+    inp.removeAttribute('aria-activedescendant');
+    statusEl.textContent = matches.length + ' result' + (matches.length !== 1 ? 's' : '') + ' found';
   }
 
   inp.addEventListener('input', () => render(inp.value.trim().toLowerCase()));
@@ -164,13 +245,17 @@ function _buildSearch(inp, box, root) {
       e.preventDefault();
       const target = activeIdx >= 0 ? items[activeIdx] : items[0];
       if (target) target.click();
-    } else if (e.key === 'Escape') { box.classList.add('hidden'); inp.blur(); activeIdx = -1; }
+    } else if (e.key === 'Escape') {
+      box.classList.add('hidden'); inp.blur(); activeIdx = -1;
+      inp.setAttribute('aria-expanded', 'false');
+      inp.removeAttribute('aria-activedescendant');
+    }
   });
 
   document.addEventListener('click', e => {
     const wrap = inp.closest('.nav-search, .search-spotlight');
-    if (wrap && !wrap.contains(e.target)) { box.classList.add('hidden'); activeIdx = -1; }
-    else if (!inp.contains(e.target) && !box.contains(e.target)) { box.classList.add('hidden'); activeIdx = -1; }
+    if (wrap && !wrap.contains(e.target)) { box.classList.add('hidden'); activeIdx = -1; inp.setAttribute('aria-expanded', 'false'); }
+    else if (!inp.contains(e.target) && !box.contains(e.target)) { box.classList.add('hidden'); activeIdx = -1; inp.setAttribute('aria-expanded', 'false'); }
   });
 }
 
@@ -194,6 +279,22 @@ const search = {
     });
   }
 };
+
+// ── ESCAPE HTML (shared utility — use this instead of a local copy in tool pages) ──
+// Escapes text before it's inserted via innerHTML, so user-entered content (JSON strings,
+// error messages, diff text, etc.) can never be interpreted as markup. This is the single
+// source of truth for HTML-escaping across every tool page; several tools used to define
+// their own slightly different version of this function (some missed quotes/apostrophes),
+// which is exactly the kind of drift that causes a bug to slip in later. Load main.js before
+// your tool's own <script> block and just call escapeHtml(str) directly.
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 // ── MOBILE SIDEBAR ──
 function toggleSidebar() {
@@ -220,6 +321,22 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ── CLIPBOARD PASTE (shared utility) ──
+// Reads clipboard text into a target element and optionally runs a callback afterward
+// (e.g. to re-run the tool's calculation on the pasted text). This replaces what was
+// previously a nearly-identical try/catch + "Paste permission denied" toast copy-pasted
+// into ~12 separate tool files — each tool now just points its own pasteText() at this.
+async function pasteInto(elId, after) {
+  try {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.value = await navigator.clipboard.readText();
+    if (typeof after === 'function') after();
+  } catch {
+    toast('Paste permission denied', 'danger');
+  }
+}
+
 // ── COPY TO CLIPBOARD ──
 async function copyText(text, btn) {
   try {
@@ -239,6 +356,11 @@ function toast(msg, type = 'success') {
   document.getElementById('tb-toast')?.remove();
   const t = document.createElement('div');
   t.id = 'tb-toast';
+  // role="status" + aria-live="polite" makes screen readers announce the toast
+  // automatically, the same way sighted users notice it appearing.
+  t.setAttribute('role', 'status');
+  t.setAttribute('aria-live', 'polite');
+  t.setAttribute('aria-atomic', 'true');
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const styles = {
     success: { bg: isDark ? '#0d2818' : '#eafaf1', color: isDark ? '#4ade80' : '#1a7a44', border: isDark ? '#166534' : '#a9dfbf', icon: '✅' },
@@ -247,7 +369,13 @@ function toast(msg, type = 'success') {
   };
   const s = styles[type] || styles.success;
   t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;background:${s.bg};color:${s.color};border:1px solid ${s.border};box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:320px;transition:opacity .3s;`;
-  t.innerHTML = `${s.icon} ${msg}`;
+  // Icon is a fixed emoji (safe); msg is set via textContent so callers can never
+  // accidentally (or via future user-supplied text) inject markup into a toast.
+  const iconSpan = document.createElement('span');
+  iconSpan.textContent = s.icon;
+  const msgSpan = document.createElement('span');
+  msgSpan.textContent = msg;
+  t.append(iconSpan, msgSpan);
   document.body.appendChild(t);
   setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 320); }, 2600);
 }
@@ -482,6 +610,7 @@ const Datepicker = {
 document.addEventListener('DOMContentLoaded', () => {
   theme.init();
   initFAQ();
+  initFavoriteStars();
 });
 
 // ── GLOBAL ⌘K SHORTCUT (homepage) ──

@@ -90,7 +90,7 @@ function encode(){
     document.getElementById('output-panel').style.display='block';
   }catch(e){toast('Encoding error: '+e.message,'danger');}
 }
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();encode();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input', encode);}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('base64-encoder'));
 </script>
 </body></html>

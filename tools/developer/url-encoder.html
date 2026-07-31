@@ -84,7 +84,7 @@ function encode(){
   document.getElementById('output-panel').style.display='block';
 }
 function clearAll(){document.getElementById('input').value='';document.getElementById('output-panel').style.display='none';}
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();encode();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input', encode);}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('url-encoder'));
 </script>
 </body></html>

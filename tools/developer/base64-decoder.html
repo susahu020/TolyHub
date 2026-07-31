@@ -90,7 +90,7 @@ function decode(){
     document.getElementById('output-panel').style.display='none';
   }
 }
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();decode();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input', decode);}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('base64-decoder'));
 </script>
 </body></html>

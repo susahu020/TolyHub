@@ -86,13 +86,13 @@ function decode(){
     document.getElementById('output').value=decoded;
     document.getElementById('output-panel').style.display='block';
   }catch(e){
-    document.getElementById('error-box').innerHTML='❌ Invalid URL-encoded string: '+e.message;
+    document.getElementById('error-box').innerHTML='❌ Invalid URL-encoded string: '+escapeHtml(e.message);
     document.getElementById('error-box').style.display='flex';
     document.getElementById('output-panel').style.display='none';
   }
 }
 function clearAll(){document.getElementById('input').value='';document.getElementById('output-panel').style.display='none';document.getElementById('error-box').style.display='none';}
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();decode();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input', decode);}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('url-decoder'));
 </script>
 </body></html>

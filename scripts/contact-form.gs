@@ -19,6 +19,15 @@ function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
 
+    // Honeypot check: real users never fill in this hidden field, so a
+    // non-empty value means the submission came from a bot. Silently
+    // pretend success so bots don't retry/adapt, but skip sending the email.
+    if (data.website) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'success' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     const name    = data.name    || 'N/A';
     const email   = data.email   || 'N/A';
     const subject = data.subject || 'General Question';

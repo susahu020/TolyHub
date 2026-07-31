@@ -124,7 +124,7 @@ function removeDups() {
   const blanksNote = blanksRemoved ? ` (and ${blanksRemoved} blank line${blanksRemoved!==1?'s':''} stripped)` : '';
   toast(`Removed ${removed} duplicate${removed!==1?'s':''}${blanksNote}`,'success');
 }
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input');}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('remove-duplicates'));
 </script>
 </body></html>

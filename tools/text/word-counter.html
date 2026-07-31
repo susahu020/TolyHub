@@ -116,9 +116,7 @@ function analyze() {
       <span style="font-size:12px;color:var(--text3);width:30px;text-align:right;">${c}</span>
     </div>`).join('');
 }
-async function pasteText() {
-  try { document.getElementById('input').value = await navigator.clipboard.readText(); analyze(); } catch { toast('Paste permission denied','danger'); }
-}
+function pasteText() { pasteInto('input', analyze); }
 document.addEventListener('DOMContentLoaded', () => initToolPage('word-counter'));
 </script>
 </body></html>

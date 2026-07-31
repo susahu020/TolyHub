@@ -119,9 +119,7 @@ function analyze() {
     </div>`;
   }).join('');
 }
-async function pasteText() {
-  try { document.getElementById('input').value = await navigator.clipboard.readText(); analyze(); } catch { toast('Paste permission denied','danger'); }
-}
+function pasteText() { pasteInto('input', analyze); }
 document.addEventListener('DOMContentLoaded', () => { analyze(); initToolPage('char-counter'); });
 </script>
 </body></html>

@@ -113,9 +113,7 @@ function convert(type) {
   document.getElementById('output-panel').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 function copyResult(btn) { copyText(document.getElementById('output').textContent, btn); }
-async function pasteText() {
-  try { document.getElementById('input').value = await navigator.clipboard.readText(); } catch { toast('Paste permission denied','danger'); }
-}
+function pasteText() { pasteInto('input'); }
 document.addEventListener('DOMContentLoaded', () => initToolPage('case-converter'));
 </script>
 </body></html>
