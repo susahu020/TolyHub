@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QR Code Generator — Free Online Tool | ToolBox</title>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Code Generator — Free Online Tool | TolyHub</title>
 <meta name="description" content="Free QR code generator. Create QR codes for URLs, text, WiFi, email, phone numbers. Download as PNG instantly.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/productivity/qr-generator.html">
+<meta property="og:title" content="QR Code Generator — Free Online Tool | TolyHub">
+<meta property="og:description" content="Free QR code generator. Create QR codes for URLs, text, WiFi, email, phone numbers. Download as PNG instantly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/productivity/qr-generator.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QR Code Generator — Free Online Tool">
+<meta name="twitter:description" content="Free QR code generator. Create QR codes for URLs, text, WiFi, email, phone numbers. Download as PNG instantly.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator — Free Online Tool","description":"Free QR code generator. Create QR codes for URLs, text, WiFi, email, phone numbers. Download as PNG instantly.","url":"https://www.tolyhub.com/tools/productivity/qr-generator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"Productivity","item":"https://www.tolyhub.com/index.html#productivity-tools"},{"@type":"ListItem","position":3,"name":"QR Code Generator","item":"https://www.tolyhub.com/tools/productivity/qr-generator.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css">
 <script>window.PAGE_DEPTH = 2;</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head><body>
 <div id="nav-placeholder"></div>
 <div class="page-wrapper">
@@ -15,14 +30,14 @@
   <main class="main-content">
     <div class="tool-page">
       <div class="tool-header">
-        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#productivity-tools">Productivity</a> › QR Code Generator</div>
-        <h1>📱 QR Code Generator</h1>
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#productivity-tools">Productivity</a><span class="bc-sep">›</span>QR Code Generator</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-purple">📱</div><h1>QR Code Generator</h1></div>
         <p>Generate QR codes for URLs, text, WiFi credentials, emails, and phone numbers. Download as PNG for free.</p>
-        <a href="../../blog/qr-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
       </div>
       <div class="tool-body">
         <div class="tool-panel">
-          <div class="panel-title">Content Type</div>
+          <div class="tp-title">Content Type</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;">
             <button class="btn btn-primary btn-sm" onclick="setMode('url',this)">🔗 URL</button>
             <button class="btn btn-secondary btn-sm" onclick="setMode('text',this)">📝 Text</button>
@@ -57,7 +72,7 @@
         </div>
 
         <div class="tool-panel">
-          <div class="panel-title">Customization</div>
+          <div class="tp-title">Customization</div>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">
             <div class="form-group" style="margin:0;">
               <label class="form-label">Size</label>
@@ -90,7 +105,7 @@
 
         <div id="qr-output" style="display:none;" class="tool-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
-            <div class="panel-title" style="margin:0;">Your QR Code</div>
+            <div class="tp-title" style="margin:0;">Your QR Code</div>
             <button class="btn btn-primary btn-sm" onclick="downloadQR()">⬇ Download PNG</button>
           </div>
           <div style="display:flex;justify-content:center;padding:1rem;">
@@ -98,9 +113,16 @@
           </div>
         </div>
       </div>
-    </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More Productivity</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/productivity/uuid-generator.html" class="related-tool-card"><span class="rtc-icon icon-purple">🆔</span>UUID Generator</a>
+        </div>
+      </div>
   </main>
 </div>
+
 <div id="footer-placeholder"></div>
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>

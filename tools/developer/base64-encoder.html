@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Base64 Encoder — Free Online Tool | ToolBox</title>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Base64 Encoder — Free Online Tool | TolyHub</title>
 <meta name="description" content="Free online Base64 encoder. Encode text or strings to Base64 format instantly in your browser. No data sent to server.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/developer/base64-encoder.html">
+<meta property="og:title" content="Base64 Encoder — Free Online Tool | TolyHub">
+<meta property="og:description" content="Free online Base64 encoder. Encode text or strings to Base64 format instantly in your browser. No data sent to server.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/developer/base64-encoder.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Base64 Encoder — Free Online Tool">
+<meta name="twitter:description" content="Free online Base64 encoder. Encode text or strings to Base64 format instantly in your browser. No data sent to server.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Base64 Encoder — Free Online Tool","description":"Free online Base64 encoder. Encode text or strings to Base64 format instantly in your browser. No data sent to server.","url":"https://www.tolyhub.com/tools/developer/base64-encoder.html","applicationCategory":"DeveloperApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"Developer Tools","item":"https://www.tolyhub.com/index.html#developer-tools"},{"@type":"ListItem","position":3,"name":"Base64 Encoder","item":"https://www.tolyhub.com/tools/developer/base64-encoder.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css">
@@ -14,14 +29,14 @@
   <main class="main-content">
     <div class="tool-page">
       <div class="tool-header">
-        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#developer-tools">Developer</a> › Base64 Encoder</div>
-        <h1>🔒 Base64 Encoder</h1>
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#developer-tools">Developer Tools</a><span class="bc-sep">›</span>Base64 Encoder</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-green">🔒</div><h1>Base64 Encoder</h1></div>
         <p>Encode any text or string to Base64 format. Processed entirely in your browser — nothing is sent to a server.</p>
-        <a href="../../blog/base64-encoder.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
       </div>
       <div class="tool-body">
         <div class="tool-panel">
-          <div class="panel-title">Text to Encode</div>
+          <div class="tp-title">Text to Encode</div>
           <textarea id="input" class="w-full mono" style="min-height:160px;" placeholder="Enter text to encode to Base64…" oninput="liveEncode()"></textarea>
           <div class="tool-actions mt-2">
             <button class="btn btn-primary" onclick="encode()">🔒 Encode to Base64</button>
@@ -34,7 +49,7 @@
         </div>
         <div id="output-panel" style="display:none;" class="tool-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-            <div class="panel-title" style="margin:0;">Base64 Output</div>
+            <div class="tp-title" style="margin:0;">Base64 Output</div>
             <button class="copy-btn" onclick="copyText(document.getElementById('output').value,this)">📋 Copy</button>
           </div>
           <textarea id="output" class="w-full mono" style="min-height:80px;" readonly></textarea>
@@ -45,9 +60,19 @@
           <p style="font-size:13px;">Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters. It's commonly used to encode data in email, embed images in CSS/HTML, and pass data in URLs.</p>
         </div>
       </div>
-    </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More Developer Tools</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/developer/json-formatter.html" class="related-tool-card"><span class="rtc-icon icon-green">{ }</span>JSON Formatter</a>
+        <a href="../../tools/developer/json-validator.html" class="related-tool-card"><span class="rtc-icon icon-green">✅</span>JSON Validator</a>
+        <a href="../../tools/developer/json-minifier.html" class="related-tool-card"><span class="rtc-icon icon-green">📦</span>JSON Minifier</a>
+        <a href="../../tools/developer/base64-decoder.html" class="related-tool-card"><span class="rtc-icon icon-green">🔓</span>Base64 Decoder</a>
+        </div>
+      </div>
   </main>
 </div>
+
 <div id="footer-placeholder"></div>
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>
@@ -65,7 +90,7 @@ function encode(){
     document.getElementById('output-panel').style.display='block';
   }catch(e){toast('Encoding error: '+e.message,'danger');}
 }
-async function pasteText(){try{document.getElementById('input').value=await navigator.clipboard.readText();encode();}catch{toast('Paste permission denied','danger');}}
+function pasteText(){pasteInto('input', encode);}
 document.addEventListener('DOMContentLoaded',()=>initToolPage('base64-encoder'));
 </script>
 </body></html>

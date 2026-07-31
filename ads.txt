@@ -1,0 +1,6 @@
+# Google AdSense ads.txt
+# Add your Publisher ID below after your AdSense account is approved
+# Format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# Example (replace with your actual Publisher ID):
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

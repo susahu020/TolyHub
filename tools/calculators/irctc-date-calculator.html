@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IRCTC Date Calculator — Booking, Tatkal & Cancellation Dates | ToolBox</title>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IRCTC Date Calculator — Booking, Tatkal & Cancellation Dates | TolyHub</title>
 <meta name="description" content="Free IRCTC date calculator. Find your exact train ticket booking opening date (60-day ARP rule), Tatkal booking date & time, and estimated cancellation refund — instantly.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/calculators/irctc-date-calculator.html">
+<meta property="og:title" content="IRCTC Date Calculator — Booking, Tatkal & Cancellation Dates | TolyHub">
+<meta property="og:description" content="Free IRCTC date calculator. Find your exact train ticket booking opening date, Tatkal booking date & time, and estimated cancellation refund.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/calculators/irctc-date-calculator.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IRCTC Date Calculator — Booking, Tatkal & Cancellation Dates">
+<meta name="twitter:description" content="Free IRCTC date calculator. Find your exact train ticket booking opening date, Tatkal booking date & time, and estimated cancellation refund.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"IRCTC Date Calculator — Booking, Tatkal & Cancellation Dates","description":"Free IRCTC date calculator. Find your exact train ticket booking opening date, Tatkal booking date & time, and estimated cancellation refund.","url":"https://www.tolyhub.com/tools/calculators/irctc-date-calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.tolyhub.com/index.html#calculator-tools"},{"@type":"ListItem","position":3,"name":"IRCTC Date Calculator","item":"https://www.tolyhub.com/tools/calculators/irctc-date-calculator.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css">
@@ -18,9 +33,9 @@
 .irctc-tier-table tr:last-child td{border-bottom:none;}
 .irctc-tier-table tr.tier-active td{background:var(--accent-light);font-weight:700;}
 .irctc-note{font-size:12.5px;color:var(--text3);margin-top:0.5rem;line-height:1.5;}
-.irctc-journey-row{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:1rem;text-align:center;}
-.irctc-journey-row .form-label{margin:0;}
-.irctc-journey-row .dp-wrap{width:100%;}
+.irctc-journey-row{display:flex;flex-direction:row;align-items:center;gap:8px;margin-bottom:1rem;text-align:center;justify-content: space-between; padding: 10px;}
+.irctc-journey-row .form-label{margin:0; color: brown;font-weight: 900;font-size: 16px;}
+.irctc-journey-row .dp-wrap{width:50%;}
 .irctc-journey-row .dp-input{text-align:center;}
 .irctc-journey-row .dp-panel{left:50%;transform:translateX(-50%);}
 .stat-box .irctc-result-flash,.irctc-result-flash{animation:irctcColorCycleLight 6s linear infinite;}
@@ -40,7 +55,7 @@
   80%{color:#c4b5fd;}
 }
 .irctc-preview-wrap{margin-top:0.75rem;}
-.irctc-pick-card{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:var(--radius-sm);background:var(--accent-light);border:2px solid var(--accent);margin-bottom:0.85rem;}
+.irctc-pick-card{display:flex;align-items:center;justify-content:space-between;padding:5px 16px;border-radius:var(--radius-sm);background:var(--accent-light);border:1px solid var(--accent);margin-bottom:0.85rem;}
 .irctc-pick-card .irctc-pick-label,.irctc-pick-card .irctc-pick-arrow,.irctc-pick-card .irctc-pick-open,.irctc-pick-card .irctc-pick-journey{
   animation:irctcColorCycleLight 6s linear infinite;
 }
@@ -76,10 +91,10 @@ input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);}
   <main class="main-content">
     <div class="tool-page">
       <div class="tool-header">
-        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#calculator-tools">Calculators</a> › IRCTC Date Calculator</div>
-        <h1>🚆 IRCTC Date Calculator</h1>
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#calculator-tools">Calculators</a><span class="bc-sep">›</span>IRCTC Date Calculator</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-teal">🚆</div><h1>IRCTC Date Calculator</h1></div>
         <p>Find your train ticket booking opening date, Tatkal booking time, and estimated cancellation refund — all in one place.</p>
-        <a href="../../blog/irctc-date-calculator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
       </div>
       <div class="tool-body">
         <div class="tool-panel">
@@ -156,9 +171,19 @@ input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);}
           </div>
         </div>
       </div>
-    </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More Calculators</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/calculators/percentage-calc.html" class="related-tool-card"><span class="rtc-icon icon-teal">%</span>Percentage Calculator</a>
+        <a href="../../tools/calculators/age-calculator.html" class="related-tool-card"><span class="rtc-icon icon-teal">🎂</span>Age Calculator</a>
+        <a href="../../tools/calculators/date-calculator.html" class="related-tool-card"><span class="rtc-icon icon-teal">📅</span>Date Calculator</a>
+        <a href="../../tools/calculators/gst-calculator.html" class="related-tool-card"><span class="rtc-icon icon-teal">🧾</span>GST Calculator</a>
+        </div>
+      </div>
   </main>
 </div>
+
 <div id="footer-placeholder"></div>
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>

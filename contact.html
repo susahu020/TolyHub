@@ -3,7 +3,13 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contact Us — TolyHub</title>
 <meta name="description" content="Get in touch with the TolyHub team for support, feedback, bug reports, or business inquiries.">
-<link rel="canonical" href="https://www.TolyHub.com/contact.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact TolyHub">
+<meta name="twitter:description" content="Get in touch with the TolyHub team. We welcome feedback, bug reports, and tool suggestions.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<link rel="canonical" href="https://www.tolyhub.com/contact.html">
 <meta property="og:title" content="Contact TolyHub">
 <meta property="og:description" content="Have feedback, found a bug, or want to suggest a new tool? Get in touch with us.">
 <meta property="og:type" content="website">
@@ -46,6 +52,12 @@
 
       <h2>Send Us a Message</h2>
       <form id="contact-form" onsubmit="return handleContactSubmit(event)">
+        <!-- Honeypot: hidden from real users via CSS, but visible to most bots that fill in every
+             field they find. Any value here marks the submission as spam server-side. -->
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-group">
           <label for="cf-name">Your Name</label>
           <input type="text" id="cf-name" name="name" required placeholder="John Doe">
@@ -80,7 +92,7 @@
 <script src="js/layout.js"></script>
 <script>
   // ← PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwauZGTzl0f3JojlbWUYF2Lxblej-Dc6fD7NTqyE-gDoDMOU9WjaQ_Cip0fJ-2gtNBx/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzEw1_HDxfZMoM4S-3m_kdQwBPDiqJv71j-eyVD3E-3Bo_NNu2QryFSXRE2Giwo8cgH/exec';
 
   function handleContactSubmit(e) {
     e.preventDefault();
@@ -92,24 +104,37 @@
       name:    document.getElementById('cf-name').value,
       email:   document.getElementById('cf-email').value,
       subject: document.getElementById('cf-subject').value,
-      message: document.getElementById('cf-message').value
+      message: document.getElementById('cf-message').value,
+      website: document.getElementById('cf-website').value // honeypot — should always be empty
     };
 
     btn.disabled    = true;
     btn.textContent = '⏳ Sending…';
     status.style.display = 'none';
 
+    // NOTE on Content-Type: Apps Script web apps don't respond to CORS preflight (OPTIONS)
+    // requests, so a real 'application/json' Content-Type would make the browser send a
+    // preflight the server can never answer, and the request would just fail. Sending as
+    // 'text/plain' keeps this a CORS "simple request" (no preflight) while doPost() on the
+    // server still parses e.postData.contents as JSON regardless of the declared type — so
+    // nothing on the Apps Script side needs to change. This also means we're no longer using
+    // mode: 'no-cors', so the response body is now actually readable below.
     fetch(SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     })
-    .then(() => {
-      status.style.color   = 'green';
-      status.textContent   = '✅ Message sent! We\'ll get back to you soon.';
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success') {
+        status.style.color   = 'green';
+        status.textContent   = '✅ Message sent! We\'ll get back to you soon.';
+        document.getElementById('contact-form').reset();
+      } else {
+        status.style.color = 'red';
+        status.textContent = '❌ ' + (result.message || 'Something went wrong. Please try again.');
+      }
       status.style.display = 'block';
-      document.getElementById('contact-form').reset();
       btn.disabled    = false;
       btn.textContent = '📤 Send Message';
     })

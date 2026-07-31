@@ -2,403 +2,786 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TolyHub — Free SEO, PDF, Image & Developer Tools | No Login Required</title>
+<title>TolyHub — Free SEO, Dev & Utility Tools | No Login Required</title>
 <meta name="description" content="100% free online tools for SEO, developers, and everyone. Word counter, JSON formatter, Base64, password generator, QR code, calculators and more. No login, no limits.">
 <meta name="keywords" content="free online tools, JSON formatter, word counter, base64 encoder, password generator, QR code generator, SEO tools">
-<meta property="og:title" content="TolyHub — Free Online Tools">
-<meta property="og:description" content="30+ free tools. No login. No limits. Privacy-first.">
+<link rel="canonical" href="https://www.tolyhub.com/">
+<meta property="og:title" content="TolyHub — Free SEO, Dev &amp; Utility Tools | No Login Required">
+<meta property="og:description" content="100% free online tools for SEO, developers, and everyone. Word counter, JSON formatter, Base64, password generator, QR code, calculators and more.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TolyHub — Free SEO, Dev &amp; Utility Tools">
+<meta name="twitter:description" content="30+ free browser-based tools. No login. No limits. Privacy-first.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"TolyHub","url":"https://www.tolyhub.com/","description":"Free online tools for SEO, developers and everyone.","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.tolyhub.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script>window.PAGE_DEPTH = 0;</script>
 <style>
-/* Homepage specific */
-.home-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
-.cat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1rem; text-align: center; text-decoration: none; color: var(--text); transition: all 0.2s; }
-.cat-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
-.cat-card .cat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-.cat-card .cat-name { font-size: 14px; font-weight: 700; }
-.cat-card .cat-count { font-size: 12px; color: var(--text3); margin-top: 2px; }
-.trust-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 2rem 0; }
-.trust-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text2); }
+/* ── HOMEPAGE LAYOUT ── */
+.home-wrapper { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── HERO ── */
+.hp-hero {
+  padding: 5rem 0 3.5rem;
+  text-align: center;
+  position: relative;
+}
+.hp-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 45% at 50% 0%, var(--accent-light) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hp-hero > * { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text2); font-size: 12.5px; font-weight: 600;
+  padding: 5px 14px; border-radius: 99px; margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+.hero-eyebrow .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.hp-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.1;
+  color: var(--text); max-width: 780px; margin: 0 auto 1.25rem;
+}
+.hp-hero h1 .accent-word { color: var(--accent); }
+.hp-hero .hero-sub {
+  font-size: 1.1rem; color: var(--text2);
+  max-width: 500px; margin: 0 auto 2.25rem; line-height: 1.65;
+}
+.hero-cta-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 2.5rem;
+}
+
+/* ── HERO SEARCH SPOTLIGHT ── */
+.search-spotlight {
+  max-width: 580px; margin: 0 auto 3rem; position: relative; z-index: 400;
+}
+.search-spotlight input {
+  width: 100%; padding: 15px 52px 15px 50px;
+  border: 1.5px solid var(--border2); border-radius: var(--radius-lg);
+  background: var(--surface); color: var(--text);
+  font-size: 15px; font-family: var(--font); outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+}
+.search-spotlight input:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light), 0 2px 12px rgba(0,0,0,.07);
+}
+.search-spotlight .s-icon {
+  position: absolute; left: 17px; top: 50%; transform: translateY(-50%);
+  color: var(--text3); pointer-events: none; font-size: 18px;
+}
+.search-spotlight .s-kbd {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  font-size: 11px; font-weight: 600; color: var(--text3);
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 3px 8px; pointer-events: none;
+  letter-spacing: .03em; line-height: 1;
+}
+.search-spotlight input:focus ~ .s-kbd { display: none; }
+
+/* Search dropdown styles → css/style.css */
+
+/* Stats bar */
+.hero-stats-bar {
+  display: flex; justify-content: center; align-items: stretch;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface); max-width: 560px; margin: 0 auto;
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.hs-item {
+  flex: 1; padding: 1.1rem 0.5rem; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.hs-item:last-child { border-right: none; }
+.hs-num { font-size: 1.65rem; font-weight: 800; color: var(--text); line-height: 1; letter-spacing: -0.03em; }
+.hs-lbl { font-size: 10.5px; color: var(--text3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+
+/* ── SECTION SEPARATORS ── */
+.sep-row {
+  display: flex; align-items: center; gap: 12px;
+  margin: 2.75rem 0 1.5rem;
+}
+.sep-row .sep-label { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.sep-row .sep-line  { flex: 1; height: 1px; background: var(--border); }
+.sep-row .sep-meta  { font-size: 12px; color: var(--text3); white-space: nowrap; }
+
+/* ── POPULAR CARDS ── */
+.popular-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+}
+.pop-card {
+  display: flex; align-items: flex-start; gap: 14px; padding: 1.1rem 1.25rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); text-decoration: none; color: var(--text);
+  transition: all 0.18s; position: relative;
+}
+.pop-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+.pop-card .pc-icon { width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.pop-card .pc-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.pop-card .pc-desc { font-size: 12.5px; color: var(--text3); line-height: 1.4; }
+.pop-badge { position: absolute; top: 10px; right: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; background: var(--accent-light); color: var(--accent); padding: 2px 7px; border-radius: 99px; }
+
+/* ── CATEGORY PILLS ── */
+.cat-pills-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 1.75rem 0 2rem; }
+.cat-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 16px; border-radius: 99px;
+  border: 1px solid var(--border); background: var(--surface);
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.cat-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); text-decoration: none; }
+.cat-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.cat-pill .pc { font-size: 11px; font-weight: 700; background: rgba(0,0,0,0.1); padding: 1px 6px; border-radius: 99px; }
+.cat-pill.active .pc { background: rgba(255,255,255,0.25); }
+
+/* ── TOOL GRID (homepage) ── */
+.hp-tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.hp-card {
+  display: flex; flex-direction: column; padding: 1rem 1.1rem 0.9rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); text-decoration: none; color: var(--text);
+  transition: all 0.18s; gap: 0.4rem; position: relative;
+}
+.hp-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+.hp-card .tc-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 0.2rem; }
+.hp-card .tc-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.hp-card .tc-desc { font-size: 12px; color: var(--text3); line-height: 1.4; }
+.hp-card .tc-badge { margin-top: 0.35rem; align-self: flex-start; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em; }
+.badge-pop { background: var(--accent-light); color: var(--accent); }
+.badge-in  { background: var(--success-light); color: #1a7a44; }
+
+/* ── FAVORITE STAR (on hp-card / pop-card) ── */
+/* Sits top-left so it never collides with the existing top-right "Popular" badge. */
+.card-fav-btn {
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%; border: none;
+  background: var(--surface); color: var(--text3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1; cursor: pointer;
+  opacity: 0; transition: opacity .15s, color .15s, transform .1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.14);
+}
+/* Visible on hover, on focus (keyboard users), and always once favorited —
+   so a favorited state is never hidden just because the mouse moved away. */
+.hp-card:hover .card-fav-btn,
+.pop-card:hover .card-fav-btn,
+.card-fav-btn:focus-visible,
+.card-fav-btn.is-fav { opacity: 1; }
+.card-fav-btn.is-fav { color: #f5a623; }
+.card-fav-btn:hover { transform: scale(1.12); }
+
+/* ── CAT SECTION HEADER ── */
+.cat-sec { margin-bottom: 2.5rem; }
+.cat-sec-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+.cat-sec-hdr .cat-title { font-size: 1.1rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; white-space: nowrap; }
+.cat-sec-hdr .cat-line { flex: 1; height: 1px; background: var(--border); }
+.cat-sec-hdr .cat-count { font-size: 12px; color: var(--text3); white-space: nowrap; }
+
+/* ── WHY SECTION ── */
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 3rem;
+}
+@media (max-width: 720px) {
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .why-grid { grid-template-columns: 1fr; }
+}
+.why-item { background: var(--surface); padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.why-icon { font-size: 1.5rem; }
+.why-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.why-desc { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+/* ── FAQ ── */
+.faq-list { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 3.5rem; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: none; }
+.faq-btn {
+  width: 100%; text-align: left; padding: 1.1rem 1.5rem;
+  background: none; border: none; color: var(--text);
+  font-size: 14.5px; font-weight: 600; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font); gap: 12px; transition: background 0.12s;
+}
+.faq-btn:hover { background: var(--bg2); }
+.faq-icon { font-size: 20px; color: var(--text3); flex-shrink: 0; transition: transform 0.2s; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-answer { display: none; padding: 0 1.5rem 1.1rem; font-size: 14px; color: var(--text2); line-height: 1.7; }
+.faq-item.open .faq-answer { display: block; }
+
+/* ── RECENTLY USED ── */
 .recently-used-section { display: none; }
+
+/* ── FAVORITES ── */
+.favorites-section { display: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) { .popular-row { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 600px) {
+  .home-wrapper { padding: 0 1rem; }
+  .hp-hero { padding: 3rem 0 2rem; }
+  .hp-hero h1 { font-size: 1.85rem; }
+  .hp-hero .hero-sub { font-size: 0.95rem; }
+  .popular-row { grid-template-columns: 1fr; }
+  .hero-cta-row .btn { width: 100%; justify-content: center; }
+  .hero-cta-row { flex-direction: column; }
+  .hero-stats-bar { max-width: 100%; }
+  .hs-num { font-size: 1.3rem; }
+  .hp-tool-grid { grid-template-columns: repeat(auto-fill, minmax(155px,1fr)); }
+}
 </style>
 </head>
 <body class="home-page">
 
-<!-- NAV -->
 <div id="nav-placeholder"></div>
 <div class="page-wrapper">
   <div id="sidebar-placeholder"></div>
   <main class="main-content" style="padding:0;">
+  <div class="home-wrapper">
 
-<!-- HERO -->
-<div class="home-wrapper">
-  <div class="hero">
-    <div class="hero-badge">✨ 100% Free · No Account Required</div>
-    <h1>Free SEO, Dev & Utility<br>Tools — No Login Needed</h1>
-    <p>Fast, privacy-first tools that work directly in your browser. No signup, no limits, no watermarks.</p>
-    <div class="hero-btns">
-      <a href="#all-tools" class="btn btn-primary btn-lg">🛠 Explore All Tools</a>
-      <a href="#popular" class="btn btn-secondary btn-lg">⭐ Popular Tools</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="num">30+</div><div class="lbl">Free Tools</div></div>
-      <div class="hero-stat"><div class="num">100%</div><div class="lbl">Browser-Based</div></div>
-      <div class="hero-stat"><div class="num">0</div><div class="lbl">Accounts Needed</div></div>
-      <div class="hero-stat"><div class="num">∞</div><div class="lbl">Usage Limit</div></div>
-    </div>
-  </div>
+    <!-- ── HERO ── -->
+    <section class="hp-hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        30+ free tools &nbsp;&middot;&nbsp; No account &nbsp;&middot;&nbsp; Privacy-first
+      </div>
+      <h1>The <span class="accent-word">developer toolkit</span><br>that never asks you to sign up</h1>
+      <p class="hero-sub">JSON formatting, SEO generators, password tools, calculators — everything runs in your browser. Your data stays on your device.</p>
+      <div class="hero-cta-row">
+        <a href="#all-tools" class="btn btn-primary btn-lg">Browse all tools</a>
+        <a href="#popular-tools" class="btn btn-secondary btn-lg">Popular picks</a>
+      </div>
 
-  <!-- TRUST BAR -->
-  <div class="trust-bar">
-    <div class="trust-item">🔒 Privacy First — Files stay in your browser</div>
-    <div class="trust-item">⚡ Fast — Results in under 5 seconds</div>
-    <div class="trust-item">📱 Mobile Friendly</div>
-    <div class="trust-item">♾️ Unlimited Usage</div>
-    <div class="trust-item">🚫 No Watermarks</div>
-    <div class="trust-item">🆓 Free Forever</div>
-  </div>
+      <!-- Search spotlight -->
+      <div class="search-spotlight">
+        <svg class="s-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="hero-search" placeholder='Search tools — try "JSON" or "password"' autocomplete="off" spellcheck="false">
+        <span class="s-kbd">&#8984;K</span>
+        <div id="hero-search-results" class="search-results hidden"></div>
+      </div>
 
-  <!-- RECENTLY USED -->
-  <div class="section recently-used-section" id="recent-section">
-    <div class="section-header">
-      <h2>🕐 Recently Used</h2>
-    </div>
-    <div class="tool-grid" id="recent-tools"></div>
-  </div>
+      <!-- Stats bar -->
+      <div class="hero-stats-bar">
+        <div class="hs-item"><div class="hs-num">30+</div><div class="hs-lbl">Free tools</div></div>
+        <div class="hs-item"><div class="hs-num">100%</div><div class="hs-lbl">Browser-based</div></div>
+        <div class="hs-item"><div class="hs-num">0</div><div class="hs-lbl">Accounts needed</div></div>
+        <div class="hs-item"><div class="hs-num">&infin;</div><div class="hs-lbl">Usage limit</div></div>
+      </div>
+    </section>
 
-  <!-- CATEGORIES -->
-  <div class="section" id="categories">
-    <div class="section-header"><h2>📂 Browse by Category</h2></div>
-    <div class="cat-grid">
-      <a href="#text-tools" class="cat-card">
-        <div class="cat-icon">📝</div>
-        <div class="cat-name">Text Tools</div>
-        <div class="cat-count">6 tools</div>
-      </a>
-      <a href="#developer-tools" class="cat-card">
-        <div class="cat-icon">💻</div>
-        <div class="cat-name">Developer</div>
-        <div class="cat-count">8 tools</div>
-      </a>
-      <a href="#seo-tools" class="cat-card">
-        <div class="cat-icon">🔍</div>
-        <div class="cat-name">SEO Tools</div>
-        <div class="cat-count">6 tools</div>
-      </a>
-      <a href="#security-tools" class="cat-card">
-        <div class="cat-icon">🔒</div>
-        <div class="cat-name">Security</div>
-        <div class="cat-count">3 tools</div>
-      </a>
-      <a href="#productivity-tools" class="cat-card">
-        <div class="cat-icon">⚡</div>
-        <div class="cat-name">Productivity</div>
-        <div class="cat-count">2 tools</div>
-      </a>
-      <a href="#calculator-tools" class="cat-card">
-        <div class="cat-icon">🧮</div>
-        <div class="cat-name">Calculators</div>
-        <div class="cat-count">6 tools</div>
-      </a>
-    </div>
-  </div>
+    <!-- ── FAVORITES ── -->
+    <section class="favorites-section" id="favorites-section">
+      <div class="sep-row">
+        <span class="sep-label">&#11088; Favorites</span>
+        <span class="sep-line"></span>
+      </div>
+      <div class="hp-tool-grid" id="favorite-tools"></div>
+    </section>
 
-  <!-- ALL TOOLS -->
-  <div class="section" id="all-tools">
-    <!-- Text Tools -->
-    <div id="text-tools" style="margin-bottom:2.5rem;">
-      <div class="section-header"><h2>📝 Text Tools</h2></div>
-      <div class="tool-grid">
-        <a href="tools/text/word-counter.html" class="tool-card">
-          <div class="tool-icon icon-blue">📝</div>
-          <div class="tool-name">Word Counter</div>
-          <div class="tool-desc">Count words, characters, sentences and more</div>
+    <!-- ── RECENTLY USED ── -->
+    <section class="recently-used-section" id="recent-section">
+      <div class="sep-row">
+        <span class="sep-label">&#128336; Recently used</span>
+        <span class="sep-line"></span>
+      </div>
+      <div class="hp-tool-grid" id="recent-tools"></div>
+    </section>
+
+    <!-- ── POPULAR TOOLS ── -->
+    <section id="popular-tools">
+      <div class="sep-row">
+        <span class="sep-label">&#11088; Most popular</span>
+        <span class="sep-line"></span>
+        <span class="sep-meta">Top 3 picks</span>
+      </div>
+      <div class="popular-row">
+        <a href="tools/developer/json-formatter.html" class="pop-card" data-tool-id="json-formatter" onclick="recent.add('json-formatter')">
+          <div class="pc-icon icon-green">{ }</div>
+          <div><div class="pc-name">JSON Formatter</div><div class="pc-desc">Format, validate &amp; highlight JSON</div></div>
+          <span class="pop-badge">Popular</span>
         </a>
-        <a href="tools/text/char-counter.html" class="tool-card">
-          <div class="tool-icon icon-blue">🔤</div>
-          <div class="tool-name">Character Counter</div>
-          <div class="tool-desc">Count characters with and without spaces</div>
+        <a href="tools/text/word-counter.html" class="pop-card" data-tool-id="word-counter" onclick="recent.add('word-counter')">
+          <div class="pc-icon icon-blue">&#128221;</div>
+          <div><div class="pc-name">Word Counter</div><div class="pc-desc">Words, chars, sentences &amp; reading time</div></div>
+          <span class="pop-badge">Popular</span>
         </a>
-        <a href="tools/text/case-converter.html" class="tool-card">
-          <div class="tool-icon icon-blue">🔡</div>
-          <div class="tool-name">Case Converter</div>
-          <div class="tool-desc">Convert UPPER, lower, Title, camelCase and more</div>
+        <a href="tools/seo/meta-generator.html" class="pop-card" data-tool-id="meta-generator" onclick="recent.add('meta-generator')">
+          <div class="pc-icon icon-orange">&#127991;&#65039;</div>
+          <div><div class="pc-name">Meta Tag Generator</div><div class="pc-desc">Complete HTML meta tags for SEO</div></div>
+          <span class="pop-badge">Popular</span>
         </a>
-        <a href="tools/text/text-compare.html" class="tool-card">
-          <div class="tool-icon icon-blue">⚖️</div>
-          <div class="tool-name">Text Compare</div>
-          <div class="tool-desc">Find differences between two blocks of text</div>
-        </a>
-        <a href="tools/text/sort-text.html" class="tool-card">
-          <div class="tool-icon icon-blue">↕️</div>
-          <div class="tool-name">Sort Text Lines</div>
-          <div class="tool-desc">Sort lines alphabetically, reverse, or by length</div>
-        </a>
-        <a href="tools/text/remove-duplicates.html" class="tool-card">
-          <div class="tool-icon icon-blue">🗑️</div>
-          <div class="tool-name">Remove Duplicates</div>
-          <div class="tool-desc">Remove duplicate lines from any text</div>
-        </a>
+      </div>
+    </section>
+
+    <!-- ── CATEGORY PILLS ── -->
+    <div id="categories">
+      <div class="cat-pills-row">
+        <a href="#all-tools" class="cat-pill active" data-cat="all">All tools <span class="pc">30+</span></a>
+        <a href="#text-tools" class="cat-pill" data-cat="text">&#128221; Text <span class="pc">6</span></a>
+        <a href="#developer-tools" class="cat-pill" data-cat="developer">&#128187; Developer <span class="pc">8</span></a>
+        <a href="#seo-tools" class="cat-pill" data-cat="seo">&#128269; SEO <span class="pc">6</span></a>
+        <a href="#security-tools" class="cat-pill" data-cat="security">&#128274; Security <span class="pc">3</span></a>
+        <a href="#productivity-tools" class="cat-pill" data-cat="productivity">&#9889; Productivity <span class="pc">2</span></a>
+        <a href="#calculator-tools" class="cat-pill" data-cat="calculators">&#129518; Calculators <span class="pc">7</span></a>
       </div>
     </div>
 
-    <!-- Developer Tools -->
-    <div id="developer-tools" style="margin-bottom:2.5rem;">
-      <div class="section-header"><h2>💻 Developer Tools</h2></div>
-      <div class="tool-grid">
-        <a href="tools/developer/json-formatter.html" class="tool-card">
-          <div class="tool-icon icon-green">{ }</div>
-          <div class="tool-name">JSON Formatter</div>
-          <div class="tool-desc">Format and beautify JSON with syntax highlighting</div>
-        </a>
-        <a href="tools/developer/json-validator.html" class="tool-card">
-          <div class="tool-icon icon-green">✅</div>
-          <div class="tool-name">JSON Validator</div>
-          <div class="tool-desc">Check if your JSON is valid with error details</div>
-        </a>
-        <a href="tools/developer/json-minifier.html" class="tool-card">
-          <div class="tool-icon icon-green">📦</div>
-          <div class="tool-name">JSON Minifier</div>
-          <div class="tool-desc">Compress and minify JSON to save bytes</div>
-        </a>
-        <a href="tools/developer/base64-encoder.html" class="tool-card">
-          <div class="tool-icon icon-green">🔒</div>
-          <div class="tool-name">Base64 Encoder</div>
-          <div class="tool-desc">Encode text or strings to Base64 format</div>
-        </a>
-        <a href="tools/developer/base64-decoder.html" class="tool-card">
-          <div class="tool-icon icon-green">🔓</div>
-          <div class="tool-name">Base64 Decoder</div>
-          <div class="tool-desc">Decode Base64 strings back to readable text</div>
-        </a>
-        <a href="tools/developer/url-encoder.html" class="tool-card">
-          <div class="tool-icon icon-green">🔗</div>
-          <div class="tool-name">URL Encoder</div>
-          <div class="tool-desc">Encode special characters for safe URL usage</div>
-        </a>
-        <a href="tools/developer/url-decoder.html" class="tool-card">
-          <div class="tool-icon icon-green">🔗</div>
-          <div class="tool-name">URL Decoder</div>
-          <div class="tool-desc">Decode URL-encoded strings to readable text</div>
-        </a>
-        <a href="tools/developer/md5-generator.html" class="tool-card">
-          <div class="tool-icon icon-green">#</div>
-          <div class="tool-name">MD5 Generator</div>
-          <div class="tool-desc">Generate MD5 hash from any text string</div>
-        </a>
+    <!-- ── ALL TOOLS ── -->
+    <div id="all-tools">
+
+      <!-- Text Tools -->
+      <div class="cat-sec" id="text-tools">
+        <div class="cat-sec-hdr">
+          <span class="cat-title">&#128221; Text Tools</span>
+          <span class="cat-line"></span>
+          <span class="cat-count">6 tools</span>
+        </div>
+        <div class="hp-tool-grid">
+          <a href="tools/text/word-counter.html" class="hp-card" data-tool-id="word-counter" onclick="recent.add('word-counter')">
+            <div class="tc-icon icon-blue">&#128221;</div>
+            <div class="tc-name">Word Counter</div>
+            <div class="tc-desc">Count words, chars, sentences and more</div>
+            <span class="tc-badge badge-pop">Popular</span>
+          </a>
+          <a href="tools/text/char-counter.html" class="hp-card" data-tool-id="char-counter" onclick="recent.add('char-counter')">
+            <div class="tc-icon icon-blue">&#128292;</div>
+            <div class="tc-name">Character Counter</div>
+            <div class="tc-desc">Count characters with and without spaces</div>
+          </a>
+          <a href="tools/text/case-converter.html" class="hp-card" data-tool-id="case-converter" onclick="recent.add('case-converter')">
+            <div class="tc-icon icon-blue">&#128289;</div>
+            <div class="tc-name">Case Converter</div>
+            <div class="tc-desc">UPPER, lower, Title, camelCase and more</div>
+          </a>
+          <a href="tools/text/text-compare.html" class="hp-card" data-tool-id="text-compare" onclick="recent.add('text-compare')">
+            <div class="tc-icon icon-blue">&#9878;&#65039;</div>
+            <div class="tc-name">Text Compare</div>
+            <div class="tc-desc">Find differences between two text blocks</div>
+          </a>
+          <a href="tools/text/sort-text.html" class="hp-card" data-tool-id="sort-text" onclick="recent.add('sort-text')">
+            <div class="tc-icon icon-blue">&#8597;&#65039;</div>
+            <div class="tc-name">Sort Text Lines</div>
+            <div class="tc-desc">Sort lines A&ndash;Z, reverse, or by length</div>
+          </a>
+          <a href="tools/text/remove-duplicates.html" class="hp-card" data-tool-id="remove-duplicates" onclick="recent.add('remove-duplicates')">
+            <div class="tc-icon icon-blue">&#128465;&#65039;</div>
+            <div class="tc-name">Remove Duplicates</div>
+            <div class="tc-desc">Remove duplicate lines from any text</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Developer Tools -->
+      <div class="cat-sec" id="developer-tools">
+        <div class="cat-sec-hdr">
+          <span class="cat-title">&#128187; Developer Tools</span>
+          <span class="cat-line"></span>
+          <span class="cat-count">8 tools</span>
+        </div>
+        <div class="hp-tool-grid">
+          <a href="tools/developer/json-formatter.html" class="hp-card" data-tool-id="json-formatter" onclick="recent.add('json-formatter')">
+            <div class="tc-icon icon-green">{ }</div>
+            <div class="tc-name">JSON Formatter</div>
+            <div class="tc-desc">Format &amp; beautify JSON with syntax highlighting</div>
+            <span class="tc-badge badge-pop">Popular</span>
+          </a>
+          <a href="tools/developer/json-validator.html" class="hp-card" data-tool-id="json-validator" onclick="recent.add('json-validator')">
+            <div class="tc-icon icon-green">&#9989;</div>
+            <div class="tc-name">JSON Validator</div>
+            <div class="tc-desc">Check if your JSON is valid with error details</div>
+          </a>
+          <a href="tools/developer/json-minifier.html" class="hp-card" data-tool-id="json-minifier" onclick="recent.add('json-minifier')">
+            <div class="tc-icon icon-green">&#128230;</div>
+            <div class="tc-name">JSON Minifier</div>
+            <div class="tc-desc">Compress and minify JSON to save bytes</div>
+          </a>
+          <a href="tools/developer/base64-encoder.html" class="hp-card" data-tool-id="base64-encoder" onclick="recent.add('base64-encoder')">
+            <div class="tc-icon icon-green">&#128274;</div>
+            <div class="tc-name">Base64 Encoder</div>
+            <div class="tc-desc">Encode text or strings to Base64 format</div>
+          </a>
+          <a href="tools/developer/base64-decoder.html" class="hp-card" data-tool-id="base64-decoder" onclick="recent.add('base64-decoder')">
+            <div class="tc-icon icon-green">&#128275;</div>
+            <div class="tc-name">Base64 Decoder</div>
+            <div class="tc-desc">Decode Base64 strings back to readable text</div>
+          </a>
+          <a href="tools/developer/url-encoder.html" class="hp-card" data-tool-id="url-encoder" onclick="recent.add('url-encoder')">
+            <div class="tc-icon icon-green">&#128279;</div>
+            <div class="tc-name">URL Encoder</div>
+            <div class="tc-desc">Encode special characters for safe URL usage</div>
+          </a>
+          <a href="tools/developer/url-decoder.html" class="hp-card" data-tool-id="url-decoder" onclick="recent.add('url-decoder')">
+            <div class="tc-icon icon-green">&#128279;</div>
+            <div class="tc-name">URL Decoder</div>
+            <div class="tc-desc">Decode URL-encoded strings to readable text</div>
+          </a>
+          <a href="tools/developer/md5-generator.html" class="hp-card" data-tool-id="md5-generator" onclick="recent.add('md5-generator')">
+            <div class="tc-icon icon-green">#</div>
+            <div class="tc-name">MD5 Generator</div>
+            <div class="tc-desc">Generate MD5 hash from any text string</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- SEO Tools -->
+      <div class="cat-sec" id="seo-tools">
+        <div class="cat-sec-hdr">
+          <span class="cat-title">&#128269; SEO Tools</span>
+          <span class="cat-line"></span>
+          <span class="cat-count">6 tools</span>
+        </div>
+        <div class="hp-tool-grid">
+          <a href="tools/seo/meta-generator.html" class="hp-card" data-tool-id="meta-generator" onclick="recent.add('meta-generator')">
+            <div class="tc-icon icon-orange">&#127991;&#65039;</div>
+            <div class="tc-name">Meta Tag Generator</div>
+            <div class="tc-desc">Generate complete HTML meta tags for SEO</div>
+            <span class="tc-badge badge-pop">Popular</span>
+          </a>
+          <a href="tools/seo/robots-generator.html" class="hp-card" data-tool-id="robots-generator" onclick="recent.add('robots-generator')">
+            <div class="tc-icon icon-orange">&#129302;</div>
+            <div class="tc-name">Robots.txt Generator</div>
+            <div class="tc-desc">Create a robots.txt file for your website</div>
+          </a>
+          <a href="tools/seo/sitemap-generator.html" class="hp-card" data-tool-id="sitemap-generator" onclick="recent.add('sitemap-generator')">
+            <div class="tc-icon icon-orange">&#128506;&#65039;</div>
+            <div class="tc-name">Sitemap Generator</div>
+            <div class="tc-desc">Generate an XML sitemap from your URLs</div>
+          </a>
+          <a href="tools/seo/schema-generator.html" class="hp-card" data-tool-id="schema-generator" onclick="recent.add('schema-generator')">
+            <div class="tc-icon icon-orange">&#128203;</div>
+            <div class="tc-name">Schema Generator</div>
+            <div class="tc-desc">Generate JSON-LD structured data markup</div>
+          </a>
+          <a href="tools/seo/serp-preview.html" class="hp-card" data-tool-id="serp-preview" onclick="recent.add('serp-preview')">
+            <div class="tc-icon icon-orange">&#128269;</div>
+            <div class="tc-name">SERP Preview</div>
+            <div class="tc-desc">Preview how your page looks in Google results</div>
+          </a>
+          <a href="tools/seo/og-generator.html" class="hp-card" data-tool-id="og-generator" onclick="recent.add('og-generator')">
+            <div class="tc-icon icon-orange">&#128228;</div>
+            <div class="tc-name">Open Graph Generator</div>
+            <div class="tc-desc">Generate Open Graph meta tags for social sharing</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="cat-sec" id="security-tools">
+        <div class="cat-sec-hdr">
+          <span class="cat-title">&#128274; Security Tools</span>
+          <span class="cat-line"></span>
+          <span class="cat-count">3 tools</span>
+        </div>
+        <div class="hp-tool-grid">
+          <a href="tools/security/password-gen.html" class="hp-card" data-tool-id="password-gen" onclick="recent.add('password-gen')">
+            <div class="tc-icon icon-red">&#128273;</div>
+            <div class="tc-name">Password Generator</div>
+            <div class="tc-desc">Generate strong, secure random passwords</div>
+          </a>
+          <a href="tools/security/password-strength.html" class="hp-card" data-tool-id="password-strength" onclick="recent.add('password-strength')">
+            <div class="tc-icon icon-red">&#128737;&#65039;</div>
+            <div class="tc-name">Password Strength Checker</div>
+            <div class="tc-desc">Check how strong and secure your password is</div>
+          </a>
+          <a href="tools/security/sha256-gen.html" class="hp-card" data-tool-id="sha256-gen" onclick="recent.add('sha256-gen')">
+            <div class="tc-icon icon-red">#</div>
+            <div class="tc-name">SHA256 Generator</div>
+            <div class="tc-desc">Generate SHA-256 hash from any text string</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Productivity -->
+      <div class="cat-sec" id="productivity-tools">
+        <div class="cat-sec-hdr">
+          <span class="cat-title">&#9889; Productivity</span>
+          <span class="cat-line"></span>
+          <span class="cat-count">2 tools</span>
+        </div>
+        <div class="hp-tool-grid">
+          <a href="tools/productivity/qr-generator.html" class="hp-card" data-tool-id="qr-generator" onclick="recent.add('qr-generator')">
+            <div class="tc-icon icon-purple">&#128241;</div>
+            <div class="tc-name">QR Code Generator</div>
+            <div class="tc-desc">Generate QR codes for URLs, text, and more</div>
+          </a>
+          <a href="tools/productivity/uuid-generator.html" class="hp-card" data-tool-id="uuid-generator" onclick="recent.add('uuid-generator')">
+            <div class="tc-icon icon-purple">&#127997;</div>
+            <div class="tc-name">UUID Generator</div>
+            <div class="tc-desc">Generate unique UUIDs (v4) instantly</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Calculators -->
+      <div class="cat-sec" id="calculator-tools">
+        <div class="cat-sec-hdr">
+          <span class="cat-title">&#129518; Calculators</span>
+          <span class="cat-line"></span>
+          <span class="cat-count">7 tools</span>
+        </div>
+        <div class="hp-tool-grid">
+          <a href="tools/calculators/percentage-calc.html" class="hp-card" data-tool-id="percentage-calc" onclick="recent.add('percentage-calc')">
+            <div class="tc-icon icon-teal">%</div>
+            <div class="tc-name">Percentage Calculator</div>
+            <div class="tc-desc">Calculate percentages, increases, decreases</div>
+          </a>
+          <a href="tools/calculators/age-calculator.html" class="hp-card" data-tool-id="age-calculator" onclick="recent.add('age-calculator')">
+            <div class="tc-icon icon-teal">&#127874;</div>
+            <div class="tc-name">Age Calculator</div>
+            <div class="tc-desc">Calculate exact age in years, months, and days</div>
+          </a>
+          <a href="tools/calculators/date-calculator.html" class="hp-card" data-tool-id="date-calculator" onclick="recent.add('date-calculator')">
+            <div class="tc-icon icon-teal">&#128197;</div>
+            <div class="tc-name">Date Calculator</div>
+            <div class="tc-desc">Add or subtract dates, find date differences</div>
+          </a>
+          <a href="tools/calculators/gst-calculator.html" class="hp-card" data-tool-id="gst-calculator" onclick="recent.add('gst-calculator')">
+            <div class="tc-icon icon-teal">&#129534;</div>
+            <div class="tc-name">GST Calculator</div>
+            <div class="tc-desc">Calculate GST amounts for Indian tax rates</div>
+            <span class="tc-badge badge-in">India</span>
+          </a>
+          <a href="tools/calculators/emi-calculator.html" class="hp-card" data-tool-id="emi-calculator" onclick="recent.add('emi-calculator')">
+            <div class="tc-icon icon-teal">&#127970;</div>
+            <div class="tc-name">EMI Calculator</div>
+            <div class="tc-desc">Calculate monthly loan EMI payments</div>
+          </a>
+          <a href="tools/calculators/irctc-date-calculator.html" class="hp-card" data-tool-id="irctc-date-calculator" onclick="recent.add('irctc-date-calculator')">
+            <div class="tc-icon icon-teal">&#128646;</div>
+            <div class="tc-name">IRCTC Date Calculator</div>
+            <div class="tc-desc">Booking, Tatkal &amp; cancellation refund dates</div>
+            <span class="tc-badge badge-in">India</span>
+          </a>
+          <a href="tools/calculators/sip-calculator.html" class="hp-card" data-tool-id="sip-calculator" onclick="recent.add('sip-calculator')">
+            <div class="tc-icon icon-teal">&#128200;</div>
+            <div class="tc-name">SIP Calculator</div>
+            <div class="tc-desc">Estimate mutual fund SIP returns</div>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /#all-tools -->
+
+    <!-- ── WHY TOLYHUB ── -->
+    <div>
+      <div class="sep-row">
+        <span class="sep-label">Why TolyHub?</span>
+        <span class="sep-line"></span>
+      </div>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-icon">&#128274;</div>
+          <div class="why-title">Privacy first</div>
+          <div class="why-desc">All processing happens in your browser. Your data never leaves your device.</div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">&#9889;</div>
+          <div class="why-title">Instant results</div>
+          <div class="why-desc">Most tools respond in milliseconds. No loading spinners, no server round-trips.</div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">&#127379;</div>
+          <div class="why-title">Free forever</div>
+          <div class="why-desc">No subscriptions, no credits, no hidden fees. Every tool, always free.</div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">&#128241;</div>
+          <div class="why-title">Works everywhere</div>
+          <div class="why-desc">Fully responsive &mdash; same experience on phone, tablet, or desktop.</div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">&#128683;</div>
+          <div class="why-title">No account needed</div>
+          <div class="why-desc">Just open the tool and use it. No signup, no email, no waiting.</div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">&#8734;&#65039;</div>
+          <div class="why-title">Unlimited usage</div>
+          <div class="why-desc">No daily caps, no rate limits. Run any tool as many times as you like.</div>
+        </div>
       </div>
     </div>
 
-    <!-- SEO Tools -->
-    <div id="seo-tools" style="margin-bottom:2.5rem;">
-      <div class="section-header"><h2>🔍 SEO Tools</h2></div>
-      <div class="tool-grid">
-        <a href="tools/seo/meta-generator.html" class="tool-card">
-          <div class="tool-icon icon-orange">🏷️</div>
-          <div class="tool-name">Meta Tag Generator</div>
-          <div class="tool-desc">Generate complete HTML meta tags for SEO</div>
-        </a>
-        <a href="tools/seo/robots-generator.html" class="tool-card">
-          <div class="tool-icon icon-orange">🤖</div>
-          <div class="tool-name">Robots.txt Generator</div>
-          <div class="tool-desc">Create a robots.txt file for your website</div>
-        </a>
-        <a href="tools/seo/sitemap-generator.html" class="tool-card">
-          <div class="tool-icon icon-orange">🗺️</div>
-          <div class="tool-name">Sitemap Generator</div>
-          <div class="tool-desc">Generate an XML sitemap from your URLs</div>
-        </a>
-        <a href="tools/seo/schema-generator.html" class="tool-card">
-          <div class="tool-icon icon-orange">📋</div>
-          <div class="tool-name">Schema Generator</div>
-          <div class="tool-desc">Generate JSON-LD structured data markup</div>
-        </a>
-        <a href="tools/seo/serp-preview.html" class="tool-card">
-          <div class="tool-icon icon-orange">🔍</div>
-          <div class="tool-name">SERP Preview</div>
-          <div class="tool-desc">Preview how your page appears in Google results</div>
-        </a>
-        <a href="tools/seo/og-generator.html" class="tool-card">
-          <div class="tool-icon icon-orange">📤</div>
-          <div class="tool-name">Open Graph Generator</div>
-          <div class="tool-desc">Generate Open Graph meta tags for social sharing</div>
-        </a>
+    <!-- ── FAQ ── -->
+    <div>
+      <div class="sep-row">
+        <span class="sep-label">Frequently asked questions</span>
+        <span class="sep-line"></span>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-btn">Are all tools really free? <span class="faq-icon">+</span></button>
+          <div class="faq-answer">Yes &mdash; every single tool on TolyHub is 100% free to use, forever. There are no subscriptions, no credits, no premium plans, and no hidden fees.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn">Do I need to create an account? <span class="faq-icon">+</span></button>
+          <div class="faq-answer">No account, no signup, no login required. Open any tool and start using it immediately.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn">Is my data private and safe? <span class="faq-icon">+</span></button>
+          <div class="faq-answer">All tools process your data directly in your browser using JavaScript. Your text, files, and data are never sent to any server &mdash; everything stays 100% on your device.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn">Do tools work on mobile? <span class="faq-icon">+</span></button>
+          <div class="faq-answer">Yes &mdash; TolyHub is designed mobile-first and works on smartphones, tablets, and desktops of all screen sizes.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn">Are there usage limits? <span class="faq-icon">+</span></button>
+          <div class="faq-answer">None at all. No daily limits, no rate limits, no usage caps. Use any tool as many times as you need.</div>
+        </div>
       </div>
     </div>
 
-    <!-- Security -->
-    <div id="security-tools" style="margin-bottom:2.5rem;">
-      <div class="section-header"><h2>🔒 Security Tools</h2></div>
-      <div class="tool-grid">
-        <a href="tools/security/password-gen.html" class="tool-card">
-          <div class="tool-icon icon-red">🔑</div>
-          <div class="tool-name">Password Generator</div>
-          <div class="tool-desc">Generate strong, secure random passwords</div>
-        </a>
-        <a href="tools/security/password-strength.html" class="tool-card">
-          <div class="tool-icon icon-red">🛡️</div>
-          <div class="tool-name">Password Strength Checker</div>
-          <div class="tool-desc">Check how strong and secure your password is</div>
-        </a>
-        <a href="tools/security/sha256-gen.html" class="tool-card">
-          <div class="tool-icon icon-red">#</div>
-          <div class="tool-name">SHA256 Generator</div>
-          <div class="tool-desc">Generate SHA-256 hash from any text string</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Productivity -->
-    <div id="productivity-tools" style="margin-bottom:2.5rem;">
-      <div class="section-header"><h2>⚡ Productivity Tools</h2></div>
-      <div class="tool-grid">
-        <a href="tools/productivity/qr-generator.html" class="tool-card">
-          <div class="tool-icon icon-purple">📱</div>
-          <div class="tool-name">QR Code Generator</div>
-          <div class="tool-desc">Generate QR codes for URLs, text, and more</div>
-        </a>
-        <a href="tools/productivity/uuid-generator.html" class="tool-card">
-          <div class="tool-icon icon-purple">🆔</div>
-          <div class="tool-name">UUID Generator</div>
-          <div class="tool-desc">Generate unique UUIDs (v4) instantly</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Calculators -->
-    <div id="calculator-tools" style="margin-bottom:2.5rem;">
-      <div class="section-header"><h2>🧮 Calculators</h2></div>
-      <div class="tool-grid">
-        <a href="tools/calculators/percentage-calc.html" class="tool-card">
-          <div class="tool-icon icon-teal">%</div>
-          <div class="tool-name">Percentage Calculator</div>
-          <div class="tool-desc">Calculate percentages, increases, decreases</div>
-        </a>
-        <a href="tools/calculators/age-calculator.html" class="tool-card">
-          <div class="tool-icon icon-teal">🎂</div>
-          <div class="tool-name">Age Calculator</div>
-          <div class="tool-desc">Calculate exact age in years, months, and days</div>
-        </a>
-        <a href="tools/calculators/date-calculator.html" class="tool-card">
-          <div class="tool-icon icon-teal">📅</div>
-          <div class="tool-name">Date Calculator</div>
-          <div class="tool-desc">Add or subtract dates, find date differences</div>
-        </a>
-        <a href="tools/calculators/gst-calculator.html" class="tool-card">
-          <div class="tool-icon icon-teal">🧾</div>
-          <div class="tool-name">GST Calculator</div>
-          <div class="tool-desc">Calculate GST amounts for Indian tax rates</div>
-        </a>
-        <a href="tools/calculators/emi-calculator.html" class="tool-card">
-          <div class="tool-icon icon-teal">🏦</div>
-          <div class="tool-name">EMI Calculator</div>
-          <div class="tool-desc">Calculate monthly loan EMI payments</div>
-        </a>
-        <a href="tools/calculators/irctc-date-calculator.html" class="tool-card">
-          <div class="tool-icon icon-teal">🚆</div>
-          <div class="tool-name">IRCTC Date Calculator</div>
-          <div class="tool-desc">Booking, Tatkal & cancellation refund dates</div>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FEATURES -->
-  <div class="section" id="features">
-    <div class="section-header"><h2>Why TolyHub?</h2></div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h4>Privacy First</h4>
-        <p>All processing happens in your browser. Your data never leaves your device.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h4>Lightning Fast</h4>
-        <p>Most tools give results instantly. No waiting, no loading spinners.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🆓</div>
-        <h4>100% Free Forever</h4>
-        <p>No subscriptions, no credits, no hidden fees. Every tool is free.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📱</div>
-        <h4>Works Everywhere</h4>
-        <p>Fully responsive — works great on phones, tablets, and desktops.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🚫</div>
-        <h4>No Account Needed</h4>
-        <p>Jump straight to the tool. No signup, no login, no email required.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">♾️</div>
-        <h4>Unlimited Usage</h4>
-        <p>No daily limits, no rate limits. Use tools as many times as you need.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <div class="section" id="faq">
-    <div class="section-header"><h2>Frequently Asked Questions</h2></div>
-    <div class="card">
-      <div class="faq-item">
-        <button class="faq-btn">Are all tools really free? <span class="faq-icon">+</span></button>
-        <div class="faq-answer">Yes! Every single tool on TolyHub is 100% free to use, forever. There are no subscriptions, no credits, no premium plans, and no hidden fees.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn">Do I need to create an account? <span class="faq-icon">+</span></button>
-        <div class="faq-answer">No account, no signup, no login required. Open any tool and start using it immediately.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn">Is my data private and safe? <span class="faq-icon">+</span></button>
-        <div class="faq-answer">Absolutely. All tools process your data directly in your browser using JavaScript. Your text, files, and data never get sent to any server — it stays 100% on your device.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn">Do tools work on mobile? <span class="faq-icon">+</span></button>
-        <div class="faq-answer">Yes! TolyHub is designed mobile-first and works perfectly on smartphones, tablets, and desktops of all screen sizes.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn">Are there usage limits? <span class="faq-icon">+</span></button>
-        <div class="faq-answer">None at all. No daily limits, no rate limits, no usage caps. Use any tool as many times as you need.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
+  </div><!-- /.home-wrapper -->
   </main>
 </div>
 
-<!-- FOOTER -->
 <div id="footer-placeholder"></div>
 
 <script src="js/main.js"></script>
 <script src="js/layout.js"></script>
 <script>
-// Show recently used tools on homepage
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ── Favorites ──
+  // Pulled out as a function (not just inline like recent-tools below) because it also
+  // needs to re-run whenever a star is toggled anywhere on the page, not just once on load.
+  function renderFavorites() {
+    const favIds = favorites.get();
+    const favSection = document.getElementById('favorites-section');
+    const favGrid    = document.getElementById('favorite-tools');
+    if (favIds.length > 0) {
+      favSection.style.display = 'block';
+      favGrid.innerHTML = favIds.map(id => {
+        const tool = TOOLS.find(t => t.id === id);
+        if (!tool) return '';
+        return `<a href="${tool.file}" class="hp-card" data-tool-id="${id}" onclick="recent.add('${id}')">
+          <div class="tc-icon icon-${tool.color}">${tool.icon}</div>
+          <div class="tc-name">${tool.name}</div>
+          <div class="tc-desc">${tool.desc}</div>
+        </a>`;
+      }).join('');
+    } else {
+      favSection.style.display = 'none';
+      favGrid.innerHTML = '';
+    }
+    initFavoriteStars(); // wire up stars on the cards just rendered
+  }
+  renderFavorites();
+  document.addEventListener('favorites:changed', renderFavorites);
+
+  // ── Recently used tools ──
   const recentIds = recent.get();
   if (recentIds.length > 0) {
     const recentSection = document.getElementById('recent-section');
-    const recentGrid = document.getElementById('recent-tools');
+    const recentGrid    = document.getElementById('recent-tools');
     recentSection.style.display = 'block';
     recentGrid.innerHTML = recentIds.slice(0, 4).map(id => {
       const tool = TOOLS.find(t => t.id === id);
       if (!tool) return '';
-      return `<a href="${tool.file}" class="tool-card">
-        <div class="tool-icon icon-${tool.color}">${tool.icon}</div>
-        <div class="tool-name">${tool.name}</div>
-        <div class="tool-desc">${tool.desc}</div>
+      return `<a href="${tool.file}" class="hp-card" data-tool-id="${id}" onclick="recent.add('${id}')">
+        <div class="tc-icon icon-${tool.color}">${tool.icon}</div>
+        <div class="tc-name">${tool.name}</div>
+        <div class="tc-desc">${tool.desc}</div>
       </a>`;
     }).join('');
+    initFavoriteStars(); // wire up stars on the cards just rendered
   }
+
+  // ── HERO SEARCH — uses shared _buildSearch from main.js ──
+  _buildSearch(
+    document.getElementById('hero-search'),
+    document.getElementById('hero-search-results'),
+    ''  // homepage is at root, no prefix needed
+  );
+  // Cmd/Ctrl+K focuses hero search
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      const inp = document.getElementById('hero-search');
+      if (inp) { inp.focus(); inp.select(); }
+    }
+  });
+
+  // ── FIX 2: Category pill filter — show/hide sections on click ──
+  const catSections = {
+    'text':         document.getElementById('text-tools'),
+    'developer':    document.getElementById('developer-tools'),
+    'seo':          document.getElementById('seo-tools'),
+    'security':     document.getElementById('security-tools'),
+    'productivity': document.getElementById('productivity-tools'),
+    'calculators':  document.getElementById('calculator-tools'),
+  };
+  const pills = document.querySelectorAll('.cat-pill[data-cat]');
+
+  function filterCat(cat) {
+    pills.forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
+    Object.entries(catSections).forEach(([key, el]) => {
+      if (!el) return;
+      el.style.display = (cat === 'all' || cat === key) ? '' : 'none';
+    });
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      filterCat(pill.dataset.cat);
+    });
+  });
+
+  // Scroll tracking — update active pill while scrolling (show-all mode only)
+  const pillMap = {
+    'text-tools':'text','developer-tools':'developer','seo-tools':'seo',
+    'security-tools':'security','productivity-tools':'productivity','calculator-tools':'calculators'
+  };
+  window.addEventListener('scroll', () => {
+    // Only track if all sections are visible
+    const activePill = document.querySelector('.cat-pill.active');
+    if (activePill && activePill.dataset.cat !== 'all') return;
+    let current = 'all';
+    Object.keys(pillMap).forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 130) current = pillMap[id];
+    });
+    pills.forEach(p => p.classList.toggle('active', p.dataset.cat === current));
+  }, { passive: true });
+
+  // ── FAQ accordion ──
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item   = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
 });
 </script>
 </body>

@@ -6,7 +6,7 @@ const SIDEBAR_CATS = [
   { label: 'SEO Tools',  icon: '🔍', color: 'orange', tools: ['meta-generator','robots-generator','sitemap-generator','schema-generator','serp-preview','og-generator'] },
   { label: 'Security',   icon: '🔒', color: 'red', tools: ['password-gen','password-strength','sha256-gen'] },
   { label: 'Productivity', icon: '⚡', color: 'purple', tools: ['qr-generator','uuid-generator'] },
-  { label: 'Calculators', icon: '🧮', color: 'teal', tools: ['percentage-calc','age-calculator','date-calculator','gst-calculator','emi-calculator','irctc-date-calculator'] },
+  { label: 'Calculators', icon: '🧮', color: 'teal', tools: ['percentage-calc','age-calculator','date-calculator','gst-calculator','emi-calculator','irctc-date-calculator','sip-calculator'] },
 ];
 
 // Clean outline SVG icons for the top nav (replaces emoji for a more premium look)
@@ -45,6 +45,18 @@ function injectLayout() {
 
   // const root = '/';
   const currentPath = window.location.pathname;
+
+  // ── FAVICON INJECTION ──
+  // Ensures all tool pages have explicit favicon links regardless of depth.
+  if (!document.querySelector('link[rel="icon"]')) {
+    const li = document.createElement('link');
+    li.rel = 'icon'; li.href = root + 'favicon.ico';
+    document.head.appendChild(li);
+    const li32 = document.createElement('link');
+    li32.rel = 'icon'; li32.type = 'image/png'; li32.sizes = '32x32';
+    li32.href = root + 'logo/favicon-32x32.png';
+    document.head.appendChild(li32);
+  }
 
   // ── NAVBAR ──
 
@@ -119,6 +131,7 @@ function injectLayout() {
             <span class="mega-item-icon icon-orange">📜</span>
             <span class="mega-item-text"><span class="mega-item-name">Terms of Service</span><span class="mega-item-desc">Usage terms & disclaimers</span></span>
           </a>
+
         </div>
       </div>
     </div>`;

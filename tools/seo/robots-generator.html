@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Robots.txt Generator — Free SEO Tool | ToolBox</title>
+<meta charset="UTF-8">
+<!-- Google Search Console: replace YOUR_GSC_CODE after verifying ownership -->
+  <!-- <meta name="google-site-verification" content="YOUR_GSC_CODE"> --><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Robots.txt Generator — Free SEO Tool | TolyHub</title>
 <meta name="description" content="Free robots.txt generator. Create a robots.txt file for your website with custom rules for all or specific crawlers.">
+<link rel="canonical" href="https://www.tolyhub.com/tools/seo/robots-generator.html">
+<meta property="og:title" content="Robots.txt Generator — Free SEO Tool | TolyHub">
+<meta property="og:description" content="Free robots.txt generator. Create a robots.txt file for your website with custom rules for all or specific crawlers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.tolyhub.com/tools/seo/robots-generator.html">
+<meta property="og:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<meta property="og:site_name" content="TolyHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Robots.txt Generator — Free SEO Tool">
+<meta name="twitter:description" content="Free robots.txt generator. Create a robots.txt file for your website with custom rules for all or specific crawlers.">
+<meta name="twitter:image" content="https://www.tolyhub.com/logo/social-profile.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Robots.txt Generator — Free SEO Tool","description":"Free robots.txt generator. Create a robots.txt file for your website with custom rules for all or specific crawlers.","url":"https://www.tolyhub.com/tools/seo/robots-generator.html","applicationCategory":"WebApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"TolyHub","url":"https://www.tolyhub.com"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.tolyhub.com/"},{"@type":"ListItem","position":2,"name":"SEO Tools","item":"https://www.tolyhub.com/index.html#seo-tools"},{"@type":"ListItem","position":3,"name":"Robots.txt Generator","item":"https://www.tolyhub.com/tools/seo/robots-generator.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css">
@@ -14,14 +29,14 @@
   <main class="main-content">
     <div class="tool-page">
       <div class="tool-header">
-        <div class="breadcrumb"><a href="../../index.html">Home</a> › <a href="../../index.html#seo-tools">SEO Tools</a> › Robots.txt Generator</div>
-        <h1>🤖 Robots.txt Generator</h1>
+        <div class="breadcrumb"><a href="../../index.html">Home</a><span class="bc-sep">›</span><a href="../../index.html#seo-tools">SEO Tools</a><span class="bc-sep">›</span>Robots.txt Generator</div>
+        <div class="tool-title-row"><div class="tool-title-icon icon-orange">🤖</div><h1>Robots.txt Generator</h1></div>
         <p>Create a valid robots.txt file for your website. Control which pages search engine crawlers can access.</p>
-        <a href="../../blog/robots-generator.html" style="font-size:13px;color:var(--accent);font-weight:600;display:inline-block;margin-top:0.5rem;">📖 Read the full guide & FAQs →</a>
+        <div class="tool-meta-row"><span class="tool-meta-badge">🆓 Free</span><span class="tool-meta-badge">🔒 No login</span><span class="tool-meta-badge">⚡ Instant</span></div>
       </div>
       <div class="tool-body">
         <div class="tool-panel">
-          <div class="panel-title">Global Settings (All Bots)</div>
+          <div class="tp-title">Global Settings (All Bots)</div>
           <div class="form-group">
             <label class="form-label">Default Rule for All Crawlers</label>
             <select id="global-rule" onchange="update()">
@@ -41,7 +56,7 @@
         </div>
 
         <div class="tool-panel">
-          <div class="panel-title">Specific Bot Rules</div>
+          <div class="tp-title">Specific Bot Rules</div>
           <div id="bot-rules">
             <div class="bot-rule" style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;">
               <select class="bot-name" onchange="update()">
@@ -63,7 +78,7 @@
         </div>
 
         <div class="tool-panel">
-          <div class="panel-title">Sitemap</div>
+          <div class="tp-title">Sitemap</div>
           <div class="form-group">
             <label class="form-label">Sitemap URL</label>
             <input type="url" id="sitemap-url" placeholder="https://yoursite.com/sitemap.xml" oninput="update()">
@@ -72,7 +87,7 @@
 
         <div class="tool-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
-            <div class="panel-title" style="margin:0;">Generated robots.txt</div>
+            <div class="tp-title" style="margin:0;">Generated robots.txt</div>
             <div style="display:flex;gap:8px;">
               <button class="copy-btn" onclick="copyText(document.getElementById('output').textContent,this)">📋 Copy</button>
               <button class="btn btn-secondary btn-sm" onclick="downloadText(document.getElementById('output').textContent,'robots.txt')">⬇ Download</button>
@@ -81,9 +96,19 @@
           <pre class="output-box" id="output" style="font-size:13px;line-height:1.8;"></pre>
         </div>
       </div>
-    </div>
+    
+      <div class="related-tools">
+        <div class="related-tools-title">More SEO Tools</div>
+        <div class="related-tools-grid">
+        <a href="../../tools/seo/meta-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🏷️</span>Meta Tag Generator</a>
+        <a href="../../tools/seo/sitemap-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">🗺️</span>Sitemap Generator</a>
+        <a href="../../tools/seo/schema-generator.html" class="related-tool-card"><span class="rtc-icon icon-orange">📋</span>Schema Generator</a>
+        <a href="../../tools/seo/serp-preview.html" class="related-tool-card"><span class="rtc-icon icon-orange">🔍</span>SERP Preview</a>
+        </div>
+      </div>
   </main>
 </div>
+
 <div id="footer-placeholder"></div>
 <script src="../../js/main.js"></script>
 <script src="../../js/layout.js"></script>
